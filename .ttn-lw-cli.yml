@@ -1,0 +1,12 @@
+oauth-server-address: 'https://localhost/oauth'
+
+identity-server-grpc-address: 'localhost:8884'
+gateway-server-grpc-address: 'localhost:8884'
+network-server-grpc-address: 'localhost:8884'
+application-server-grpc-address: 'localhost:8884'
+join-server-grpc-address: 'localhost:8884'
+device-claiming-server-grpc-address: 'localhost:8884'
+device-template-converter-grpc-address: 'localhost:8884'
+qr-code-generator-grpc-address: 'localhost:8884'
+
+ca: './certs/cert.pem'
