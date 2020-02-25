@@ -1,6 +1,14 @@
+# Project
+build/
+.gradle
+
 # TTN
 .env/
 blob/
 
 # Intellij
 .idea/
+out/
+
+# Webapp
+webapp/node_modules
