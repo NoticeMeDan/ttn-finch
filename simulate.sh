@@ -13,6 +13,7 @@ do
      --nwk-s-enc-key=9619B7B3E16F72910D916623296D2EFA \
      --app-s-key=E6A4F29F557A8A1F73BF763931D62433 \
      --f-cnt=$RANDOM \
+     --f-port=2 \
      --frm-payload=48656A
 
      sleep 30
