@@ -1,6 +1,7 @@
 package com.noticemedan.finch.dto
 
 data class FlowInfo (
-		val id: Int?,
+		val id: Long?,
+		val name: String,
 		val applicationId: String
 )

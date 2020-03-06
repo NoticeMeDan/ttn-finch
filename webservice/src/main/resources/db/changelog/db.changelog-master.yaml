@@ -9,9 +9,18 @@ databaseChangeLog:
               - column:
                   name: id
                   type: integer
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: application_id
                   type: nvarchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true

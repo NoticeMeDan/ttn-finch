@@ -6,4 +6,4 @@ import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional(propagation = Propagation.MANDATORY)
-interface FlowDao : JpaRepository<Flow, Int>
+interface FlowDao : JpaRepository<Flow, Long>
