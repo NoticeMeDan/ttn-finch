@@ -10,9 +10,4 @@ class WebhookController {
 		println("Received message: $message")
 		return "Ok."
 	}
-
-	@GetMapping
-	fun hello (): String {
-		return "Hello world"
-	}
 }
