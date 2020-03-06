@@ -1,8 +1,7 @@
-package service
+package com.noticemedan.finch.service
 
 import com.noticemedan.finch.TestConfig
 import com.noticemedan.finch.dto.FlowInfo
-import com.noticemedan.finch.service.FlowService
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
