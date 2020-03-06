@@ -1,7 +1,9 @@
 package com.noticemedan.finch.service
 
+import com.noticemedan.finch.dao.CorrelationIdDao
 import com.noticemedan.finch.dao.EventDataDao
 import com.noticemedan.finch.dao.FlowDao
+import com.noticemedan.finch.dao.RxMetadataDao
 import com.noticemedan.finch.dto.ttn.EventDataInfo
 import com.noticemedan.finch.entity.QFlow
 import com.noticemedan.finch.entity.ttn.CorrelationId
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class WebhookService (
 		private val eventDataDao: EventDataDao,
+		private val correlationIdDao: CorrelationIdDao,
+		private val rxMetadataDao: RxMetadataDao,
 		private val flowDao: FlowDao
 ) {
 	@Transactional

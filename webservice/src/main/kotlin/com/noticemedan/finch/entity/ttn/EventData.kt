@@ -8,16 +8,16 @@ data class EventData (
 		var deviceId: String,
 		var applicationId: String,
 		var deviceAddress: String,
-		@OneToMany(cascade = [CascadeType.REMOVE], orphanRemoval = true)
+		@OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
 		var correlationIds: List<CorrelationId>,
 		var receivedAt: LocalDateTime,
-		var fPort: Int,
-		var frameCount: Int,
+		var fPort: Long,
+		var frameCount: Long,
 		var framePayload: String,
-		@OneToMany(cascade = [CascadeType.REMOVE], orphanRemoval = true)
+		@OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
 		var metadata: List<RxMetadata>,
-		var settingsBandWidth: Long,
-		var settingsSpreadingFactor: Int,
+		var settingsBandwidth: Long,
+		var settingsSpreadingFactor: Long,
 		var settingsCodingRate: String,
 		var settingsFrequency: String,
 		var settingsTimestamp: Long,

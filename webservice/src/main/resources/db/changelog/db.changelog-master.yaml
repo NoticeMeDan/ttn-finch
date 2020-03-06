@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -34,7 +34,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -56,16 +56,16 @@ databaseChangeLog:
                   type: integer
               - column:
                   name: frame_count
-                  type: integer
+                  type: bigint
               - column:
                   name: frame_payload
                   type: nvarchar(255)
               - column:
                   name: settings_bandwidth
-                  type: integer
+                  type: bigint
               - column:
                   name: settings_spreading_factor
-                  type: integer
+                  type: bigint
               - column:
                   name: settings_coding_rate
                   type: nvarchar(255)
@@ -74,7 +74,7 @@ databaseChangeLog:
                   type: nvarchar(255)
               - column:
                   name: settings_timestamp
-                  type: integer
+                  type: bigint
               - column:
                   name: settings_time
                   type: timestamp
@@ -87,7 +87,7 @@ databaseChangeLog:
             column:
               - column:
                   name: id
-                  type: integer
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -97,7 +97,7 @@ databaseChangeLog:
                   type: nvarchar(255)
               - column:
                   name: event_data_id
-                  type: integer
+                  type: bigint
                   constraints:
                     nullable: false
                     references: event_data
@@ -108,7 +108,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -121,13 +121,13 @@ databaseChangeLog:
                   type: timestamp
               - column:
                   name: timestamp
-                  type: integer
+                  type: bigint
               - column:
                   name: uplink_token
                   type: nvarchar(255)
               - column:
                   name: event_data_id
-                  type: integer
+                  type: bigint
                   constraints:
                     nullable: false
                     references: event_data
