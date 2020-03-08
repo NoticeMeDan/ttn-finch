@@ -19,7 +19,7 @@ class FlowServiceTest {
 
 	@Test
 	fun createFlow () {
-		val name = FlowInfo(null, "My cool flow", "my-cool-app")
+		val name = FlowInfo("My cool flow", "my-cool-app")
 
 		val subject = flowService.createFlow(name)
 
@@ -31,8 +31,8 @@ class FlowServiceTest {
 
 	@Test
 	fun getFlows () {
-		val flow1 = FlowInfo(null, "B comes last", "app-1")
-		val flow2 = FlowInfo(null, "A comes first", "app-2")
+		val flow1 = FlowInfo("B comes last", "app-1")
+		val flow2 = FlowInfo("A comes first", "app-2")
 
 		flowService.createFlow(flow1)
 		flowService.createFlow(flow2)
@@ -45,7 +45,7 @@ class FlowServiceTest {
 
 	@Test
 	fun getFlow () {
-		val flow = FlowInfo(null, "Yee boi", "app-42")
+		val flow = FlowInfo("Yee boi", "app-42")
 
 		val createdFlow = flowService.createFlow(flow)
 

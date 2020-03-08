@@ -1,10 +1,7 @@
 package com.noticemedan.finch.entity.ttn
 
 import java.time.LocalDateTime
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 data class RxMetadata (
@@ -12,6 +9,7 @@ data class RxMetadata (
 	var time: LocalDateTime,
 	var timestamp: Long,
 	var uplinkToken: String,
+	@ManyToOne(fetch = FetchType.LAZY) var eventData: EventData? = null,
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	var id: Long? = null
 )

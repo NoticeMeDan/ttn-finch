@@ -1,9 +1,7 @@
 package com.noticemedan.finch.service
 
-import com.noticemedan.finch.dao.CorrelationIdDao
 import com.noticemedan.finch.dao.EventDataDao
 import com.noticemedan.finch.dao.FlowDao
-import com.noticemedan.finch.dao.RxMetadataDao
 import com.noticemedan.finch.dto.ttn.EventDataInfo
 import com.noticemedan.finch.entity.QFlow
 import com.noticemedan.finch.entity.ttn.CorrelationId
@@ -16,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class WebhookService (
 		private val eventDataDao: EventDataDao,
-		private val correlationIdDao: CorrelationIdDao,
-		private val rxMetadataDao: RxMetadataDao,
 		private val flowDao: FlowDao
 ) {
 	@Transactional
@@ -25,16 +21,16 @@ class WebhookService (
 		val flowQuery = QFlow.flow.applicationId.eq(data.endDeviceIds.applicationIds.applicationId)
 		if (!flowDao.exists(flowQuery)) throw ApplicationNotPartOfFlow()
 
-		eventDataDao.save(EventData(
+		val event = eventDataDao.save(EventData(
 				data.endDeviceIds.deviceId,
 				data.endDeviceIds.applicationIds.applicationId,
 				data.endDeviceIds.deviceAddress,
-				data.correlationIds.map { x -> CorrelationId(x) },
+				listOf(),
 				data.receivedAt,
 				data.uplinkMessage.fPort,
 				data.uplinkMessage.frameCount,
 				data.uplinkMessage.framePayload,
-				data.uplinkMessage.rxMetadata.map { x -> RxMetadata(x.gatewayIds.gatewayId, x.time, x.timestamp, x.uplinkToken) },
+				listOf(),
 				data.uplinkMessage.settings.dataRate.lora.bandwidth,
 				data.uplinkMessage.settings.dataRate.lora.spreadingFactor,
 				data.uplinkMessage.settings.codingRate,
@@ -43,5 +39,11 @@ class WebhookService (
 				data.uplinkMessage.settings.time,
 				data.uplinkMessage.receivedAt
 		))
+
+		event.correlationIds = data.correlationIds.map { x -> CorrelationId(x, event) }
+		event.metadata = data.uplinkMessage.rxMetadata.map { x ->
+			RxMetadata(x.gatewayIds.gatewayId, x.time, x.timestamp, x.uplinkToken, event) }
+
+		eventDataDao.saveAndFlush(event)
 	}
 }

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 class DtoFactory {
 	fun toInfo (source: Flow): FlowInfo {
 		return FlowInfo(
-				source.id,
 				source.name,
-				source.applicationId)
+				source.applicationId,
+				source.id)
 	}
 }
