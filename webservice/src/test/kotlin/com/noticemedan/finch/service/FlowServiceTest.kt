@@ -24,7 +24,7 @@ class FlowServiceTest {
 		val subject = flowService.createFlow(name)
 
 		assertThat(subject).isNotNull
-		assertThat(subject.id).isNotNull()
+		assertThat(subject.id).isNotNull
 		assertThat(subject.name).isEqualTo(name.name)
 		assertThat(subject.applicationId).isEqualTo(name.applicationId)
 	}

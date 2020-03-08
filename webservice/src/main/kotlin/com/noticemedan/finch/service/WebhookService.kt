@@ -44,6 +44,6 @@ class WebhookService (
 		event.metadata = data.uplinkMessage.rxMetadata.map { x ->
 			RxMetadata(x.gatewayIds.gatewayId, x.time, x.timestamp, x.uplinkToken, event) }
 
-		eventDataDao.saveAndFlush(event)
+		eventDataDao.save(event)
 	}
 }
