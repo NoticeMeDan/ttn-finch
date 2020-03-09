@@ -132,3 +132,30 @@ databaseChangeLog:
                     nullable: false
                     references: event_data
                     foreignKeyName: fk_rx_metadata_event_data
+  - changeSet:
+      id: 3
+      author: ejoe@itu.dk
+      changes:
+        - createTable:
+            tableName: activity_log_line
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: message
+                  type: nvarchar(255)
+              - column:
+                  name: time
+                  type: timestamp
+              - column:
+                  name: flow_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: flow
+                    foreignKeyName: fk_activity_log_line_flow

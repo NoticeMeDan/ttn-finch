@@ -5,7 +5,7 @@ import com.noticemedan.finch.entity.Flow
 import org.springframework.stereotype.Component
 
 @Component
-class DtoFactory {
+object DtoFactory {
 	fun toInfo (source: Flow): FlowInfo {
 		return FlowInfo(
 				source.name,
