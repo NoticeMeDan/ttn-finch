@@ -24,7 +24,7 @@ class FlowServiceTest {
 		val subject = flowService.createFlow(name)
 
 		assertThat(subject).isNotNull
-		assertThat(subject.id).isNotNull
+		assertThat(subject.id).isNotNull() // If i access the isNotNull field instead of running the function, it crashes due to type inference issues
 		assertThat(subject.name).isEqualTo(name.name)
 		assertThat(subject.applicationId).isEqualTo(name.applicationId)
 	}
