@@ -33,7 +33,7 @@ class ActivityLogService (
 		return SliceFactory.toSlice(
 				activityLogLineDao.findAll(
 						query,
-						PageRequest.of(page, Companion.PAGE_SIZE, Sort.by(Sort.Direction.DESC, "time"))
+						PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "time"))
 				),
 				dtoFactory::toInfo
 		)
