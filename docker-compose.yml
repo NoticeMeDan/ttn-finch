@@ -160,8 +160,6 @@ services:
      - POSTGRES_PASSWORD=postgres
      - POSTGRES_USER=postgres
      - POSTGRES_DB=ttn_finch
-#    volumes:
-#     - ${DEV_DATA_DIR:-.env/data}/postgres:/var/lib/postgresql/data
     expose:
      - 5432
     ports:
@@ -173,12 +171,20 @@ services:
     expose:
       - 80
     ports:
-      - 8080:80
+      - 8081:80
       - 6001:6001
     depends_on:
       - finch_postgres
     environment:
       - DB_HOST=finch_postgres
+
+  finch_webapp:
+    build: ./webapp
+    container_name: finch_webapp
+    ports:
+      - 8080:80
+    depends_on:
+      - finch_webservice
 
 # If using (self) signed certificates:
 secrets:
