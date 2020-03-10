@@ -20,8 +20,24 @@ bootJar.enabled = false
 jar.enabled = true
 
 application {
+	def myVersion = System.properties['versionOverride']
+	if ((myVersion?.trim())){
+		version = myVersion
+	} else {
+		version = "1.0-SNAPSHOT"
+	}
+
 	mainClassName = 'com.noticemedan.finch.FinchApplicationKt'
 	applicationDefaultJvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:6001"]
+}
+
+distributions {
+	main {
+		distTar.archiveName = "finch-webservice.tar"
+		distZip.enabled = false
+		bootDistTar.enabled = false
+		bootDistZip.enabled = false
+	}
 }
 
 dependencies {
