@@ -1,9 +1,11 @@
-name: Release Finch
+name: Build and Release
 
 on:
 	push:
+		tags-ignore:
+			- "*"
 		branches:
-			- 'master'
+			- 'release/*'
 
 jobs:
 	build:

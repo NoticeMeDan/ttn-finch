@@ -1,0 +1,83 @@
+name: Build and staging
+
+on:
+	push:
+		branches:
+			- 'master'
+
+jobs:
+	build:
+		runs-on: ubuntu-latest
+
+		steps:
+			- name: Checkout code
+			  uses: actions/checkout@v2
+			  with:
+				  fetch-depth: 0
+
+			- name: Calculate version
+			  id: spell
+			  uses: actoaps/version-spell@v2
+
+			- name: Set up JDK 12
+			  uses: actions/setup-java@v1
+			  with:
+				  java-version: 12.0.1
+
+			- name: Cache webapp node_modules
+			  uses: actions/cache@v1
+			  with:
+			  	path: webapp/node_modules
+				key: webapp-${{ hashFiles('webapp/yarn.lock') }}
+
+			- name: Gradle Build
+			  run: |
+				./gradlew clean build -x test -DversionOverride=$BUILD_ID
+			  env:
+				BUILD_ID: ${{steps.spell.outputs.version}}
+
+			- name: Release to Docker hub
+			  run: |
+				  docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+
+				  docker build -t noticemedan/finch-webservice:$BUILD_ID ./webservice
+				  docker build -t noticemedan/finch-webapp:$BUILD_ID ./webapp
+
+				  docker push noticemedan/finch-webservice:$BUILD_ID
+				  docker push noticemedan/finch-webapp:$BUILD_ID
+			  env:
+				  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+				  DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+				  BUILD_ID: ${{ steps.spell.outputs.version }}
+	deploy:
+		needs: build
+
+		runs-on: ubuntu-latest
+
+		steps:
+			- name: Checkout code
+			  uses: actions/checkout@v2
+			  with:
+				  fetch-depth: 0
+
+			- name: Calculate version
+			  id: spell
+			  uses: actoaps/version-spell@v2
+
+			- name: SSH agent setup
+			  uses: webfactory/ssh-agent@v0.1.1
+			  with:
+				  ssh-private-key: ${{ secrets.ACTO_PRIVATE_KEY }}
+
+			- name: Release to staging
+			  run: |
+				  ssh-keyscan -H 18.196.39.67 >> ~/.ssh/known_hosts
+				  scp docker-compose-staging.yaml ubuntu@18.196.39.67:/home/ubuntu/docker-compose.yaml
+				  ssh ubuntu@18.196.39.67 <<-ENDSSH
+				  sed -i 's/latest/$BUILD_ID/' docker-compose.yaml
+				  sudo docker system prune -f
+				  sudo docker-compose pull
+				  sudo docker-compose up -d
+				  ENDSSH
+			  env:
+				  BUILD_ID: ${{ steps.spell.outputs.version }}
