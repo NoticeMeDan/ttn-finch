@@ -40,6 +40,10 @@ distributions {
 	}
 }
 
+test {
+	ignoreFailures = false
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.2.5.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.2.5.RELEASE'
