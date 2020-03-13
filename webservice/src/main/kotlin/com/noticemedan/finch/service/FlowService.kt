@@ -3,9 +3,11 @@ package com.noticemedan.finch.service
 import com.noticemedan.finch.dao.FlowDao
 import com.noticemedan.finch.dto.FlowInfo
 import com.noticemedan.finch.entity.Flow
+import com.noticemedan.finch.exception.FlowNameAlreadyInUse
 import com.noticemedan.finch.exception.FlowNotFound
 import com.noticemedan.finch.util.ActivityLogHelper
 import com.noticemedan.finch.util.DtoFactory
+import io.vavr.kotlin.Try
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,7 +20,9 @@ class FlowService (
 
 	@Transactional
 	fun createFlow (source: FlowInfo): FlowInfo {
-		val flow = flowDao.save(Flow(source.name, source.applicationId))
+		val flow = Try { flowDao.save(Flow(source.name, source.applicationId)) }
+			.getOrElseThrow { -> FlowNameAlreadyInUse() }
+
 		activityLogHelper.addLogLineToFlow("Flow created", flow.id!!)
 		return dtoFactory.toInfo(flow)
 	}
