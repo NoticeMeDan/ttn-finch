@@ -1,9 +1,10 @@
 import React from "react";
 import FlowForm from "./FlowForm";
+import { postJSON } from "@acto/ajax";
 
 const NewFlow = () => {
 	const handleSubmit = values => {
-		console.log(values);
+		postJSON("/api/flow", values).json(console.log);
 	};
 
 	return <FlowForm handleSubmit={handleSubmit} />;
