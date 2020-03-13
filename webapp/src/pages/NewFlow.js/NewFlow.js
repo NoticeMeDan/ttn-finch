@@ -12,10 +12,10 @@ const useStyles = makeStyles({
 		padding: "24px"
 	},
 	header: {
+		padding: 8,
 		backgroundColor: '#f5f5f5'
 	},
 	title: {
-		margin: 8,
 		fontWeight: 500
 	},
 });
