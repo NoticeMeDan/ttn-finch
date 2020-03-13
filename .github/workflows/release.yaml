@@ -1,0 +1,52 @@
+name: Build and Release
+
+on:
+  push:
+    tags-ignore:
+      - "*"
+    branches:
+      - 'release/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Calculate version
+        id: spell
+        uses: actoaps/version-spell@v2
+
+      - name: Set up JDK 12
+        uses: actions/setup-java@v1
+        with:
+          java-version: 12.0.1
+
+      - name: Gradle Build
+        run: |
+          ./gradlew clean build -x test -DversionOverride=$BUILD_ID
+        env:
+          BUILD_ID: ${{steps.spell.outputs.version}}
+
+      - name: Release to Docker hub
+        run: |
+          docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+          docker build -t noticemedan/finch-webservice:$BUILD_ID ./webservice
+          docker build -t noticemedan/finch-webapp:$BUILD_ID ./webapp
+
+          docker tag noticemedan/finch-webservice:$BUILD_ID noticemedan/finch-webservice:latest
+          docker tag noticemedan/finch-webapp:$BUILD_ID noticemedan/finch-webapp:latest
+
+          docker push noticemedan/finch-webservice:$BUILD_ID
+          docker push noticemedan/finch-webservice:latest
+
+          docker push noticemedan/finch-webapp:$BUILD_ID
+          docker push noticemedan/finch-webapp:latest
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          BUILD_ID: ${{ steps.spell.outputs.version }}
