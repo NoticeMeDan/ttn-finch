@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import FlowForm from "./FlowForm";
 import { postJSON } from "@acto/ajax";
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, Snackbar } from "@material-ui/core";
+import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 
@@ -20,14 +21,30 @@ const useStyles = makeStyles({
 	},
 });
 
+function Alert(props) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const NewFlow = () => {
-	const classes = useStyles();
+	const [snackOpen, setSnackOpen] = React.useState(false)
+	const classes = useStyles()
 	const history = useHistory()
 
-	const handleSubmit = values => {
-		postJSON("/api/flow", values).json(console.log);
-		history.goBack()
+	const handleSubmit = async values => {
+		await postJSON("/api/flow", values).then(setSnackOpen(true))
+			.catch(err => { if (err.status === 500) { console.log("yeah! error") } else { console.log(err) } });
+
 	};
+
+	const handleSnackClose = (event, reason) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		setSnackOpen(false);
+		history.goBack();
+	};
+
 
 	return (
 		<div className={classes.root}>
@@ -38,7 +55,13 @@ const NewFlow = () => {
 				</Typography>
 				</Paper>
 				<FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack} />
-			</Paper></div>);
+			</Paper>
+			<Snackbar open={snackOpen} autoHideDuration={1000} onClose={handleSnackClose}>
+				<Alert onClose={handleSnackClose} severity="success">
+					success!
+        		</Alert>
+			</Snackbar>
+		</div>);
 };
 
 export default NewFlow;
