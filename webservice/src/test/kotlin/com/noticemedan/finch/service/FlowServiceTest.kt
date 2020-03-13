@@ -2,6 +2,7 @@ package com.noticemedan.finch.service
 
 import com.noticemedan.finch.TestConfig
 import com.noticemedan.finch.dto.FlowInfo
+import com.noticemedan.finch.exception.FlowNameAlreadyInUse
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 
 import org.assertj.core.api.Assertions.*
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [TestConfig::class])
@@ -55,5 +58,14 @@ class FlowServiceTest {
 		assertThat(subject.id).isEqualTo(createdFlow.id!!)
 		assertThat(subject.name).isEqualTo(createdFlow.name)
 		assertThat(subject.applicationId).isEqualTo(createdFlow.applicationId)
+	}
+
+	@Test
+	fun cannotCreateFlowsWithDuplicateNames () {
+		val flow1 = FlowInfo("We have the same name", "app-42")
+		val flow2 = FlowInfo("We have the same name", "app-42")
+
+		assertDoesNotThrow { flowService.createFlow(flow1) }
+		assertThrows<FlowNameAlreadyInUse> { flowService.createFlow(flow2) }
 	}
 }
