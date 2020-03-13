@@ -5,4 +5,4 @@ WORKDIR ./finch-webservice
 EXPOSE 8080
 EXPOSE 6001
 
-ENTRYPOINT ["bin/finch-webservice"]
+ENTRYPOINT ["bin/ttn-finch"]

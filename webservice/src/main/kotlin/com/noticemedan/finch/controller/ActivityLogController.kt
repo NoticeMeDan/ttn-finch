@@ -13,7 +13,7 @@ import java.time.Instant
 @RestController
 @RequestMapping("log")
 class ActivityLogController (private val activityLogService: ActivityLogService) {
-	@GetMapping(value = ["{flowId}/{from:[0-9]+}}/{to:[0-9]+}}/{page:[0-9]+}"], produces = [MediaType.APPLICATION_JSON_VALUE])
+	@GetMapping(value = ["{flowId}/{from:[0-9]+}/{to:[0-9]+}/{page:[0-9]+}"], produces = [MediaType.APPLICATION_JSON_VALUE])
 	fun getLogForPeriod (@PathVariable flowId: Long, @PathVariable from: Long, @PathVariable to: Long,
 						 @PathVariable page: Int): Slice<ActivityLogLineInfo> {
 		return activityLogService.getLogForPeriod(Instant.ofEpochSecond(from), Instant.ofEpochSecond(to), flowId, page)
