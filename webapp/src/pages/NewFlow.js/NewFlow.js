@@ -31,17 +31,14 @@ const NewFlow = () => {
 	const history = useHistory()
 
 	const handleSubmit = async values => {
-		postJSON('/api/flow', values).then(res => { if (res) setSnackOpen(true) })
-			.catch(console.log)
+		postJSON('/api/flow', values).then(setSnackOpen(true)).catch(err => err)
 	}
 
 	const handleSnackClose = (event, reason) => {
 		if (reason === 'clickaway') {
 			return
 		}
-
 		setSnackOpen(false)
-		history.goBack()
 	}
 
 	return (
@@ -54,7 +51,7 @@ const NewFlow = () => {
 				</Paper>
 				<FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack} />
 			</Paper>
-			<Snackbar open={snackOpen} autoHideDuration={1000} onClose={handleSnackClose}>
+			<Snackbar open={snackOpen} autoHideDuration={1500} onClose={handleSnackClose}>
 				<Alert onClose={handleSnackClose} severity='success'>
 					success!
                 </Alert>
