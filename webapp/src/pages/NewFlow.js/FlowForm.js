@@ -1,7 +1,12 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Typography } from "@material-ui/core";
+import { Typography, Button, Grid } from "@material-ui/core";
+import {
+	TextField,
+} from 'formik-material-ui';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const SignupSchema = Yup.object().shape({
 	name: Yup.string()
@@ -12,10 +17,17 @@ const SignupSchema = Yup.object().shape({
 		.required("Required")
 })
 
-const FlowForm = ({ handleSubmit }) => {
+const useStyles = makeStyles({
+	row: {
+		padding: 8,
+		width: '100%'
+	},
+});
+
+const FlowForm = ({ handleSubmit, handleCancel }) => {
+	const classes = useStyles();
 	return (
 		<div>
-			<h1>New Flow</h1>
 			<Formik
 				initialValues={{
 					name: "",
@@ -26,24 +38,37 @@ const FlowForm = ({ handleSubmit }) => {
 			>
 				{({ errors, touched }) => (
 					<Form>
-						<Typography variant="h1" component="h2">
-							h1. Heading
-						</Typography>
-						<Typography variant="h2" component="h2">
-							h2. Heading
-						</Typography>
-						<Field name="name" />
-						{errors.name && touched.name ? (
-							<div>{errors.name}</div>
-						) : null}
-						<Field name="applicationId" />
-						{errors.applicationId && touched.applicationId ? (
-							<div>{errors.applicationId}</div>
-						) : null}
-						{errors.email && touched.email ? (
-							<div>{errors.email}</div>
-						) : null}
-						<button type="submit">Submit</button>
+						<div style={{ margin: "8px" }}>
+							<Typography variant="h6" component="h2">
+								Flow name
+							</Typography>
+							<Typography variant="subtitle2" component="h2" color='textSecondary' >
+								Det er her du skriver et fjollet navn. Du kan ændre det senere.
+							</Typography>
+							<Field name="name" component={TextField} variant="outlined" size="small" margin="dense" placeholder="Flow name" />
+
+						</div>
+						<div style={{ margin: "8px" }}>
+							<Typography variant="h6" component="h2">
+								Application ID
+							</Typography>
+							<Typography variant="subtitle2" component="h2" color='textSecondary'>
+								Find på et eller andet og skriv det her. Du kan ændre det senere.
+							</Typography>
+							<Field name="applicationId" component={TextField} variant="outlined" size="small" margin="dense" placeholder="Application ID" />
+						</div>
+						<Grid container justify='center' alignItems='center' className={classes.row} spacing={1}>
+							<Grid item>
+								<Button variant="outlined" color="primary" onClick={handleCancel}>
+									Cancel
+      						</Button>
+							</Grid>
+							<Grid item>
+								<Button type="submit" variant="contained" color="primary">
+									Save
+							</Button>
+							</Grid>
+						</Grid>
 					</Form>
 				)}
 			</Formik>
