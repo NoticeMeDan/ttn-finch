@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import FlowForm from "./FlowForm";
-import { postJSON } from "@acto/ajax";
-import { Paper, Typography, Snackbar } from "@material-ui/core";
-import MuiAlert from '@material-ui/lab/Alert';
-import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react'
+import FlowForm from './FlowForm'
+import { postJSON } from '@acto/ajax'
+import { Paper, Typography, Snackbar } from '@material-ui/core'
+import MuiAlert from '@material-ui/lab/Alert'
+import { makeStyles } from '@material-ui/core/styles'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
 	root: {
-		height: "100vh",
+		height: '100vh',
 		backgroundColor: '#f0f0f0',
-		padding: "24px"
+		padding: '24px'
 	},
 	header: {
 		padding: 8,
@@ -18,50 +18,48 @@ const useStyles = makeStyles({
 	},
 	title: {
 		fontWeight: 500
-	},
-});
+	}
+})
 
 function Alert(props) {
-	return <MuiAlert elevation={6} variant="filled" {...props} />;
+	return <MuiAlert elevation={6} variant='filled' {...props} />
 }
 
 const NewFlow = () => {
-	const [snackOpen, setSnackOpen] = React.useState(false)
+	const [snackOpen, setSnackOpen] = useState(false)
 	const classes = useStyles()
 	const history = useHistory()
 
 	const handleSubmit = async values => {
-		await postJSON("/api/flow", values).then(setSnackOpen(true))
-			.catch(err => { if (err.status === 500) { console.log("yeah! error") } else { console.log(err) } });
-
-	};
+		postJSON('/api/flow', values).then(res => { if (res) setSnackOpen(true) })
+			.catch(console.log)
+	}
 
 	const handleSnackClose = (event, reason) => {
 		if (reason === 'clickaway') {
-			return;
+			return
 		}
 
-		setSnackOpen(false);
-		history.goBack();
-	};
-
+		setSnackOpen(false)
+		history.goBack()
+	}
 
 	return (
 		<div className={classes.root}>
 			<Paper>
 				<Paper className={classes.header}>
-					<Typography variant="h5" component="h5" color="primary" className={classes.title}>
+					<Typography variant='h5' component='h5' color='primary' className={classes.title}>
 						CREATE NEW FLOW
-				</Typography>
+                    </Typography>
 				</Paper>
 				<FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack} />
 			</Paper>
 			<Snackbar open={snackOpen} autoHideDuration={1000} onClose={handleSnackClose}>
-				<Alert onClose={handleSnackClose} severity="success">
+				<Alert onClose={handleSnackClose} severity='success'>
 					success!
-        		</Alert>
+                </Alert>
 			</Snackbar>
-		</div>);
-};
+		</div>)
+}
 
-export default NewFlow;
+export default NewFlow
