@@ -1,0 +1,161 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: ejoe@itu.dk
+      changes:
+        - createTable:
+            tableName: flow
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: application_id
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: 2
+      author: ejoe@itu.dk
+      changes:
+        - createTable:
+            tableName: event_data
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: device_id
+                  type: nvarchar(255)
+              - column:
+                  name: application_id
+                  type: nvarchar(255)
+              - column:
+                  name: device_address
+                  type: nvarchar(255)
+              - column:
+                  name: received_at
+                  type: timestamp
+              - column:
+                  name: f_port
+                  type: integer
+              - column:
+                  name: frame_count
+                  type: bigint
+              - column:
+                  name: frame_payload
+                  type: nvarchar(255)
+              - column:
+                  name: settings_bandwidth
+                  type: bigint
+              - column:
+                  name: settings_spreading_factor
+                  type: bigint
+              - column:
+                  name: settings_coding_rate
+                  type: nvarchar(255)
+              - column:
+                  name: settings_frequency
+                  type: nvarchar(255)
+              - column:
+                  name: settings_timestamp
+                  type: bigint
+              - column:
+                  name: settings_time
+                  type: timestamp
+              - column:
+                  name: uplink_received_at
+                  type: timestamp
+
+        - createTable:
+            tableName: correlation_id
+            column:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: correlation
+                  type: nvarchar(255)
+              - column:
+                  name: event_data_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: event_data
+                    foreignKeyName: fk_correlation_id_event_data
+
+        - createTable:
+            tableName: rx_metadata
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: gateway_id
+                  type: nvarchar(255)
+              - column:
+                  name: time
+                  type: timestamp
+              - column:
+                  name: timestamp
+                  type: bigint
+              - column:
+                  name: uplink_token
+                  type: nvarchar(255)
+              - column:
+                  name: event_data_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: event_data
+                    foreignKeyName: fk_rx_metadata_event_data
+  - changeSet:
+      id: 3
+      author: ejoe@itu.dk
+      changes:
+        - createTable:
+            tableName: activity_log_line
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: message
+                  type: nvarchar(255)
+              - column:
+                  name: time
+                  type: timestamp
+              - column:
+                  name: flow_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: flow
+                    foreignKeyName: fk_activity_log_line_flow

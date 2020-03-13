@@ -1,7 +1,7 @@
 FROM openjdk:12
 
-ADD build/distributions/webservice-1.0-SNAPSHOT.tar ./
-WORKDIR ./webservice-1.0-SNAPSHOT
+ADD build/distributions/finch-webservice.tar ./
+WORKDIR ./finch-webservice
 EXPOSE 8080
 EXPOSE 6001
 

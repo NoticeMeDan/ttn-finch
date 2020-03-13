@@ -1,0 +1,13 @@
+plugins {
+	id "com.github.node-gradle.node" version "2.2.1"
+	id 'base'
+}
+
+node {
+	yarnVersion = '1.21.0'
+	version = '12.14.1'
+	download = true
+}
+
+yarn_build.dependsOn(yarn_install)
+build.dependsOn(yarn_build)
