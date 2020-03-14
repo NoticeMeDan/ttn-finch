@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import FlowForm from './FlowForm'
-import { postJSON } from '@acto/ajax'
-import { Paper, Typography, Snackbar } from '@material-ui/core'
-import MuiAlert from '@material-ui/lab/Alert'
-import { makeStyles } from '@material-ui/core/styles'
-import { useHistory } from 'react-router-dom'
+import {postJSON} from '@acto/ajax'
+import {Paper, Typography} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core/styles'
+import {useHistory} from 'react-router-dom'
+import {useSnackbar} from "notistack";
 
 const useStyles = makeStyles({
 	root: {
@@ -21,24 +21,22 @@ const useStyles = makeStyles({
 	}
 })
 
-function Alert(props) {
-	return <MuiAlert elevation={6} variant='filled' {...props} />
-}
-
 const NewFlow = () => {
-	const [snackOpen, setSnackOpen] = useState(false)
 	const classes = useStyles()
 	const history = useHistory()
+	const {enqueueSnackbar} = useSnackbar()
 
-	const handleSubmit = async values => {
-		postJSON('/api/flow', values).then(setSnackOpen(true)).catch(err => err)
-	}
-
-	const handleSnackClose = (event, reason) => {
-		if (reason === 'clickaway') {
-			return
-		}
-		setSnackOpen(false)
+	const handleSubmit = (values, actions) => {
+		postJSON('/api/flow', values)
+			.json(() => enqueueSnackbar("Flow added", {variant: 'success'}))
+			.catch(err => {
+				if (err.status === 409) {
+					actions.setFieldError("name", "Name already exist!")
+				} else {
+					console.log(err)
+				}
+			})
+			.finally(actions.setSubmitting(false))
 	}
 
 	return (
@@ -47,15 +45,10 @@ const NewFlow = () => {
 				<Paper className={classes.header}>
 					<Typography variant='h5' component='h5' color='primary' className={classes.title}>
 						CREATE NEW FLOW
-                    </Typography>
+					</Typography>
 				</Paper>
-				<FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack} />
+				<FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack}/>
 			</Paper>
-			<Snackbar open={snackOpen} autoHideDuration={1500} onClose={handleSnackClose}>
-				<Alert onClose={handleSnackClose} severity='success'>
-					success!
-                </Alert>
-			</Snackbar>
 		</div>)
 }
 

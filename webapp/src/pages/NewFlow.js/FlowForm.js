@@ -8,7 +8,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 
-const SignupSchema = Yup.object().shape({
+const SignUpSchema = Yup.object().shape({
 	name: Yup.string()
 		.max(50, "Too Long!")
 		.required("Required"),
@@ -33,7 +33,7 @@ const FlowForm = ({ handleSubmit, handleCancel }) => {
 					name: "",
 					applicationId: ""
 				}}
-				validationSchema={SignupSchema}
+				validationSchema={SignUpSchema}
 				onSubmit={handleSubmit}
 			>
 				{({ errors, touched }) => (
