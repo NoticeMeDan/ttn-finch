@@ -1,10 +1,10 @@
 import React from 'react'
 import FlowForm from './FlowForm'
-import {postJSON} from '@acto/ajax'
-import {Paper, Typography} from '@material-ui/core'
-import {makeStyles} from '@material-ui/core/styles'
-import {useHistory} from 'react-router-dom'
-import {useSnackbar} from "notistack";
+import { postJSON } from '@acto/ajax'
+import { Paper, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { useHistory } from 'react-router-dom'
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles({
 	root: {
@@ -26,14 +26,17 @@ const NewFlow = () => {
 	const history = useHistory()
 	const {enqueueSnackbar} = useSnackbar()
 
-	const handleSubmit = (values, actions) => {
+	const handleSubmit = async (values, actions) => {
 		postJSON('/api/flow', values)
-			.json(() => enqueueSnackbar("Flow added", {variant: 'success'}))
+			.json(() => {
+				enqueueSnackbar("Flow added", {variant: 'success'})
+				new Promise(r => setTimeout(r, 1000)).then(() => history.goBack())
+			})
 			.catch(err => {
 				if (err.status === 409) {
 					actions.setFieldError("name", "Name already exist!")
 				} else {
-					console.log(err)
+					console.error(err)
 				}
 			})
 			.finally(actions.setSubmitting(false))
