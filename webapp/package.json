@@ -27,6 +27,8 @@
     "@material-ui/pickers": "3.2.10",
     "dayjs": "1.8.22",
     "formik": "2.1.4",
+    "formik-material-ui": "2.0.0-beta.1",
+    "notistack": "0.9.9",
     "react": "16.13.0",
     "react-dom": "16.13.0",
     "react-router-dom": "5.1.2",

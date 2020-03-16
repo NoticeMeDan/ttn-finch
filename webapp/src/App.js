@@ -5,19 +5,24 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DayjsUtils from '@date-io/dayjs'
 
 import Home from './pages/Home'
+import NewFlow from './pages/NewFlow.js/NewFlow'
 import Flow from './pages/Flow'
+import {SnackbarProvider} from "notistack";
 
 const App = () => (
-    <React.StrictMode>
-		<MuiPickersUtilsProvider utils={DayjsUtils}>
-			<Router>
-				<Switch>
-					<Route exact path='/' component={Home} />
-					<Route exact path='/flow/:flowId' component={Flow} />
-				</Switch>
-			</Router>
-		</MuiPickersUtilsProvider>
-    </React.StrictMode>
+	<React.StrictMode>
+		<SnackbarProvider maxSnack={3}>
+			<MuiPickersUtilsProvider utils={DayjsUtils}>
+				<Router>
+					<Switch>
+						<Route exact path='/' component={Home} />
+						<Route exact path='/newflow' component={NewFlow} />
+						<Route exact path='/flow/:flowId' component={Flow} />
+					</Switch>
+				</Router>
+			</MuiPickersUtilsProvider>
+		</SnackbarProvider>
+	</React.StrictMode>
 )
 
 export default hot(App)
