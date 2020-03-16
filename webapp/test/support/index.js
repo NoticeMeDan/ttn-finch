@@ -20,5 +20,8 @@ Cypress.Screenshot.defaults({
     screenshotOnRunFailure: false
 })
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+// Remove fetch form window, so that the application will fallback to XHR, which cypress currently only supports
+// See: https://github.com/cypress-io/cypress/issues/95
+Cypress.on('window:before:load', win => {
+	win.fetch = null
+})

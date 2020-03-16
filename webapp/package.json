@@ -4,7 +4,7 @@
   "description": "TTN-Finch Webapp",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env cypress run --browser chrome",
+    "test": "cross-env start-server-and-test dev http-get://localhost:3000 cypress",
     "test-headless": "cross-env cypress run",
     "test-ci": "cross-env start-server-and-test dev http-get://localhost:3000 test-headless",
     "lint": "cross-env eslint src/**/**.js config/**/**.js test/**/**.js",
@@ -62,7 +62,8 @@
     "webpack": "4.42.0",
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3",
-    "webpack-merge": "4.2.2"
+    "webpack-merge": "4.2.2",
+    "whatwg-fetch": "^3.0.0"
   },
   "eslintConfig": {
     "parser": "babel-eslint",

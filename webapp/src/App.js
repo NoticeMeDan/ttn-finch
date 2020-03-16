@@ -5,7 +5,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DayjsUtils from '@date-io/dayjs'
 
 import Home from './pages/Home'
-import NewFlow from './pages/NewFlow.js/NewFlow'
+import NewFlow from './pages/NewFlow/NewFlow'
 import Flow from './pages/Flow'
 import {SnackbarProvider} from "notistack";
 

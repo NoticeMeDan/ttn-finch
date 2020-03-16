@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 	}
 })
 
-const NewFlow = () => {
+function NewFlow () {
 	const classes = useStyles()
 	const history = useHistory()
 	const {enqueueSnackbar} = useSnackbar()
@@ -30,7 +30,7 @@ const NewFlow = () => {
 		postJSON('/api/flow', values)
 			.json(() => {
 				enqueueSnackbar("Flow added", {variant: 'success'})
-				new Promise(r => setTimeout(r, 1000)).then(() => history.goBack())
+				new Promise(r => setTimeout(r, 1000)).then(() => history.push('/'))
 			})
 			.catch(err => {
 				if (err.status === 409) {
