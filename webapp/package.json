@@ -62,7 +62,7 @@
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3",
     "webpack-merge": "4.2.2",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "3.0.0"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
