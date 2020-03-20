@@ -1,6 +1,5 @@
 describe('Test activity log', () => {
 	beforeEach(() => {
-		cy.visit('/flow/1')
 		cy.server()
 
 		cy.route('GET', '/api/log/1/*/*/0', {
@@ -15,7 +14,7 @@ describe('Test activity log', () => {
 					message: 'Heyo 2'
 				}
 			]
-		})
+		}).as('pageOne')
 
 		cy.route('GET', '/api/log/1/*/*/1', {
 			totalPages: 2,
@@ -29,7 +28,9 @@ describe('Test activity log', () => {
 					message: 'Heyo 4'
 				}
 			]
-		})
+		}).as('pageTwo')
+
+		cy.visit('/flow/1')
 	})
 
 	it('Paginates correctly', () => {
