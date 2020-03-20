@@ -43,6 +43,7 @@ jobs:
         uses: cypress-io/github-action@v1
         with:
           working-directory: webapp
-          buil: ":" # Noop
-          start: yarn serve
+          install: false
+          start: yarn dev
           wait-on: http://localhost:3000
+          headless: true

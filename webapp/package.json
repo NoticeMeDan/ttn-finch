@@ -10,8 +10,7 @@
 		"profile": "cross-env NODE_ENV=production webpack --config=config/webpack.config.js --profile --json > stats.json",
 		"cypress": "cross-env cypress open",
 		"build": "cross-env NODE_ENV=production webpack --config=config/webpack.config.js",
-		"dev": "cross-env NODE_ENV=development webpack-dev-server --config=config/webpack.config.js",
-		"serve": "cross-env pushstate-server -d ./build -p 3000"
+		"dev": "cross-env NODE_ENV=development webpack-dev-server --config=config/webpack.config.js"
 	},
 	"repository": {
 		"type": "git",
@@ -55,7 +54,6 @@
 		"eslint-plugin-standard": "4.0.1",
 		"html-webpack-plugin": "3.2.0",
 		"prop-types": "15.7.2",
-		"pushstate-server": "3.1.0",
 		"react-hot-loader": "4.12.19",
 		"start-server-and-test": "1.10.8",
 		"webpack": "4.42.0",
