@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 describe('Test activity log', () => {
 	beforeEach(() => {
 		cy.server()
@@ -34,17 +36,16 @@ describe('Test activity log', () => {
 	})
 
 	it('Paginates correctly', () => {
-		cy.screenshot()
-		cy.contains('16/03/2020 17:25:12')
+		cy.contains(dayjs.unix(1584375912).format('DD/MM/YYYY H:mm:ss'))
 		cy.contains('Heyo 1')
-		cy.contains('16/03/2020 17:25:13')
+		cy.contains(dayjs.unix(1584375913).format('DD/MM/YYYY H:mm:ss'))
 		cy.contains('Heyo 2')
 
 		cy.get('button[title="Next page"]').click()
 
-		cy.contains('16/03/2020 17:25:14')
+		cy.contains(dayjs.unix(1584375914).format('DD/MM/YYYY H:mm:ss'))
 		cy.contains('Heyo 3')
-		cy.contains('16/03/2020 17:25:15')
+		cy.contains(dayjs.unix(1584375915).format('DD/MM/YYYY H:mm:ss'))
 		cy.contains('Heyo 4')
 	})
 })
