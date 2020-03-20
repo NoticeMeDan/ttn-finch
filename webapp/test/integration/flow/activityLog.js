@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { formatDateTime } from '../../../src/time'
 
 describe('Test activity log', () => {
 	beforeEach(() => {
@@ -36,16 +37,16 @@ describe('Test activity log', () => {
 	})
 
 	it('Paginates correctly', () => {
-		cy.contains(dayjs.unix(1584375912).format('DD/MM/YYYY H:mm:ss'))
+		cy.contains(formatDateTime(1584375912))
 		cy.contains('Heyo 1')
-		cy.contains(dayjs.unix(1584375913).format('DD/MM/YYYY H:mm:ss'))
+		cy.contains(formatDateTime(1584375913))
 		cy.contains('Heyo 2')
 
 		cy.get('button[title="Next page"]').click()
 
-		cy.contains(dayjs.unix(1584375914).format('DD/MM/YYYY H:mm:ss'))
+		cy.contains(formatDateTime(1584375914))
 		cy.contains('Heyo 3')
-		cy.contains(dayjs.unix(1584375915).format('DD/MM/YYYY H:mm:ss'))
+		cy.contains(formatDateTime(1584375915))
 		cy.contains('Heyo 4')
 	})
 })
