@@ -6,6 +6,5 @@
 	"screenshotsFolder": "test/screenshots",
 	"videosFolder": "test/videos",
 	"supportFile": "test/support/index.js",
-	"video": false,
 	"projectId": "g7jxnc"
 }

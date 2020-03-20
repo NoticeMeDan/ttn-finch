@@ -34,6 +34,7 @@ describe('Test activity log', () => {
 	})
 
 	it('Paginates correctly', () => {
+		cy.screenshot()
 		cy.contains('16/03/2020 17:25:12')
 		cy.contains('Heyo 1')
 		cy.contains('16/03/2020 17:25:13')
