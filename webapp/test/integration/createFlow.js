@@ -42,7 +42,6 @@ describe('Test flow creation form', () => {
 		cy.get('input[name="applicationId"')
 			.type('And a lovely ID')
 
-
 		cy.server()
 		cy.route({
 			url: '/api/flow',
@@ -63,7 +62,6 @@ describe('Test flow creation form', () => {
 		cy.get('input[name="applicationId"')
 			.type('And a lovely ID')
 
-
 		cy.server()
 		cy.route({
 			url: '/api/flow',
@@ -74,7 +72,7 @@ describe('Test flow creation form', () => {
 
 		cy.get('button[type="submit"]').click()
 
-		cy.contains("Flow added")
+		cy.contains('Flow added')
 	})
 
 	it('Goes back to / page when flow is created', () => {
@@ -83,7 +81,6 @@ describe('Test flow creation form', () => {
 
 		cy.get('input[name="applicationId"')
 			.type('And a lovely ID')
-
 
 		cy.server()
 		cy.route({

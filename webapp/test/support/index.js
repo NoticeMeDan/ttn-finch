@@ -17,7 +17,7 @@
 import './commands'
 
 Cypress.Screenshot.defaults({
-    screenshotOnRunFailure: false
+	screenshotOnRunFailure: false
 })
 
 // Remove fetch form window, so that the application will fallback to XHR, which cypress currently only supports

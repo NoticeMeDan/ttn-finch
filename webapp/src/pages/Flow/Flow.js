@@ -3,8 +3,8 @@ import ActivityLog from './component/ActivityLog'
 import Grid from '@material-ui/core/Grid'
 
 function Flow ({ match }) {
-    return (
-        <>
+	return (
+		<>
 			<h1>Hvor er mit flow bare pænt</h1>
 			<Grid container justify='space-evenly'>
 				<Grid item style={{ width: '80%' }}>
@@ -12,7 +12,7 @@ function Flow ({ match }) {
 				</Grid>
 			</Grid>
 		</>
-    )
+	)
 }
 
 export default Flow
