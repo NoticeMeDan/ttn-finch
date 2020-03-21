@@ -75,6 +75,26 @@ describe('Test flow creation form', () => {
 		cy.contains('Flow added')
 	})
 
+	it('Shows "Connection error!" toast when failing to create flow', () => {
+		cy.get('input[name="name"')
+			.type('What a lovely name')
+
+		cy.get('input[name="applicationId"')
+			.type('And a lovely ID')
+
+		cy.server()
+		cy.route({
+			url: '/api/flow',
+			method: 'POST',
+			status: 504,
+			response: {}
+		})
+
+		cy.get('button[type="submit"]').click()
+
+		cy.contains('Connection error!')
+	})
+
 	it('Goes back to / page when flow is created', () => {
 		cy.get('input[name="name"')
 			.type('What a lovely name')
