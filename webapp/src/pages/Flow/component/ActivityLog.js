@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import PaginatedTable from '../../../components/PaginatedTable'
 import useGetJson from '../../../hooks/useGetJson'
 import Loading from '../../../components/Loading'
+import { formatDateTime } from '../../../time'
 
 function ActivityLog ({ flowId }) {
 	const [state, setState] = useState({
@@ -37,7 +38,7 @@ function ActivityLog ({ flowId }) {
 	function getRows () {
 		return data.pageData.map((event, index) => (
 			<TableRow key={index}>
-				<TableCell>{dayjs(event.time).format('DD/MM/YYYY H:mm:ss')}</TableCell>
+				<TableCell>{formatDateTime(event.time)}</TableCell>
 				<TableCell>{event.message}</TableCell>
 			</TableRow>
 		))
@@ -47,7 +48,7 @@ function ActivityLog ({ flowId }) {
 		<Grid container direction='column' spacing={1}>
 			<Grid container justify='flex-end' spacing={2}>
 				<Grid item>
-					<DateTimePicker value={state.from} onChange={handleChange('from')} label='From' ampm={false} variant='inline' />
+					<DateTimePicker value={state.from} onChange={handleChange('from')} label='From' ampm={false} variant='inline' disableFuture />
 				</Grid>
 				<Grid item>
 					<DateTimePicker value={state.to} onChange={handleChange('to')} label='To' ampm={false} variant='inline' disableFuture />

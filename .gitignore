@@ -12,3 +12,5 @@ out/
 
 # Webapp
 webapp/node_modules
+webapp/test/screenshots
+webapp/test/videos
