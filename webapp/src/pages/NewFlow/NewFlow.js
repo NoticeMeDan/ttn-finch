@@ -35,6 +35,8 @@ function NewFlow () {
 			.catch(err => {
 				if (err.status === 409) {
 					actions.setFieldError("name", "Name already exist!")
+				} else if (err.status === 504) {
+					enqueueSnackbar("Connection error!", {variant: 'error'})
 				} else {
 					console.error(err)
 				}
