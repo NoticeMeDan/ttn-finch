@@ -127,6 +127,9 @@ describe('Test flow creation form', () => {
 		cy.get('input[name="applicationId"')
 			.type('And a lovely ID')
 
+		cy.get('input[name="schedule"]')
+			.type('* * * * * *')
+
 		cy.server()
 		cy.route({
 			url: '/api/flow',
