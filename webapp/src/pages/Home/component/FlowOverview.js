@@ -4,15 +4,33 @@ import TableRow from '@material-ui/core/TableRow'
 import Grid from '@material-ui/core/Grid'
 
 import PaginatedTable from '../../../components/PaginatedTable'
-import useGetJson from '../../../hooks/useGetJson'
 import Loading from '../../../components/Loading'
+import {getJSON} from "@acto/ajax";
 
 const FlowOverview = () => {
 	const [page, setPage] = useState(0)
+	const [flows, setFlows] = useState()
+	const [totalPages, setTotalPages] = useState(0)
+	const [isLoading, setIsLoading] = useState(true)
+	const [isFetching, setIsFetching] = useState(false)
 
-	const [data, isLoading, error] = useGetJson(`/api/flow/all/${page}`)
+	if (flows == null) updatePage(page)
+
+	function updatePage (key) {
+		if (!isFetching) {
+			setIsLoading(true)
+			setIsFetching(true)
+			getJSON(`/api/flow/all/${key}`).json(data => {
+				setTotalPages(data.totalPages)
+				setFlows(data.pageData)
+				setIsFetching(false)
+				setIsLoading(false)
+			})
+		}
+	}
 
 	function handleChange (key) {
+		updatePage(key)
 		return setPage(key)
 	}
 
@@ -27,13 +45,13 @@ const FlowOverview = () => {
 	}
 
 	function getRows () {
-		return data.sort((a, b) => a.id - b.id).map(row => (
-			<TableRow key={row.id}>
-				<TableCell>{row.id}</TableCell>
+		return flows.map(flow => (
+			<TableRow key={flow.id}>
+				<TableCell>{flow.id}</TableCell>
 				<TableCell component="th" scope="row">
-					{row.name}
+					{flow.name}
 				</TableCell>
-				<TableCell>{row.applicationId}</TableCell>
+				<TableCell>{flow.applicationId}</TableCell>
 			</TableRow>
 		))
 	}
@@ -45,9 +63,9 @@ const FlowOverview = () => {
 			{ isLoading ? <Loading /> : (
 				<Grid item>
 					<PaginatedTable
-						onChangePage={handleChange('page')}
+						onChangePage={handleChange}
 						page={page}
-						totalPages={data.totalPages}
+						totalPages={totalPages}
 						head={getHeader()}
 						body={getRows()} />
 				</Grid>
