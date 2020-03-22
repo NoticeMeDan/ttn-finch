@@ -16,8 +16,8 @@ class FlowController (private val flowService: FlowService) {
 		return flowService.createFlow(flow)
 	}
 
-	@GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-	fun getAllFlows (): List<FlowInfo> {
-		return flowService.getFlows();
+	@GetMapping(value=["all/{page:[0-9]+}}"], produces = [MediaType.APPLICATION_JSON_VALUE])
+	fun getFlows (@PathVariable page: Int): Slice<FlowInfo> {
+		return flowService.getFlows(page)
 	}
 }
