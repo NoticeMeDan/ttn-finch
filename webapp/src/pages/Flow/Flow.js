@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import ActivityLog from './component/ActivityLog'
 import Grid from '@material-ui/core/Grid'
@@ -13,6 +14,10 @@ function Flow ({ match }) {
 			</Grid>
 		</>
 	)
+}
+
+Flow.propTypes = {
+	match: PropTypes.object.isRequired
 }
 
 export default Flow
