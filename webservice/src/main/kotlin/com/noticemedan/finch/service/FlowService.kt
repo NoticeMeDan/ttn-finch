@@ -11,6 +11,7 @@ import com.noticemedan.finch.util.DtoFactory
 import com.noticemedan.finch.util.SliceFactory
 import io.vavr.kotlin.Try
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -33,7 +34,7 @@ class FlowService (
 	@Transactional
 	fun getFlows (page: Int): Slice<FlowInfo> {
 		return SliceFactory.toSlice(
-				flowDao.findAll(PageRequest.of(page, 10)),
+				flowDao.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "id"))),
 				dtoFactory::toInfo
 		)
 	}

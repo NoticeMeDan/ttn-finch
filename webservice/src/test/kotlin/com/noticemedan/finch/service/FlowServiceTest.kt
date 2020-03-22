@@ -46,7 +46,7 @@ class FlowServiceTest {
 
 		assertThat(subject).isNotNull
 		assertThat(subject.totalPages).isEqualTo(1)
-		assertThat(subject.pageData.size).isEqualTo(2)
+		assertThat(subject.pageData).isSortedAccordingTo(Comparator { f1:FlowInfo, f2:FlowInfo -> f1.id!!.toInt() - f2.id!!.toInt() } )
 	}
 
 	@Test
