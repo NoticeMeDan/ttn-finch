@@ -4,7 +4,7 @@ describe('Test flow creation form', () => {
 	})
 
 	it('Flow name must be non-empty', () => {
-		cy.get('input[name="name"')
+		cy.get('input[name="name"]')
 			.focus()
 			.blur()
 
@@ -12,15 +12,23 @@ describe('Test flow creation form', () => {
 	})
 
 	it('Flow name must be no more than 50 long', () => {
-		cy.get('input[name="name"')
-			.type('Heyo this is a sentence containing 51 chars exactly')
+		cy.get('input[name="name"]')
+			.type('#'.repeat(51))
 			.blur()
 
-		cy.contains('Too Long!')
+		cy.contains('Name is too long!')
 	})
 
 	it('Application ID must be non-empty', () => {
-		cy.get('input[name="applicationId"')
+		cy.get('input[name="applicationId"]')
+			.focus()
+			.blur()
+
+		cy.contains('Required')
+	})
+
+	it('Schedule name must be non-empty', () => {
+		cy.get('input[name="schedule"]')
 			.focus()
 			.blur()
 
@@ -28,19 +36,30 @@ describe('Test flow creation form', () => {
 	})
 
 	it('Application ID must be no more than 50 long', () => {
-		cy.get('input[name="applicationId"')
-			.type('Heyo this is a sentence containing 51 chars exactly')
+		cy.get('input[name="applicationId"]')
+			.type('#'.repeat(51))
 			.blur()
 
-		cy.contains('Too Long!')
+		cy.contains('Application ID is too long!')
+	})
+
+	it('Schedule must be no more than 255 long', () => {
+		cy.get('input[name="schedule"]')
+			.type('#'.repeat(101))
+			.blur()
+
+		cy.contains('Schedule is too long!')
 	})
 
 	it('Displays error when flow name is already in use', () => {
-		cy.get('input[name="name"')
+		cy.get('input[name="name"]')
 			.type('What a lovely name')
 
-		cy.get('input[name="applicationId"')
+		cy.get('input[name="applicationId"]')
 			.type('And a lovely ID')
+
+		cy.get('input[name="schedule"]')
+			.type('* * * * * *')
 
 		cy.server()
 		cy.route({
@@ -55,12 +74,38 @@ describe('Test flow creation form', () => {
 		cy.contains('Name already exist!')
 	})
 
-	it('Shows "Flow added" toast when creating flow', () => {
-		cy.get('input[name="name"')
+	it('Displays error when cron is invalid', () => {
+		cy.get('input[name="name"]')
 			.type('What a lovely name')
 
-		cy.get('input[name="applicationId"')
+		cy.get('input[name="applicationId"]')
 			.type('And a lovely ID')
+
+		cy.get('input[name="schedule"]')
+			.type('* * * * * *')
+
+		cy.server()
+		cy.route({
+			url: '/api/flow',
+			method: 'POST',
+			status: 400,
+			response: {}
+		})
+
+		cy.get('button[type="submit"]').click()
+
+		cy.contains('Invalid Cron expression!')
+	})
+
+	it('Shows "Flow added" toast when creating flow', () => {
+		cy.get('input[name="name"]')
+			.type('What a lovely name')
+
+		cy.get('input[name="applicationId"]')
+			.type('And a lovely ID')
+
+		cy.get('input[name="schedule"]')
+			.type('* * * * * *')
 
 		cy.server()
 		cy.route({
@@ -76,11 +121,14 @@ describe('Test flow creation form', () => {
 	})
 
 	it('Goes back to / page when flow is created', () => {
-		cy.get('input[name="name"')
+		cy.get('input[name="name"]')
 			.type('What a lovely name')
 
-		cy.get('input[name="applicationId"')
+		cy.get('input[name="applicationId"]')
 			.type('And a lovely ID')
+
+		cy.get('input[name="schedule"]')
+			.type('* * * * * *')
 
 		cy.server()
 		cy.route({

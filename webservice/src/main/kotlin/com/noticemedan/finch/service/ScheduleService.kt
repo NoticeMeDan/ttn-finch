@@ -16,8 +16,8 @@ import java.util.concurrent.ScheduledFuture
 @Service
 class ScheduleService (
 	private val scheduler: ThreadPoolTaskScheduler,
-	private val logger: ActivityLogHelper,
 	private val flowDao: FlowDao,
+	private val testResult: TestResult,
 	@Value("\${SCHEDULER_POOL_SIZE:1}") private val poolSize: Int
 ) {
 	private val jobs: MutableMap<Long, ScheduledFuture<*>> = HashMap()
@@ -34,7 +34,7 @@ class ScheduleService (
 	}
 
 	fun addFlowToScheduler (flow: Flow) {
-		val scheduledTask = scheduler.schedule(TestResult(logger, flow.id!!), CronTrigger(flow.schedule))
+		val scheduledTask = scheduler.schedule(Runnable { testResult.run(flow.id!!) }, CronTrigger(flow.schedule))
 		jobs[flow.id!!] = scheduledTask!!
 	}
 

@@ -33,7 +33,9 @@ function NewFlow () {
 				new Promise(resolve => setTimeout(resolve, 1000)).then(() => history.push('/'))
 			})
 			.catch(err => {
-				if (err.status === 409) {
+				if (err.status === 400) {
+					actions.setFieldError('schedule', 'Invalid Cron expression!')
+				} else if (err.status === 409) {
 					actions.setFieldError('name', 'Name already exist!')
 				} else {
 					console.error(err)
