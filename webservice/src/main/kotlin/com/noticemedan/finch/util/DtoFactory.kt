@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component
 object DtoFactory {
 	fun toInfo (source: Flow): FlowInfo {
 		return FlowInfo(
-				source.name,
-				source.applicationId,
-				source.id)
+			source.name,
+			source.applicationId,
+			source.schedule,
+			source.id)
 	}
 
 	fun toInfo (source: ActivityLogLine): ActivityLogLineInfo {

@@ -177,6 +177,7 @@ services:
       - finch_postgres
     environment:
       - DB_HOST=finch_postgres
+      - SCHEDULER_POOL_SIZE=2
 
   finch_webapp:
     build: ./webapp

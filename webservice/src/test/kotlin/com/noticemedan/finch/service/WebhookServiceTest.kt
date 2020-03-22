@@ -57,7 +57,7 @@ class WebhookServiceTest {
 
 		assertThrows<ApplicationNotPartOfFlow> { webhookService.addEventData(event) }
 
-		flowService.createFlow(FlowInfo("My flow", "appId"))
+		flowService.createFlow(FlowInfo("My flow", "appId", "1 * * * * *"))
 
 		assertDoesNotThrow { webhookService.addEventData(event) }
 	}
