@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { TableCell } from '@material-ui/core'
+import IconButton from '@material-ui/core/IconButton';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import TableRow from '@material-ui/core/TableRow'
 import Grid from '@material-ui/core/Grid'
 
@@ -39,7 +41,8 @@ const FlowOverview = () => {
 			<>
 				<TableCell>Id</TableCell>
 				<TableCell>Name</TableCell>
-				<TableCell>ApplicationId</TableCell>
+				<TableCell>Application Id</TableCell>
+				<TableCell align='right'>Activity Log</TableCell>
 			</>
 		)
 	}
@@ -52,6 +55,11 @@ const FlowOverview = () => {
 					{flow.name}
 				</TableCell>
 				<TableCell>{flow.applicationId}</TableCell>
+				<TableCell align='right'>
+					<IconButton aria-label="activity-log" href={`/flow/${flow.id}`}>
+						<AssignmentIcon/>
+					</IconButton>
+				</TableCell>
 			</TableRow>
 		))
 	}
