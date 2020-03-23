@@ -3,6 +3,7 @@ package com.noticemedan.finch.service
 import com.noticemedan.finch.TestConfig
 import com.noticemedan.finch.dto.FlowInfo
 import com.noticemedan.finch.exception.FlowNameAlreadyInUse
+import com.noticemedan.finch.exception.InvalidCronExpression
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,20 +23,27 @@ class FlowServiceTest {
 
 	@Test
 	fun createFlow () {
-		val name = FlowInfo("My cool flow", "my-cool-app")
+		val flow = FlowInfo("My cool flow", "my-cool-app", "1 * * * * *")
 
-		val subject = flowService.createFlow(name)
+		val subject = flowService.createFlow(flow)
 
 		assertThat(subject).isNotNull
 		assertThat(subject.id).isNotNull() // If i access the isNotNull field instead of running the function, it crashes due to type inference issues
-		assertThat(subject.name).isEqualTo(name.name)
-		assertThat(subject.applicationId).isEqualTo(name.applicationId)
+		assertThat(subject.name).isEqualTo(flow.name)
+		assertThat(subject.applicationId).isEqualTo(flow.applicationId)
+	}
+
+	@Test
+	fun createFlowWithInvalidCronSchedule () {
+		val flow = FlowInfo("My cool flow", "my-cool-app", "This is not a schedule")
+
+		assertThrows<InvalidCronExpression> { flowService.createFlow(flow) }
 	}
 
 	@Test
 	fun getFlows () {
-		val flow1 = FlowInfo("B comes last", "app-1")
-		val flow2 = FlowInfo("A comes first", "app-2")
+		val flow1 = FlowInfo("B comes last", "app-1", "1 * * * * *")
+		val flow2 = FlowInfo("A comes first", "app-2", "1 * * * * *")
 
 		flowService.createFlow(flow1)
 		flowService.createFlow(flow2)
@@ -48,7 +56,7 @@ class FlowServiceTest {
 
 	@Test
 	fun getFlow () {
-		val flow = FlowInfo("Yee boi", "app-42")
+		val flow = FlowInfo("Yee boi", "app-42", "1 * * * * *")
 
 		val createdFlow = flowService.createFlow(flow)
 
@@ -62,8 +70,8 @@ class FlowServiceTest {
 
 	@Test
 	fun cannotCreateFlowsWithDuplicateNames () {
-		val flow1 = FlowInfo("We have the same name", "app-42")
-		val flow2 = FlowInfo("We have the same name", "app-42")
+		val flow1 = FlowInfo("We have the same name", "app-42", "1 * * * * *")
+		val flow2 = FlowInfo("We have the same name", "app-42", "1 * * * * *")
 
 		assertDoesNotThrow { flowService.createFlow(flow1) }
 		assertThrows<FlowNameAlreadyInUse> { flowService.createFlow(flow2) }

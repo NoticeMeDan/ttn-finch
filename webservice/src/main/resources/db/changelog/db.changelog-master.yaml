@@ -159,3 +159,15 @@ databaseChangeLog:
                     nullable: false
                     references: flow
                     foreignKeyName: fk_activity_log_line_flow
+  - changeSet:
+      id: 4
+      author: ejoe@itu.dk
+      changes:
+        - addColumn:
+            tableName: flow
+            columns:
+              - column:
+                  name: schedule
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false

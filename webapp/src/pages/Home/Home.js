@@ -1,15 +1,15 @@
-import React from "react";
-import { Button } from "@material-ui/core";
+import React from 'react'
+import { Button } from '@material-ui/core'
 
-function Home(props) {
+function Home (props) {
 	return (
 		<div>
 			<h1>Så tager det fart!</h1>
-			<Button variant="contained" color="primary" href="/newflow">
+			<Button variant='contained' color='primary' href='/newflow'>
 				Create New Flow
-      		</Button>
+			</Button>
 		</div>
-	);
+	)
 }
 
-export default Home;
+export default Home

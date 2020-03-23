@@ -7,7 +7,7 @@ import DayjsUtils from '@date-io/dayjs'
 import Home from './pages/Home'
 import NewFlow from './pages/NewFlow'
 import Flow from './pages/Flow'
-import {SnackbarProvider} from "notistack";
+import { SnackbarProvider } from 'notistack'
 
 const App = () => (
 	<React.StrictMode>

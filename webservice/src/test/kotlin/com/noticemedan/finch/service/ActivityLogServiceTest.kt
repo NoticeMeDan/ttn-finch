@@ -28,7 +28,7 @@ class ActivityLogServiceTest {
 	@Test
 	@Transactional
 	fun getLogForPeriod () {
-		val flow = flowService.createFlow(FlowInfo("Test flow", "my-app"))
+		val flow = flowService.createFlow(FlowInfo("Test flow", "my-app", "* * * * * *"))
 
 		val message1 = "Test message 1"
 		val message2 = "Test message 2"

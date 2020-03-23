@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "cross-env start-server-and-test dev http-get://localhost:3000 cypress",
-		"lint": "cross-env eslint src/**/**.js config/**/**.js test/**/**.js",
-		"lint-fix": "cross-env eslint src/**/**.js config/**/**.js test/**/**.js --fix",
+		"lint": "cross-env eslint src config test",
+		"lint-fix": "cross-env eslint src config test --fix",
 		"profile": "cross-env NODE_ENV=production webpack --config=config/webpack.config.js --profile --json > stats.json",
 		"cypress": "cross-env cypress open",
 		"build": "cross-env NODE_ENV=production webpack --config=config/webpack.config.js",
@@ -85,6 +85,10 @@
 			"react/jsx-indent-props": [
 				"error",
 				"tab"
+			],
+			"react/jsx-closing-bracket-location": [
+				1,
+				"after-props"
 			]
 		},
 		"plugins": [

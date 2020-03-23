@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { TableCell } from '@material-ui/core'
 import { DateTimePicker } from '@material-ui/pickers'
@@ -8,7 +9,7 @@ import Grid from '@material-ui/core/Grid'
 import PaginatedTable from '../../../components/PaginatedTable'
 import useGetJson from '../../../hooks/useGetJson'
 import Loading from '../../../components/Loading'
-import { formatDateTime } from '../../../time'
+import { formatDateTime } from '../../../util/time'
 
 function ActivityLog ({ flowId }) {
 	const [state, setState] = useState({
@@ -17,7 +18,7 @@ function ActivityLog ({ flowId }) {
 		page: 0
 	})
 
-	const [data, isLoading, error] = useGetJson(`/api/log/${flowId}/${state.from.unix()}/${state.to.unix()}/${state.page}`, [state])
+	const [data, isLoading] = useGetJson(`/api/log/${flowId}/${state.from.unix()}/${state.to.unix()}/${state.page}`, [state])
 
 	function handleChange (key) {
 		return value => setState(prev => ({
@@ -54,7 +55,7 @@ function ActivityLog ({ flowId }) {
 					<DateTimePicker value={state.to} onChange={handleChange('to')} label='To' ampm={false} variant='inline' disableFuture />
 				</Grid>
 			</Grid>
-			{ isLoading ? <Loading /> : (
+			{isLoading ? <Loading /> : (
 				<Grid item>
 					<PaginatedTable
 						onChangePage={handleChange('page')}
@@ -63,9 +64,13 @@ function ActivityLog ({ flowId }) {
 						head={getHeader()}
 						body={getRows()} />
 				</Grid>
-			) }
+			)}
 		</Grid>
 	)
+}
+
+ActivityLog.propTypes = {
+	flowId: PropTypes.string.isRequired
 }
 
 export default ActivityLog
