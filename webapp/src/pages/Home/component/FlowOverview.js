@@ -1,84 +1,32 @@
-import React, { useState } from 'react'
-import { TableCell } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import AssignmentIcon from '@material-ui/icons/Assignment'
-import TableRow from '@material-ui/core/TableRow'
+import React from 'react'
 import Grid from '@material-ui/core/Grid'
+import { Button } from '@material-ui/core'
+import FlowTable from './FlowTable'
+import { makeStyles } from '@material-ui/core/styles'
 
-import PaginatedTable from '../../../components/PaginatedTable'
-import Loading from '../../../components/Loading'
-import { getJSON } from '@acto/ajax'
+const useStyles = makeStyles({
+	container: {
+		width: '50%',
+		padding: 24
+	}
+})
 
 const FlowOverview = () => {
-	const [page, setPage] = useState(0)
-	const [flows, setFlows] = useState()
-	const [totalPages, setTotalPages] = useState(0)
-	const [isLoading, setIsLoading] = useState(true)
-	const [isFetching, setIsFetching] = useState(false)
-
-	if (flows == null) updatePage(page)
-
-	function updatePage (key) {
-		if (!isFetching) {
-			setIsLoading(true)
-			setIsFetching(true)
-			getJSON(`/api/flow/all/${key}`).json(data => {
-				setTotalPages(data.totalPages)
-				setFlows(data.pageData)
-				setIsFetching(false)
-				setIsLoading(false)
-			})
-		}
-	}
-
-	function handleChange (key) {
-		updatePage(key)
-		return setPage(key)
-	}
-
-	function getHeader () {
-		return (
-			<>
-				<TableCell>Id</TableCell>
-				<TableCell>Name</TableCell>
-				<TableCell>Application Id</TableCell>
-				<TableCell align='right'>Activity Log</TableCell>
-			</>
-		)
-	}
-
-	function getRows () {
-		return flows.map(flow => (
-			<TableRow key={flow.id}>
-				<TableCell>{flow.id}</TableCell>
-				<TableCell component='th' scope='row'>
-					{flow.name}
-				</TableCell>
-				<TableCell>{flow.applicationId}</TableCell>
-				<TableCell align='right'>
-					<IconButton aria-label='activity-log' href={`/flow/${flow.id}`}>
-						<AssignmentIcon />
-					</IconButton>
-				</TableCell>
-			</TableRow>
-		))
-	}
+	const classes = useStyles()
 
 	return (
-		<Grid container direction='column' spacing={1}>
-			<Grid container justify='flex-end' spacing={2} />
-			{isLoading ? <Loading /> : (
-				<Grid item>
-					<PaginatedTable
-						onChangePage={handleChange}
-						page={page}
-						totalPages={totalPages}
-						head={getHeader()}
-						body={getRows()} />
+			<Grid container direction='column' spacing={2} className={classes.container}>
+				<Grid container justify='flex-end'>
+					<Grid item>
+						<Button variant='contained' color='primary' href='/newflow'>
+							Create New Flow
+						</Button>
+					</Grid>
 				</Grid>
-			)}
-		</Grid>
-	)
+				<Grid item>
+					<FlowTable />
+				</Grid>
+			</Grid>)
 }
 
 export default FlowOverview
