@@ -8,14 +8,13 @@ import Grid from '@material-ui/core/Grid'
 import PaginatedTable from '../../../components/PaginatedTable'
 import Loading from '../../../components/Loading'
 import { makeStyles } from '@material-ui/core/styles'
-import useGetJson from "../../../hooks/useGetJson";
+import useGetJson from '../../../hooks/useGetJson'
 
 const useStyles = makeStyles({
 	cell: {
 		padding: 0
 	}
 })
-
 
 const FlowTable = () => {
 	const classes = useStyles()
