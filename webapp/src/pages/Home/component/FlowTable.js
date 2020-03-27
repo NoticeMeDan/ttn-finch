@@ -21,17 +21,13 @@ const useStyles = makeStyles({
 
 const FlowTable = () => {
     const classes = useStyles()
-    const [state, setState] = useState({
-        page: 0
-    })
+    const [page, setPage] = useState(0)
 
-    const [data, isLoading] = useGetJson(`/api/flow/all/${state.page}`, [state])
+    const [data, isLoading] = useGetJson(`/api/flow/all/${page}`, [page])
 
-    function handleChange (key) {
-        return value => setState(prev => ({
-            ...prev,
-            [key]: value
-        }))
+    function handleChange (value) {
+        setPage(value)
+        return page
     }
 
     function getHeader () {
@@ -66,12 +62,11 @@ const FlowTable = () => {
 
     return (
         <Grid container direction='column' spacing={1}>
-            <Grid container justify='flex-end' spacing={2} />
             {isLoading ? <Loading /> : (
                 <Grid item>
                     <PaginatedTable
-                        onChangePage={handleChange('page')}
-                        page={state.page}
+                        onChangePage={handleChange}
+                        page={page}
                         totalPages={data.totalPages}
                         head={getHeader()}
                         body={getRows()} />

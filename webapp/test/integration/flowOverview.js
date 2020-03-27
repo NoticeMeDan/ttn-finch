@@ -3,7 +3,7 @@ describe('Test flow creation form', () => {
     beforeEach(() => {
         cy.server()
 
-        cy.route('GET', '/api/flow/all//0', {
+        cy.route('GET', '/api/flow/all/0', {
             totalPages: 2,
             pageData: [
                 {
@@ -19,7 +19,7 @@ describe('Test flow creation form', () => {
             ]
         }).as('pageOne')
 
-        cy.route('GET', '/api/flow/all//1', {
+        cy.route('GET', '/api/flow/all/1', {
             totalPages: 2,
             pageData: [
                 {
