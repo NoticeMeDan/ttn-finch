@@ -17,7 +17,7 @@ describe('Test flow creation form', () => {
                 }
             ]
         }).as('pageOne')
-        
+
         cy.visit('/newflow')
     })
 

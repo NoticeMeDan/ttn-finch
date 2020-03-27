@@ -25,11 +25,6 @@ const FlowTable = () => {
 
     const [data, isLoading] = useGetJson(`/api/flow/all/${page}`, [page])
 
-    function handleChange (value) {
-        setPage(value)
-        return page
-    }
-
     function getHeader () {
         return (
             <>
@@ -65,7 +60,7 @@ const FlowTable = () => {
             {isLoading ? <Loading /> : (
                 <Grid item>
                     <PaginatedTable
-                        onChangePage={handleChange}
+                        onChangePage={setPage}
                         page={page}
                         totalPages={data.totalPages}
                         head={getHeader()}
