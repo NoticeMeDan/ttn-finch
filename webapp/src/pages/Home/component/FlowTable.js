@@ -7,8 +7,8 @@ import Grid from '@material-ui/core/Grid'
 
 import PaginatedTable from '../../../components/PaginatedTable'
 import Loading from '../../../components/Loading'
-import { getJSON } from '@acto/ajax'
 import { makeStyles } from '@material-ui/core/styles'
+import useGetJson from "../../../hooks/useGetJson";
 
 const useStyles = makeStyles({
 	cell: {
@@ -19,30 +19,17 @@ const useStyles = makeStyles({
 
 const FlowTable = () => {
 	const classes = useStyles()
-	const [page, setPage] = useState(0)
-	const [flows, setFlows] = useState()
-	const [totalPages, setTotalPages] = useState(0)
-	const [isLoading, setIsLoading] = useState(true)
-	const [isFetching, setIsFetching] = useState(false)
+	const [state, setState] = useState({
+		page: 0
+	})
 
-	if (flows == null) updatePage(page)
-
-	function updatePage (key) {
-		if (!isFetching) {
-			setIsLoading(true)
-			setIsFetching(true)
-			getJSON(`/api/flow/all/${key}`).json(data => {
-				setTotalPages(data.totalPages)
-				setFlows(data.pageData)
-				setIsFetching(false)
-				setIsLoading(false)
-			})
-		}
-	}
+	const [data, isLoading] = useGetJson(`/api/flow/all/${state.page}`, [state])
 
 	function handleChange (key) {
-		updatePage(key)
-		return setPage(key)
+		return value => setState(prev => ({
+			...prev,
+			[key]: value
+		}))
 	}
 
 	function getHeader () {
@@ -57,7 +44,7 @@ const FlowTable = () => {
 	}
 
 	function getRows () {
-		return flows.map(flow => (
+		return data.pageData.map(flow => (
 			<TableRow key={flow.id}>
 				<TableCell className={classes.cell}>{flow.id}</TableCell>
 				<TableCell className={classes.cell} component='th' scope='row'>
@@ -79,9 +66,9 @@ const FlowTable = () => {
 			{isLoading ? <Loading /> : (
 				<Grid item>
 					<PaginatedTable
-						onChangePage={handleChange}
-						page={page}
-						totalPages={totalPages}
+						onChangePage={handleChange('page')}
+						page={state.page}
+						totalPages={data.totalPages}
 						head={getHeader()}
 						body={getRows()} />
 				</Grid>
