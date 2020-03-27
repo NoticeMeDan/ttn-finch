@@ -1,5 +1,23 @@
 describe('Test flow creation form', () => {
     beforeEach(() => {
+        cy.server()
+
+        cy.route('GET', '/api/flow/all/0', {
+            totalPages: 1,
+            pageData: [
+                {
+                    name: 'Cool flow 1',
+                    applicationId: 'coolest application ever',
+                    id: 1
+                },
+                {
+                    name: 'Cool flow 2',
+                    applicationId: 'coolest application ever',
+                    id: 2
+                }
+            ]
+        }).as('pageOne')
+        
         cy.visit('/newflow')
     })
 
