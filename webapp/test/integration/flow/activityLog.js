@@ -1,5 +1,4 @@
-import dayjs from 'dayjs'
-import { formatDateTime } from '../../../src/time'
+import { formatDateTime } from '../../../src/util/time'
 
 describe('Test activity log', () => {
 	beforeEach(() => {

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { TableCell } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import IconButton from '@material-ui/core/IconButton'
+import AssignmentIcon from '@material-ui/icons/Assignment'
 import TableRow from '@material-ui/core/TableRow'
 import Grid from '@material-ui/core/Grid'
 
 import PaginatedTable from '../../../components/PaginatedTable'
 import Loading from '../../../components/Loading'
-import {getJSON} from "@acto/ajax";
+import { getJSON } from '@acto/ajax'
 
 const FlowOverview = () => {
 	const [page, setPage] = useState(0)
@@ -51,13 +51,13 @@ const FlowOverview = () => {
 		return flows.map(flow => (
 			<TableRow key={flow.id}>
 				<TableCell>{flow.id}</TableCell>
-				<TableCell component="th" scope="row">
+				<TableCell component='th' scope='row'>
 					{flow.name}
 				</TableCell>
 				<TableCell>{flow.applicationId}</TableCell>
 				<TableCell align='right'>
-					<IconButton aria-label="activity-log" href={`/flow/${flow.id}`}>
-						<AssignmentIcon/>
+					<IconButton aria-label='activity-log' href={`/flow/${flow.id}`}>
+						<AssignmentIcon />
 					</IconButton>
 				</TableCell>
 			</TableRow>
@@ -66,9 +66,8 @@ const FlowOverview = () => {
 
 	return (
 		<Grid container direction='column' spacing={1}>
-			<Grid container justify='flex-end' spacing={2}>
-			</Grid>
-			{ isLoading ? <Loading /> : (
+			<Grid container justify='flex-end' spacing={2} />
+			{isLoading ? <Loading /> : (
 				<Grid item>
 					<PaginatedTable
 						onChangePage={handleChange}
@@ -77,7 +76,7 @@ const FlowOverview = () => {
 						head={getHeader()}
 						body={getRows()} />
 				</Grid>
-			) }
+			)}
 		</Grid>
 	)
 }

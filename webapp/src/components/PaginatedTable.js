@@ -34,8 +34,7 @@ function PaginatedTable ({ head, body, page, totalPages, onChangePage }) {
 						count={totalPages}
 						onChangePage={(e, newPage) => onChangePage(newPage)}
 						page={page}
-						rowsPerPage={1}
-					/>
+						rowsPerPage={1} />
 				</TableRow>
 			</TableFooter>
 		</Table>

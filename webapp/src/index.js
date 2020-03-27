@@ -8,10 +8,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const render = Component => {
-    ReactDom.render(
-        <Component />,
-        document.querySelector('#react-hook')
-    )
+	ReactDom.render(
+		<Component />,
+		document.querySelector('#react-hook')
+	)
 }
 
 render(App)

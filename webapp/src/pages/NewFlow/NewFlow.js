@@ -4,7 +4,7 @@ import { postJSON } from '@acto/ajax'
 import { Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
-import { useSnackbar } from "notistack";
+import { useSnackbar } from 'notistack'
 
 const useStyles = makeStyles({
 	root: {
@@ -24,17 +24,21 @@ const useStyles = makeStyles({
 function NewFlow () {
 	const classes = useStyles()
 	const history = useHistory()
-	const {enqueueSnackbar} = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 
 	const handleSubmit = async (values, actions) => {
 		postJSON('/api/flow', values)
 			.json(() => {
-				enqueueSnackbar("Flow added", {variant: 'success'})
-				new Promise(r => setTimeout(r, 1000)).then(() => history.push('/'))
+				enqueueSnackbar('Flow added', { variant: 'success' })
+				new Promise(resolve => setTimeout(resolve, 1000)).then(() => history.push('/'))
 			})
 			.catch(err => {
-				if (err.status === 409) {
-					actions.setFieldError("name", "Name already exist!")
+				if (err.status === 400) {
+					actions.setFieldError('schedule', 'Invalid Cron expression!')
+				} else if (err.status === 409) {
+					actions.setFieldError('name', 'Name already exist!')
+				} else if (err.status === 504) {
+					enqueueSnackbar('Connection error!', { variant: 'error' })
 				} else {
 					console.error(err)
 				}
@@ -50,7 +54,7 @@ function NewFlow () {
 						CREATE NEW FLOW
 					</Typography>
 				</Paper>
-				<FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack}/>
+				<FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack} />
 			</Paper>
 		</div>)
 }
