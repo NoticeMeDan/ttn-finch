@@ -1,15 +1,13 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
+import FlowOverview from './component/FlowOverview'
 
-function Home (props) {
-	return (
-		<div>
-			<h1>Så tager det fart!</h1>
-			<Button variant='contained' color='primary' href='/newflow'>
-				Create New Flow
-			</Button>
-		</div>
-	)
+function Home () {
+    return (
+        <div>
+            <h1>Så tager det fart!</h1>
+            <FlowOverview />
+        </div>
+    )
 }
 
 export default Home

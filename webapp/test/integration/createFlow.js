@@ -1,170 +1,188 @@
 describe('Test flow creation form', () => {
-	beforeEach(() => {
-		cy.visit('/newflow')
-	})
+    beforeEach(() => {
+        cy.server()
 
-	it('Flow name must be non-empty', () => {
-		cy.get('input[name="name"]')
-			.focus()
-			.blur()
+        cy.route('GET', '/api/flow/all/0', {
+            totalPages: 1,
+            pageData: [
+                {
+                    name: 'Cool flow 1',
+                    applicationId: 'coolest application ever',
+                    id: 1
+                },
+                {
+                    name: 'Cool flow 2',
+                    applicationId: 'coolest application ever',
+                    id: 2
+                }
+            ]
+        }).as('pageOne')
 
-		cy.contains('Required')
-	})
+        cy.visit('/newflow')
+    })
 
-	it('Flow name must be no more than 50 long', () => {
-		cy.get('input[name="name"]')
-			.type('#'.repeat(51))
-			.blur()
+    it('Flow name must be non-empty', () => {
+        cy.get('input[name="name"]')
+            .focus()
+            .blur()
 
-		cy.contains('Name is too long!')
-	})
+        cy.contains('Required')
+    })
 
-	it('Application ID must be non-empty', () => {
-		cy.get('input[name="applicationId"]')
-			.focus()
-			.blur()
+    it('Flow name must be no more than 50 long', () => {
+        cy.get('input[name="name"]')
+            .type('#'.repeat(51))
+            .blur()
 
-		cy.contains('Required')
-	})
+        cy.contains('Name is too long!')
+    })
 
-	it('Schedule name must be non-empty', () => {
-		cy.get('input[name="schedule"]')
-			.focus()
-			.blur()
+    it('Application ID must be non-empty', () => {
+        cy.get('input[name="applicationId"]')
+            .focus()
+            .blur()
 
-		cy.contains('Required')
-	})
+        cy.contains('Required')
+    })
 
-	it('Application ID must be no more than 50 long', () => {
-		cy.get('input[name="applicationId"]')
-			.type('#'.repeat(51))
-			.blur()
+    it('Schedule name must be non-empty', () => {
+        cy.get('input[name="schedule"]')
+            .focus()
+            .blur()
 
-		cy.contains('Application ID is too long!')
-	})
+        cy.contains('Required')
+    })
 
-	it('Schedule must be no more than 255 long', () => {
-		cy.get('input[name="schedule"]')
-			.type('#'.repeat(101))
-			.blur()
+    it('Application ID must be no more than 50 long', () => {
+        cy.get('input[name="applicationId"]')
+            .type('#'.repeat(51))
+            .blur()
 
-		cy.contains('Schedule is too long!')
-	})
+        cy.contains('Application ID is too long!')
+    })
 
-	it('Displays error when flow name is already in use', () => {
-		cy.get('input[name="name"]')
-			.type('What a lovely name')
+    it('Schedule must be no more than 255 long', () => {
+        cy.get('input[name="schedule"]')
+            .type('#'.repeat(101))
+            .blur()
 
-		cy.get('input[name="applicationId"]')
-			.type('And a lovely ID')
+        cy.contains('Schedule is too long!')
+    })
 
-		cy.get('input[name="schedule"]')
-			.type('* * * * * *')
+    it('Displays error when flow name is already in use', () => {
+        cy.get('input[name="name"]')
+            .type('What a lovely name')
 
-		cy.server()
-		cy.route({
-			url: '/api/flow',
-			method: 'POST',
-			status: 409,
-			response: {}
-		})
+        cy.get('input[name="applicationId"]')
+            .type('And a lovely ID')
 
-		cy.get('button[type="submit"]').click()
+        cy.get('input[name="schedule"]')
+            .type('* * * * * *')
 
-		cy.contains('Name already exist!')
-	})
+        cy.server()
+        cy.route({
+            url: '/api/flow',
+            method: 'POST',
+            status: 409,
+            response: {}
+        })
 
-	it('Displays error when cron is invalid', () => {
-		cy.get('input[name="name"]')
-			.type('What a lovely name')
+        cy.get('button[type="submit"]').click()
 
-		cy.get('input[name="applicationId"]')
-			.type('And a lovely ID')
+        cy.contains('Name already exist!')
+    })
 
-		cy.get('input[name="schedule"]')
-			.type('* * * * * *')
+    it('Displays error when cron is invalid', () => {
+        cy.get('input[name="name"]')
+            .type('What a lovely name')
 
-		cy.server()
-		cy.route({
-			url: '/api/flow',
-			method: 'POST',
-			status: 400,
-			response: {}
-		})
+        cy.get('input[name="applicationId"]')
+            .type('And a lovely ID')
 
-		cy.get('button[type="submit"]').click()
+        cy.get('input[name="schedule"]')
+            .type('* * * * * *')
 
-		cy.contains('Invalid Cron expression!')
-	})
+        cy.server()
+        cy.route({
+            url: '/api/flow',
+            method: 'POST',
+            status: 400,
+            response: {}
+        })
 
-	it('Shows "Flow added" toast when creating flow', () => {
-		cy.get('input[name="name"]')
-			.type('What a lovely name')
+        cy.get('button[type="submit"]').click()
 
-		cy.get('input[name="applicationId"]')
-			.type('And a lovely ID')
+        cy.contains('Invalid Cron expression!')
+    })
 
-		cy.get('input[name="schedule"]')
-			.type('* * * * * *')
+    it('Shows "Flow added" toast when creating flow', () => {
+        cy.get('input[name="name"]')
+            .type('What a lovely name')
 
-		cy.server()
-		cy.route({
-			url: '/api/flow',
-			method: 'POST',
-			status: 200,
-			response: {}
-		})
+        cy.get('input[name="applicationId"]')
+            .type('And a lovely ID')
 
-		cy.get('button[type="submit"]').click()
+        cy.get('input[name="schedule"]')
+            .type('* * * * * *')
 
-		cy.contains('Flow added')
-	})
+        cy.server()
+        cy.route({
+            url: '/api/flow',
+            method: 'POST',
+            status: 200,
+            response: {}
+        })
 
-	it('Shows "Connection error!" toast when failing to create flow', () => {
-		cy.get('input[name="name"')
-			.type('What a lovely name')
+        cy.get('button[type="submit"]').click()
 
-		cy.get('input[name="applicationId"')
-			.type('And a lovely ID')
+        cy.contains('Flow added')
+    })
 
-		cy.get('input[name="schedule"]')
-			.type('* * * * * *')
+    it('Shows "Connection error!" toast when failing to create flow', () => {
+        cy.get('input[name="name"')
+            .type('What a lovely name')
 
-		cy.server()
-		cy.route({
-			url: '/api/flow',
-			method: 'POST',
-			status: 504,
-			response: {}
-		})
+        cy.get('input[name="applicationId"')
+            .type('And a lovely ID')
 
-		cy.get('button[type="submit"]').click()
+        cy.get('input[name="schedule"]')
+            .type('* * * * * *')
 
-		cy.contains('Connection error!')
-	})
+        cy.server()
+        cy.route({
+            url: '/api/flow',
+            method: 'POST',
+            status: 504,
+            response: {}
+        })
 
-	it('Goes back to / page when flow is created', () => {
-		cy.get('input[name="name"]')
-			.type('What a lovely name')
+        cy.get('button[type="submit"]').click()
 
-		cy.get('input[name="applicationId"]')
-			.type('And a lovely ID')
+        cy.contains('Connection error!')
+    })
 
-		cy.get('input[name="schedule"]')
-			.type('* * * * * *')
+    it('Goes back to / page when flow is created', () => {
+        cy.get('input[name="name"]')
+            .type('What a lovely name')
 
-		cy.server()
-		cy.route({
-			url: '/api/flow',
-			method: 'POST',
-			status: 200,
-			response: {}
-		})
+        cy.get('input[name="applicationId"]')
+            .type('And a lovely ID')
 
-		cy.get('button[type="submit"]').click()
+        cy.get('input[name="schedule"]')
+            .type('* * * * * *')
 
-		cy.wait(2000)
+        cy.server()
+        cy.route({
+            url: '/api/flow',
+            method: 'POST',
+            status: 200,
+            response: {}
+        })
 
-		cy.location('pathname').should('eq', '/')
-	})
+        cy.get('button[type="submit"]').click()
+
+        cy.wait(2000)
+
+        cy.location('pathname').should('eq', '/')
+    })
 })

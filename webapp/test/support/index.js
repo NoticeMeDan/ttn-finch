@@ -16,12 +16,8 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
-Cypress.Screenshot.defaults({
-	screenshotOnRunFailure: false
-})
-
 // Remove fetch form window, so that the application will fallback to XHR, which cypress currently only supports
 // See: https://github.com/cypress-io/cypress/issues/95
 Cypress.on('window:before:load', win => {
-	win.fetch = null
+    win.fetch = null
 })

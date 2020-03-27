@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [TestConfig::class])
@@ -48,10 +50,11 @@ class FlowServiceTest {
 		flowService.createFlow(flow1)
 		flowService.createFlow(flow2)
 
-		val subject = flowService.getFlows()
+		val subject = flowService.getFlows(0)
 
 		assertThat(subject).isNotNull
-		assertThat(subject.map {x -> x.name}).isSortedAccordingTo(Comparator.naturalOrder())
+		assertThat(subject.totalPages).isEqualTo(1)
+		assertThat(subject.pageData).isSortedAccordingTo(Comparator { f1:FlowInfo, f2:FlowInfo -> f1.id!!.toInt() - f2.id!!.toInt() } )
 	}
 
 	@Test

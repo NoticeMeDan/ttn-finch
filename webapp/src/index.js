@@ -4,14 +4,14 @@ import ReactDom from 'react-dom'
 import App from './App'
 
 if (process.env.NODE_ENV === 'development') {
-	require('whatwg-fetch')
+    require('whatwg-fetch')
 }
 
 const render = Component => {
-	ReactDom.render(
-		<Component />,
-		document.querySelector('#react-hook')
-	)
+    ReactDom.render(
+        <Component />,
+        document.querySelector('#react-hook')
+    )
 }
 
 render(App)
