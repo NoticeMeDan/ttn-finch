@@ -12,7 +12,10 @@ import useGetJson from '../../../hooks/useGetJson'
 
 const useStyles = makeStyles({
     cell: {
-        padding: 0
+        paddingTop: 0,
+        paddingBottom: 0,
+        paddingLeft: 16,
+        paddingRight: 16
     }
 })
 
@@ -37,6 +40,7 @@ const FlowTable = () => {
                 <TableCell>Id</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Application Id</TableCell>
+                <TableCell>Schedule</TableCell>
                 <TableCell align='right'>Activity Log</TableCell>
             </>
         )
@@ -50,6 +54,7 @@ const FlowTable = () => {
                     {flow.name}
                 </TableCell>
                 <TableCell className={classes.cell}>{flow.applicationId}</TableCell>
+                <TableCell className={classes.cell}>{flow.schedule}</TableCell>
                 <TableCell align='right' className={classes.cell}>
                     <IconButton aria-label='activity-log' href={`/flow/${flow.id}`}>
                         <AssignmentIcon />
