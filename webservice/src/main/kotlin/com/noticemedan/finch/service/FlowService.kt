@@ -22,7 +22,7 @@ class FlowService (
 	private val flowDao: FlowDao,
 	private val dtoFactory: DtoFactory,
 	private val activityLogHelper: ActivityLogHelper,
-	private val scheduleService: ScheduleService
+	private val resultService: ResultService
 ) {
 
 	@Transactional
@@ -33,7 +33,7 @@ class FlowService (
 		val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule)) }
 			.getOrElseThrow { -> FlowNameAlreadyInUse() }
 
-		scheduleService.addFlowToScheduler(flow)
+		resultService.addFlowToScheduler(flow)
 		activityLogHelper.addLogLineToFlow("Flow created", flow.id!!)
 		return dtoFactory.toInfo(flow)
 	}

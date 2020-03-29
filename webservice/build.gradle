@@ -55,6 +55,13 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:4.2.2"
 	implementation "io.vavr:vavr-kotlin:0.10.2"
 
+    // JsonSchema generation
+    implementation "com.github.victools:jsonschema-generator:4.7.0"
+    implementation "com.github.imifou:jsonschema-module-addon:1.2.1"
+
+    // JsonSchema validation
+    implementation "com.github.java-json-tools:json-schema-validator:2.2.12"
+
 	kapt "com.querydsl:querydsl-apt:4.2.1:jpa"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.2.5.RELEASE'
