@@ -21,7 +21,7 @@ services:
       - "127.0.0.1:6379:6379"
 
   stack:
-    image: thethingsnetwork/lorawan-stack:3.6.2
+    image: thethingsnetwork/lorawan-stack:3.6.3
     entrypoint: ttn-lw-stack -c /config/ttn-lw-stack.yml
     command: start
     restart: unless-stopped
