@@ -126,7 +126,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Button variant='contained' color='primary' onClick={handleSubmit}>
+                            <Button variant='contained' color='primary' id='submit' onClick={handleSubmit}>
                                 Save
                             </Button>
                         </Grid>
