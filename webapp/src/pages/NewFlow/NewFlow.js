@@ -5,6 +5,8 @@ import { Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
+import useGetJson from '../../hooks/useGetJson'
+import Loading from '../../components/Loading'
 
 const useStyles = makeStyles({
     root: {
@@ -26,7 +28,9 @@ function NewFlow () {
     const history = useHistory()
     const { enqueueSnackbar } = useSnackbar()
 
-    const handleSubmit = async (values, actions) => {
+    const [results, loading] = useGetJson('/api/result/description')
+
+    function handleSubmit (values, actions) {
         postJSON('/api/flow', values)
             .json(() => {
                 enqueueSnackbar('Flow added', { variant: 'success' })
@@ -34,7 +38,7 @@ function NewFlow () {
             })
             .catch(err => {
                 if (err.status === 400) {
-                    actions.setFieldError('schedule', 'Invalid Cron expression!')
+                    actions.setFieldError('schedule', 'Invalid ResultConfig or Cron Expression!')
                 } else if (err.status === 409) {
                     actions.setFieldError('name', 'Name already exist!')
                 } else if (err.status === 504) {
@@ -54,7 +58,11 @@ function NewFlow () {
                         CREATE NEW FLOW
                     </Typography>
                 </Paper>
-                <FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack} />
+                {
+                    loading
+                        ? <Loading />
+                        : <FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack} results={results} />
+                }
             </Paper>
         </div>)
 }

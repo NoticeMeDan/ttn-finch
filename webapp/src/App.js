@@ -10,19 +10,17 @@ import Flow from './pages/Flow'
 import { SnackbarProvider } from 'notistack'
 
 const App = () => (
-    <React.StrictMode>
-        <SnackbarProvider maxSnack={3}>
-            <MuiPickersUtilsProvider utils={DayjsUtils}>
-                <Router>
-                    <Switch>
-                        <Route exact path='/' component={Home} />
-                        <Route exact path='/newflow' component={NewFlow} />
-                        <Route exact path='/flow/:flowId' component={Flow} />
-                    </Switch>
-                </Router>
-            </MuiPickersUtilsProvider>
-        </SnackbarProvider>
-    </React.StrictMode>
+    <SnackbarProvider maxSnack={3}>
+        <MuiPickersUtilsProvider utils={DayjsUtils}>
+            <Router>
+                <Switch>
+                    <Route exact path='/' component={Home} />
+                    <Route exact path='/newflow' component={NewFlow} />
+                    <Route exact path='/flow/:flowId' component={Flow} />
+                </Switch>
+            </Router>
+        </MuiPickersUtilsProvider>
+    </SnackbarProvider>
 )
 
 export default hot(App)

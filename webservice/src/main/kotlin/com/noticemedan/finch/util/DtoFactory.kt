@@ -19,7 +19,7 @@ object DtoFactory {
                 source.id)
 
 	fun toInfo (source: ActivityLogLine): ActivityLogLineInfo =
-            ActivityLogLineInfo(source.message, source.time)
+            ActivityLogLineInfo(source.message, source.time.epochSecond)
 
     fun toInfo (source: ResultConfig): ResultConfigInfo =
             ResultConfigInfo(source.kind, source.config, source.id)
