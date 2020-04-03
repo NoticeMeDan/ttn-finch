@@ -2,8 +2,11 @@ package com.noticemedan.finch.service
 
 import com.noticemedan.finch.TestConfig
 import com.noticemedan.finch.dto.FlowInfo
+import com.noticemedan.finch.dto.ResultConfigInfo
+import com.noticemedan.finch.dto.ResultKind
 import com.noticemedan.finch.dto.ttn.*
 import com.noticemedan.finch.exception.ApplicationNotPartOfFlow
+import com.vladmihalcea.hibernate.type.json.internal.JacksonUtil
 import org.junit.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -57,7 +60,8 @@ class WebhookServiceTest {
 
 		assertThrows<ApplicationNotPartOfFlow> { webhookService.addEventData(event) }
 
-		flowService.createFlow(FlowInfo("My flow", "appId", "1 * * * * *"))
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        flowService.createFlow(FlowInfo("My flow", "appId", "1 * * * * *", resultConfig))
 
 		assertDoesNotThrow { webhookService.addEventData(event) }
 	}

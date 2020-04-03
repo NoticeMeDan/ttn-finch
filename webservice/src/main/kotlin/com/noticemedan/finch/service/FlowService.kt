@@ -4,9 +4,11 @@ import com.noticemedan.finch.dao.FlowDao
 import com.noticemedan.finch.dto.FlowInfo
 import com.noticemedan.finch.dto.Slice
 import com.noticemedan.finch.entity.Flow
+import com.noticemedan.finch.entity.ResultConfig
 import com.noticemedan.finch.exception.FlowNameAlreadyInUse
 import com.noticemedan.finch.exception.FlowNotFound
 import com.noticemedan.finch.exception.InvalidCronExpression
+import com.noticemedan.finch.exception.InvalidResultConfig
 import com.noticemedan.finch.util.ActivityLogHelper
 import com.noticemedan.finch.util.DtoFactory
 import com.noticemedan.finch.util.SliceFactory
@@ -30,12 +32,20 @@ class FlowService (
 		if (!CronSequenceGenerator.isValidExpression(source.schedule))
 			throw InvalidCronExpression()
 
-		val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule)) }
-			.getOrElseThrow { -> FlowNameAlreadyInUse() }
+        source.resultConfig?.let {
+            if (!resultService.validateResultConfig(source.resultConfig.kind, source.resultConfig.config))
+                throw InvalidResultConfig()
 
-		resultService.addFlowToScheduler(flow)
-		activityLogHelper.addLogLineToFlow("Flow created", flow.id!!)
-		return dtoFactory.toInfo(flow)
+            val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule)) }
+                    .getOrElseThrow { -> FlowNameAlreadyInUse() }
+
+            flow.resultConfig = ResultConfig(source.resultConfig.kind, source.resultConfig.config, flow)
+            flowDao.save(flow)
+
+            resultService.addFlowToScheduler(flow)
+            activityLogHelper.addLogLineToFlow("Flow created", flow.id!!)
+            return dtoFactory.toInfo(flow)
+        } ?: throw InvalidResultConfig()
 	}
 
 	@Transactional

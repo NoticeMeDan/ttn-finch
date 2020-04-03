@@ -54,6 +54,8 @@ dependencies {
 	implementation 'org.postgresql:postgresql:42.2.10'
 	implementation "com.querydsl:querydsl-jpa:4.2.2"
 	implementation "io.vavr:vavr-kotlin:0.10.2"
+    implementation "com.vladmihalcea:hibernate-types-52:2.9.7"
+    implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.10.3"
 
     // JsonSchema generation
     implementation "com.github.victools:jsonschema-generator:4.7.0"

@@ -2,8 +2,12 @@ package com.noticemedan.finch.service
 
 import com.noticemedan.finch.TestConfig
 import com.noticemedan.finch.dto.FlowInfo
+import com.noticemedan.finch.dto.ResultConfigInfo
+import com.noticemedan.finch.dto.ResultKind
 import com.noticemedan.finch.exception.FlowNameAlreadyInUse
 import com.noticemedan.finch.exception.InvalidCronExpression
+import com.noticemedan.finch.exception.InvalidResultConfig
+import com.vladmihalcea.hibernate.type.json.internal.JacksonUtil
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,7 +29,8 @@ class FlowServiceTest {
 
 	@Test
 	fun createFlow () {
-		val flow = FlowInfo("My cool flow", "my-cool-app", "1 * * * * *")
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+		val flow = FlowInfo("My cool flow", "my-cool-app", "1 * * * * *", resultConfig)
 
 		val subject = flowService.createFlow(flow)
 
@@ -37,15 +42,32 @@ class FlowServiceTest {
 
 	@Test
 	fun createFlowWithInvalidCronSchedule () {
-		val flow = FlowInfo("My cool flow", "my-cool-app", "This is not a schedule")
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val flow = FlowInfo("My cool flow", "my-cool-app", "This is not a schedule", resultConfig)
 
 		assertThrows<InvalidCronExpression> { flowService.createFlow(flow) }
 	}
 
+    @Test
+    fun createFlowWithInvalidResultConfig () {
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{}"))
+        val flow = FlowInfo("My cool flow", "my-cool-app", "1 * * * * *", resultConfig)
+
+        assertThrows<InvalidResultConfig> { flowService.createFlow(flow) }
+    }
+
+    @Test
+    fun createFlowWithMissingResultConfig () {
+        val flow = FlowInfo("My cool flow", "my-cool-app", "1 * * * * *", null)
+
+        assertThrows<InvalidResultConfig> { flowService.createFlow(flow) }
+    }
+
 	@Test
 	fun getFlows () {
-		val flow1 = FlowInfo("B comes last", "app-1", "1 * * * * *")
-		val flow2 = FlowInfo("A comes first", "app-2", "1 * * * * *")
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val flow1 = FlowInfo("B comes last", "app-1", "1 * * * * *", resultConfig)
+		val flow2 = FlowInfo("A comes first", "app-2", "1 * * * * *", resultConfig)
 
 		flowService.createFlow(flow1)
 		flowService.createFlow(flow2)
@@ -54,12 +76,13 @@ class FlowServiceTest {
 
 		assertThat(subject).isNotNull
 		assertThat(subject.totalPages).isEqualTo(1)
-		assertThat(subject.pageData).isSortedAccordingTo(Comparator { f1:FlowInfo, f2:FlowInfo -> f1.id!!.toInt() - f2.id!!.toInt() } )
-	}
+		assertThat(subject.pageData).isSortedAccordingTo { f1:FlowInfo, f2:FlowInfo -> f1.id!!.toInt() - f2.id!!.toInt() }
+    }
 
 	@Test
 	fun getFlow () {
-		val flow = FlowInfo("Yee boi", "app-42", "1 * * * * *")
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val flow = FlowInfo("Yee boi", "app-42", "1 * * * * *", resultConfig)
 
 		val createdFlow = flowService.createFlow(flow)
 
@@ -73,8 +96,9 @@ class FlowServiceTest {
 
 	@Test
 	fun cannotCreateFlowsWithDuplicateNames () {
-		val flow1 = FlowInfo("We have the same name", "app-42", "1 * * * * *")
-		val flow2 = FlowInfo("We have the same name", "app-42", "1 * * * * *")
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val flow1 = FlowInfo("We have the same name", "app-42", "1 * * * * *", resultConfig)
+		val flow2 = FlowInfo("We have the same name", "app-42", "1 * * * * *", resultConfig)
 
 		assertDoesNotThrow { flowService.createFlow(flow1) }
 		assertThrows<FlowNameAlreadyInUse> { flowService.createFlow(flow2) }
