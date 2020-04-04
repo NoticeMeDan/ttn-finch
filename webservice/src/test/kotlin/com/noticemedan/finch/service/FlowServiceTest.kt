@@ -116,4 +116,15 @@ class FlowServiceTest {
 
         assertThrows<FlowNotFound> { flowService.getFlow(createdFlow.id!!) }
     }
+
+    @Test
+    fun deleteNonExitingFlow () {
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val flow = FlowInfo("flow-42", "app-42", "1 * * * * *", resultConfig)
+
+        val createdFlow = flowService.createFlow(flow)
+
+        assertDoesNotThrow { flowService.deleteFlow(createdFlow.id!!) }
+        assertThrows<FlowNotFound> { flowService.deleteFlow(createdFlow.id!!) }
+    }
 }
