@@ -9,6 +9,7 @@ import PaginatedTable from '../../../components/PaginatedTable'
 import Loading from '../../../components/Loading'
 import { makeStyles } from '@material-ui/core/styles'
 import useGetJson from '../../../hooks/useGetJson'
+import DeleteFlowDialog from './DeleteFlowDialog'
 
 const useStyles = makeStyles({
     cell: {
@@ -32,7 +33,7 @@ const FlowTable = () => {
                 <TableCell>Name</TableCell>
                 <TableCell>Application Id</TableCell>
                 <TableCell>Schedule</TableCell>
-                <TableCell align='right'>Activity Log</TableCell>
+                <TableCell align='right'>Actions</TableCell>
             </>
         )
     }
@@ -47,9 +48,12 @@ const FlowTable = () => {
                 <TableCell className={classes.cell}>{flow.applicationId}</TableCell>
                 <TableCell className={classes.cell}>{flow.schedule}</TableCell>
                 <TableCell align='right' className={classes.cell}>
-                    <IconButton aria-label='activity-log' href={`/flow/${flow.id}`}>
-                        <AssignmentIcon />
-                    </IconButton>
+                    <div style={{ display: 'flex', float: 'right' }}>
+                        <IconButton aria-label='activity-log' href={`/flow/${flow.id}`}>
+                            <AssignmentIcon />
+                        </IconButton>
+                        <DeleteFlowDialog flow={flow} />
+                    </div>
                 </TableCell>
             </TableRow>
         ))
