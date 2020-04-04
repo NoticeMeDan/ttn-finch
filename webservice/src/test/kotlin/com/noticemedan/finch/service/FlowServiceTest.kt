@@ -103,4 +103,18 @@ class FlowServiceTest {
 		assertDoesNotThrow { flowService.createFlow(flow1) }
 		assertThrows<FlowNameAlreadyInUse> { flowService.createFlow(flow2) }
 	}
+
+    @Test
+    fun deleteFlow () {
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val flow = FlowInfo("Yee boi", "app-42", "1 * * * * *", resultConfig)
+
+        val createdFlow = flowService.createFlow(flow)
+
+        flowService.deleteFlow(createdFlow.id!!)
+
+        val subject = flowService.getFlow(createdFlow.id!!)
+
+        assertThat(subject).isNull()
+    }
 }

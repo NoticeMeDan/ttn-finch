@@ -62,4 +62,9 @@ class FlowService (
 				.map(dtoFactory::toInfo)
 				.orElseThrow { FlowNotFound() }
 	}
+
+    @Transactional
+    fun deleteFlow (flowId: Long) {
+        throw NotImplementedError()
+    }
 }
