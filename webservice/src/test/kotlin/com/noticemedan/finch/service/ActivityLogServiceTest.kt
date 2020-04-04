@@ -2,7 +2,10 @@ package com.noticemedan.finch.service
 
 import com.noticemedan.finch.TestConfig
 import com.noticemedan.finch.dto.FlowInfo
+import com.noticemedan.finch.dto.ResultConfigInfo
+import com.noticemedan.finch.dto.ResultKind
 import com.noticemedan.finch.util.ActivityLogHelper
+import com.vladmihalcea.hibernate.type.json.internal.JacksonUtil
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,7 +31,8 @@ class ActivityLogServiceTest {
 	@Test
 	@Transactional
 	fun getLogForPeriod () {
-		val flow = flowService.createFlow(FlowInfo("Test flow", "my-app", "* * * * * *"))
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val flow = flowService.createFlow(FlowInfo("Test flow", "my-app", "* * * * * *", resultConfig))
 
 		val message1 = "Test message 1"
 		val message2 = "Test message 2"

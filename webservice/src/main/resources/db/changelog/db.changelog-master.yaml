@@ -171,3 +171,44 @@ databaseChangeLog:
                   type: nvarchar(255)
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 5
+      author: ejoe@itu.dk
+      changes:
+        - createTable:
+            tableName: result_config
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: kind
+                  type: nvarchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: config
+                  type: jsonb
+                  constraints:
+                    nullable: false
+              - column:
+                  name: flow_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: flow
+                    foreignKeyName: fk_result_config_flow
+  # Use other type in H2, as jsonb is not supported
+  - changeSet:
+      id: 6
+      author: ejoe@itu.dk
+      dbms: h2
+      changes:
+        - modifyDataType:
+            tableName: result_config
+            columnName: config
+            newDataType: other

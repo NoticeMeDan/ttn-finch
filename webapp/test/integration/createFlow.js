@@ -1,4 +1,46 @@
 describe('Test flow creation form', () => {
+    const testResult = {
+        kind: 'TEST_RESULT',
+        name: 'Test result, does not exist',
+        description: 'I do not exist, i am merely a mock',
+        schema: {
+            $schema: 'https://json-schema.org/draft/2019-09/schema',
+            properties: {
+                fileName: {
+                    description: 'A random test filename',
+                    title: 'Filename',
+                    type: 'string'
+                }
+            },
+            required: [
+                'fileName'
+            ],
+            type: 'object'
+        }
+    }
+
+    function fillOutSchedule () {
+        cy.get('input[name="schedule"]')
+            .type('* * * * * *')
+    }
+
+    function fillOutName () {
+        cy.get('input[name="name"]')
+            .type('What a lovely name')
+    }
+
+    function fillOutApplicationId () {
+        cy.get('input[name="applicationId"]')
+            .type('And a lovely ID')
+    }
+
+    function fillOutResultConfig () {
+        cy.get('.MuiSelect-root').click()
+        cy.get('.MuiList-root > .MuiButtonBase-root').click()
+        cy.get('#root_fileName').type('I am a filename')
+        cy.get('.MuiButton-textPrimary').click()
+    }
+
     beforeEach(() => {
         cy.server()
 
@@ -16,7 +58,9 @@ describe('Test flow creation form', () => {
                     id: 2
                 }
             ]
-        }).as('pageOne')
+        })
+
+        cy.route('GET', '/api/result/description', [testResult])
 
         cy.visit('/newflow')
     })
@@ -45,20 +89,20 @@ describe('Test flow creation form', () => {
         cy.contains('Required')
     })
 
-    it('Schedule name must be non-empty', () => {
-        cy.get('input[name="schedule"]')
-            .focus()
-            .blur()
-
-        cy.contains('Required')
-    })
-
     it('Application ID must be no more than 50 long', () => {
         cy.get('input[name="applicationId"]')
             .type('#'.repeat(51))
             .blur()
 
         cy.contains('Application ID is too long!')
+    })
+
+    it('Schedule name must be non-empty', () => {
+        cy.get('input[name="schedule"]')
+            .focus()
+            .blur()
+
+        cy.contains('Required')
     })
 
     it('Schedule must be no more than 255 long', () => {
@@ -69,15 +113,37 @@ describe('Test flow creation form', () => {
         cy.contains('Schedule is too long!')
     })
 
+    it('ResultConfig must be added', () => {
+        cy.get('.MuiSelect-root').click()
+        cy.get('#menu-').click()
+        cy.contains('Required')
+    })
+
+    it('ResultConfig must be created', () => {
+        cy.get('.MuiSelect-root').click()
+        cy.get('.MuiList-root > .MuiButtonBase-root').click()
+        cy.get('.MuiButton-textSecondary').click()
+        cy.contains('Required')
+
+        fillOutResultConfig()
+        cy.contains('Required').should('not.exist')
+    })
+
+    it('ResultConfig displays error when not properly filled out', () => {
+        cy.get('.MuiSelect-root').click()
+        cy.get('.MuiList-root > .MuiButtonBase-root').click()
+        cy.get('.MuiButton-textPrimary').click()
+        cy.contains('- is a required property')
+    })
+
     it('Displays error when flow name is already in use', () => {
-        cy.get('input[name="name"]')
-            .type('What a lovely name')
+        fillOutName()
 
-        cy.get('input[name="applicationId"]')
-            .type('And a lovely ID')
+        fillOutApplicationId()
 
-        cy.get('input[name="schedule"]')
-            .type('* * * * * *')
+        fillOutSchedule()
+
+        fillOutResultConfig()
 
         cy.server()
         cy.route({
@@ -87,20 +153,19 @@ describe('Test flow creation form', () => {
             response: {}
         })
 
-        cy.get('button[type="submit"]').click()
+        cy.get('button#submit').click()
 
         cy.contains('Name already exist!')
     })
 
     it('Displays error when cron is invalid', () => {
-        cy.get('input[name="name"]')
-            .type('What a lovely name')
+        fillOutName()
 
-        cy.get('input[name="applicationId"]')
-            .type('And a lovely ID')
+        fillOutApplicationId()
 
-        cy.get('input[name="schedule"]')
-            .type('* * * * * *')
+        fillOutSchedule()
+
+        fillOutResultConfig()
 
         cy.server()
         cy.route({
@@ -110,20 +175,19 @@ describe('Test flow creation form', () => {
             response: {}
         })
 
-        cy.get('button[type="submit"]').click()
+        cy.get('button#submit').click()
 
-        cy.contains('Invalid Cron expression!')
+        cy.contains('Invalid ResultConfig or Cron Expression!')
     })
 
     it('Shows "Flow added" toast when creating flow', () => {
-        cy.get('input[name="name"]')
-            .type('What a lovely name')
+        fillOutName()
 
-        cy.get('input[name="applicationId"]')
-            .type('And a lovely ID')
+        fillOutApplicationId()
 
-        cy.get('input[name="schedule"]')
-            .type('* * * * * *')
+        fillOutSchedule()
+
+        fillOutResultConfig()
 
         cy.server()
         cy.route({
@@ -133,20 +197,19 @@ describe('Test flow creation form', () => {
             response: {}
         })
 
-        cy.get('button[type="submit"]').click()
+        cy.get('button#submit').click()
 
         cy.contains('Flow added')
     })
 
     it('Shows "Connection error!" toast when failing to create flow', () => {
-        cy.get('input[name="name"')
-            .type('What a lovely name')
+        fillOutName()
 
-        cy.get('input[name="applicationId"')
-            .type('And a lovely ID')
+        fillOutApplicationId()
 
-        cy.get('input[name="schedule"]')
-            .type('* * * * * *')
+        fillOutSchedule()
+
+        fillOutResultConfig()
 
         cy.server()
         cy.route({
@@ -156,20 +219,19 @@ describe('Test flow creation form', () => {
             response: {}
         })
 
-        cy.get('button[type="submit"]').click()
+        cy.get('button#submit').click()
 
         cy.contains('Connection error!')
     })
 
     it('Goes back to / page when flow is created', () => {
-        cy.get('input[name="name"]')
-            .type('What a lovely name')
+        fillOutName()
 
-        cy.get('input[name="applicationId"]')
-            .type('And a lovely ID')
+        fillOutApplicationId()
 
-        cy.get('input[name="schedule"]')
-            .type('* * * * * *')
+        fillOutSchedule()
+
+        fillOutResultConfig()
 
         cy.server()
         cy.route({
@@ -179,7 +241,7 @@ describe('Test flow creation form', () => {
             response: {}
         })
 
-        cy.get('button[type="submit"]').click()
+        cy.get('button#submit').click()
 
         cy.wait(2000)
 
