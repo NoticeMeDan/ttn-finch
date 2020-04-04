@@ -5,6 +5,7 @@ import com.noticemedan.finch.dto.FlowInfo
 import com.noticemedan.finch.dto.ResultConfigInfo
 import com.noticemedan.finch.dto.ResultKind
 import com.noticemedan.finch.exception.FlowNameAlreadyInUse
+import com.noticemedan.finch.exception.FlowNotFound
 import com.noticemedan.finch.exception.InvalidCronExpression
 import com.noticemedan.finch.exception.InvalidResultConfig
 import com.vladmihalcea.hibernate.type.json.internal.JacksonUtil
@@ -107,14 +108,12 @@ class FlowServiceTest {
     @Test
     fun deleteFlow () {
         val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
-        val flow = FlowInfo("Yee boi", "app-42", "1 * * * * *", resultConfig)
+        val flow = FlowInfo("flow-42", "app-42", "1 * * * * *", resultConfig)
 
         val createdFlow = flowService.createFlow(flow)
 
         flowService.deleteFlow(createdFlow.id!!)
 
-        val subject = flowService.getFlow(createdFlow.id!!)
-
-        assertThat(subject).isNull()
+        assertThrows<FlowNotFound> { flowService.getFlow(createdFlow.id!!) }
     }
 }

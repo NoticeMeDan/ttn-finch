@@ -43,7 +43,7 @@ class FlowService (
             flowDao.save(flow)
 
             resultService.addFlowToScheduler(flow)
-            activityLogHelper.addLogLineToFlow("Flow created", flow.id!!)
+            activityLogHelper.addLogLineToFlow("Flow created", flow)
             return dtoFactory.toInfo(flow)
         } ?: throw InvalidResultConfig()
 	}
@@ -64,7 +64,8 @@ class FlowService (
 	}
 
     @Transactional
-    fun deleteFlow (flowId: Long) {
-        throw NotImplementedError()
+    fun deleteFlow (flowId: Long): Long {
+        flowDao.deleteById(flowId)
+        return flowId
     }
 }

@@ -28,7 +28,7 @@ class ActivityLogService (
 	fun getLogForPeriod (from: Instant, to: Instant, flowId: Long, page: Int): Slice<ActivityLogLineInfo> {
 		val flow = flowDao.findById(flowId).orElseThrow { FlowNotFound() }
 		val query = QActivityLogLine.activityLogLine.time.between(from, to)
-				.and(QActivityLogLine.activityLogLine.flowId.eq(flow.id))
+				.and(QActivityLogLine.activityLogLine.flow.id.eq(flow.id))
 
 		return SliceFactory.toSlice(
 				activityLogLineDao.findAll(
