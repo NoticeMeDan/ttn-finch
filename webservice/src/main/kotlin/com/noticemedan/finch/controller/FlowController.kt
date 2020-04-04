@@ -21,7 +21,7 @@ class FlowController (private val flowService: FlowService) {
 		return flowService.getFlows(page)
 	}
 
-    @DeleteMapping("/{flowId}")
+    @DeleteMapping("{flowId}")
     fun deleteFlow (@PathVariable flowId: Long): Long {
         return flowService.deleteFlow(flowId)
     }
