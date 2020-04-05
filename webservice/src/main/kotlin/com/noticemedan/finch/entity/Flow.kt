@@ -11,6 +11,7 @@ data class Flow (
         var resultConfig: ResultConfig? = null,
         @OneToMany(mappedBy = "flow", cascade = [CascadeType.ALL], orphanRemoval = true)
         var activityLogLines: List<ActivityLogLine>? = null,
+        var activityLogEnabled: Boolean,
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 		var id: Long? = null
 )

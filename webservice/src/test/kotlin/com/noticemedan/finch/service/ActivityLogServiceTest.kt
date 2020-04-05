@@ -34,8 +34,8 @@ class ActivityLogServiceTest {
 	@Transactional
 	fun getLogForPeriod () {
         val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
-        val flowInfo = flowService.createFlow(FlowInfo("Test flow", "my-app", "* * * * * *", resultConfig))
-        val flow = Flow(flowInfo.name, flowInfo.applicationId, flowInfo.schedule, null, null, flowInfo.id)
+        val flowInfo = flowService.createFlow(FlowInfo("Test flow", "my-app", "* * * * * *", resultConfig, true))
+        val flow = Flow(flowInfo.name, flowInfo.applicationId, flowInfo.schedule, null, null, flowInfo.activityLogEnabled, flowInfo.id)
         flow.resultConfig = ResultConfig(flowInfo.resultConfig!!.kind, flowInfo.resultConfig!!.config, flow)
 
         val message1 = "Test message 1"
