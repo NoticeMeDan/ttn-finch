@@ -66,6 +66,7 @@ class FlowService (
     @Transactional
     fun deleteFlow (flowId: Long): Long {
         if (flowDao.existsById(flowId)) {
+            resultService.removeFlowFromScheduler(flowId)
             flowDao.deleteById(flowId)
         } else {
             throw FlowNotFound()
