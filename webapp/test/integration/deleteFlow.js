@@ -30,21 +30,21 @@ describe('Test delete flow', () => {
 
     it('Dialog warning is shown when trying to delete', () => {
         cy.get('#alert-dialog-title').should('not.be.visible')
-        cy.get(':nth-child(1) > .MuiTableCell-alignRight > [style="display: flex; float: right;"] > div > .MuiButtonBase-root').click()
+        cy.get('#delete-1').click()
         cy.get('#alert-dialog-title').should('be.visible')
     })
 
     it('Dialog disappear on cancel', () => {
         cy.get('#alert-dialog-title').should('not.be.visible')
-        cy.get(':nth-child(1) > .MuiTableCell-alignRight > [style="display: flex; float: right;"] > div > .MuiButtonBase-root').click()
+        cy.get('#delete-1').click()
         cy.get('#alert-dialog-title').should('be.visible')
-        cy.get('.MuiDialogActions-root > :nth-child(1)').click()
+        cy.get('#delete-cancel').click()
         cy.get('#alert-dialog-title').should('not.be.visible')
     })
 
     it('Delete snack appear upon delete', () => {
-        cy.get(':nth-child(1) > .MuiTableCell-alignRight > [style="display: flex; float: right;"] > div').click()
-        cy.get('.MuiButton-textSecondary').click()
+        cy.get('#delete-1').click()
+        cy.get('#delete-confirm').click()
 
         cy.contains('Flow deleted')
     })

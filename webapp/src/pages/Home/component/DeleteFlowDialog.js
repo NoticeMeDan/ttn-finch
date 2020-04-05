@@ -34,7 +34,7 @@ const DeleteFlowDialog = ({ flow }) => {
 
     return (
         <div>
-            <IconButton aria-label='delete flow' onClick={handleClickOpen}>
+            <IconButton aria-label='delete flow' onClick={handleClickOpen} id={`delete-${flow.id}`}>
                 <DeleteIcon />
             </IconButton>
             <Dialog open={open} onClose={handleClose}>
@@ -45,10 +45,11 @@ const DeleteFlowDialog = ({ flow }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>
+                    <Button onClick={handleClose} id={`delete-cancel`}>
                         Cancel
                     </Button>
                     <Button
+                        id={`delete-confirm`}
                         onClick={handleDelete}
                         color='secondary'
                         autoFocus>

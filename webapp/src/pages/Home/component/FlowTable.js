@@ -49,7 +49,7 @@ const FlowTable = () => {
                 <TableCell className={classes.cell}>{flow.schedule}</TableCell>
                 <TableCell align='right' className={classes.cell}>
                     <div style={{ display: 'flex', float: 'right' }}>
-                        <IconButton aria-label='activity-log' href={`/flow/${flow.id}`}>
+                        <IconButton aria-label='activity-log' href={`/flow/${flow.id}`} id={`activity-log-${flow.id}`}>
                             <AssignmentIcon />
                         </IconButton>
                         <DeleteFlowDialog flow={flow} />
