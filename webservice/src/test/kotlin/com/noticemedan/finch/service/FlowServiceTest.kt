@@ -5,6 +5,7 @@ import com.noticemedan.finch.dto.FlowInfo
 import com.noticemedan.finch.dto.ResultConfigInfo
 import com.noticemedan.finch.dto.ResultKind
 import com.noticemedan.finch.exception.FlowNameAlreadyInUse
+import com.noticemedan.finch.exception.FlowNotFound
 import com.noticemedan.finch.exception.InvalidCronExpression
 import com.noticemedan.finch.exception.InvalidResultConfig
 import com.vladmihalcea.hibernate.type.json.internal.JacksonUtil
@@ -103,4 +104,27 @@ class FlowServiceTest {
 		assertDoesNotThrow { flowService.createFlow(flow1) }
 		assertThrows<FlowNameAlreadyInUse> { flowService.createFlow(flow2) }
 	}
+
+    @Test
+    fun deleteFlow () {
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val flow = FlowInfo("flow-42", "app-42", "1 * * * * *", resultConfig)
+
+        val createdFlow = flowService.createFlow(flow)
+
+        flowService.deleteFlow(createdFlow.id!!)
+
+        assertThrows<FlowNotFound> { flowService.getFlow(createdFlow.id!!) }
+    }
+
+    @Test
+    fun deleteNonExitingFlow () {
+        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val flow = FlowInfo("flow-42", "app-42", "1 * * * * *", resultConfig)
+
+        val createdFlow = flowService.createFlow(flow)
+
+        assertDoesNotThrow { flowService.deleteFlow(createdFlow.id!!) }
+        assertThrows<FlowNotFound> { flowService.deleteFlow(createdFlow.id!!) }
+    }
 }

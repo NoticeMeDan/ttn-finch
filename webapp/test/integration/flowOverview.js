@@ -50,7 +50,7 @@ describe('Test flow creation form', () => {
 
     it('Goes to activityLog for given flow', () => {
         cy.location('pathname').should('eq', '/')
-        cy.get(':nth-child(1) > .MuiTableCell-alignRight > .MuiButtonBase-root').click()
+        cy.get('#activity-log-1').click()
         cy.location('pathname').should('eq', '/flow/1')
     })
 })

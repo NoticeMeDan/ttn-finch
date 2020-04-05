@@ -2,13 +2,14 @@ package com.noticemedan.finch.result
 
 import com.noticemedan.finch.dto.ResultDescription
 import com.noticemedan.finch.dto.ResultKind
+import com.noticemedan.finch.entity.Flow
 import com.noticemedan.finch.result.schema.CsvToDiskSchema
 import com.noticemedan.finch.util.JsonSchemaUtil
 import org.springframework.stereotype.Component
 
 @Component
 class CsvToDiskResult : Result {
-    override fun run(flowId: Long) {
+    override fun run(flow: Flow) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

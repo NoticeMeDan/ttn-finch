@@ -4,6 +4,8 @@ import com.noticemedan.finch.TestConfig
 import com.noticemedan.finch.dto.FlowInfo
 import com.noticemedan.finch.dto.ResultConfigInfo
 import com.noticemedan.finch.dto.ResultKind
+import com.noticemedan.finch.entity.Flow
+import com.noticemedan.finch.entity.ResultConfig
 import com.noticemedan.finch.util.ActivityLogHelper
 import com.vladmihalcea.hibernate.type.json.internal.JacksonUtil
 import org.junit.Test
@@ -32,13 +34,15 @@ class ActivityLogServiceTest {
 	@Transactional
 	fun getLogForPeriod () {
         val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
-        val flow = flowService.createFlow(FlowInfo("Test flow", "my-app", "* * * * * *", resultConfig))
+        val flowInfo = flowService.createFlow(FlowInfo("Test flow", "my-app", "* * * * * *", resultConfig))
+        val flow = Flow(flowInfo.name, flowInfo.applicationId, flowInfo.schedule, null, null, flowInfo.id)
+        flow.resultConfig = ResultConfig(flowInfo.resultConfig!!.kind, flowInfo.resultConfig!!.config, flow)
 
-		val message1 = "Test message 1"
+        val message1 = "Test message 1"
 		val message2 = "Test message 2"
 
-		activityLogHelper.addLogLineToFlow(message1, flow.id!!)
-		activityLogHelper.addLogLineToFlow(message2, flow.id!!)
+		activityLogHelper.addLogLineToFlow(message1, flow)
+		activityLogHelper.addLogLineToFlow(message2, flow)
 
 		val subject = activityLogService.getLogForPeriod(Instant.EPOCH, Instant.now(), flow.id!!, 0)
 

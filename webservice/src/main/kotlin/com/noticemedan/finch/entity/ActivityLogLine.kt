@@ -7,7 +7,9 @@ import javax.persistence.*
 data class ActivityLogLine (
 		var message: String,
 		var time: Instant,
-		var flowId: Long,
+        @ManyToOne
+        @JoinColumn(name = "flow_id")
+        var flow: Flow? = null,
 		@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 		var id: Long? = null
 )

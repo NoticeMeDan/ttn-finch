@@ -46,7 +46,7 @@ class ResultService (
 	}
 
 	fun addFlowToScheduler (flow: Flow) {
-		val scheduledTask = scheduler.schedule(Runnable { testResult.run(flow.id!!) }, CronTrigger(flow.schedule))
+		val scheduledTask = scheduler.schedule(Runnable { testResult.run(flow) }, CronTrigger(flow.schedule))
 		jobs[flow.id!!] = scheduledTask!!
 	}
 

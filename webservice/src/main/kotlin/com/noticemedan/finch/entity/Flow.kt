@@ -9,6 +9,8 @@ data class Flow (
         var schedule: String,
         @OneToOne(mappedBy = "flow", cascade = [CascadeType.ALL], orphanRemoval = true)
         var resultConfig: ResultConfig? = null,
+        @OneToMany(mappedBy = "flow", cascade = [CascadeType.ALL], orphanRemoval = true)
+        var activityLogLines: List<ActivityLogLine>? = null,
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 		var id: Long? = null
 )
