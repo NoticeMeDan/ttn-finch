@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Typography, Button, Grid } from '@material-ui/core'
-import { TextField } from 'formik-material-ui'
+import {Typography, Button, Grid } from '@material-ui/core'
+import { TextField, CheckboxWithLabel } from 'formik-material-ui'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -51,7 +51,8 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                 resultConfig: {
                     kind: '',
                     config: null
-                }
+                },
+                activityLogEnabled: false
             }}
             validationSchema={SignUpSchema}
             onSubmit={handleSubmit}>
@@ -118,6 +119,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                                 errors={errors.resultConfig}
                                 isSubmitting={isSubmitting} />
                         </Grid>
+                        <Field name='activityLogEnabled' component={CheckboxWithLabel} Label={{ label: 'Log all activities' }} color="primary" />
                     </Grid>
                     <Grid container justify='center' alignItems='center' className={classes.actionRow} spacing={1}>
                         <Grid item>
@@ -126,7 +128,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Button variant='contained' color='primary' id='submit' onClick={handleSubmit}>
+                            <Button variant='contained' color='primary' id='submit' onClick={() => console.log(values)}>
                                 Save
                             </Button>
                         </Grid>
