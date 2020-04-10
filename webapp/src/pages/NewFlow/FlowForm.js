@@ -119,7 +119,9 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                                 errors={errors.resultConfig}
                                 isSubmitting={isSubmitting} />
                         </Grid>
-                        <Field name='activityLogEnabled' component={CheckboxWithLabel} Label={{ label: 'Log all activities' }} color="primary" />
+                        <Grid item className={classes.column}>
+                            <Field name='activityLogEnabled' component={CheckboxWithLabel} Label={{ label: 'Log all activities' }} color="primary" />
+                        </Grid>
                     </Grid>
                     <Grid container justify='center' alignItems='center' className={classes.actionRow} spacing={1}>
                         <Grid item>
@@ -128,7 +130,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Button variant='contained' color='primary' id='submit' onClick={() => console.log(values)}>
+                            <Button variant='contained' color='primary' id='submit' onClick={handleSubmit}>
                                 Save
                             </Button>
                         </Grid>
