@@ -2,10 +2,16 @@ package com.noticemedan.finch.result.schema
 
 import com.github.imifou.jsonschema.module.addon.annotation.JsonSchema
 
-data class CsvToDiskSchema (
+data class HttpSchema (
         @JsonSchema(
-                title = "Filename",
-                description = "The identifier to be prepended to the generated files name",
+                title = "URL",
+                description = "The URL for the HTTP resource to POST the data to",
                 required = true)
-        var fileName: String
+        var url: String,
+        @JsonSchema(
+                title = "Payload size",
+                description = "The amount of data packages to send at a time",
+                required = true
+        )
+        var size: Int
 )
