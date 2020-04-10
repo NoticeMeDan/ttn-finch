@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.scheduling.support.CronSequenceGenerator
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 
 @Service
 class FlowService (
@@ -39,7 +40,8 @@ class FlowService (
             val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule)) }
                     .getOrElseThrow { -> FlowNameAlreadyInUse() }
 
-            flow.resultConfig = ResultConfig(source.resultConfig.kind, source.resultConfig.config, flow)
+            flow.resultConfig = ResultConfig(source.resultConfig.kind, source.resultConfig.config, flow,
+                    Instant.ofEpochSecond(1))
             flowDao.save(flow)
 
             resultService.addFlowToScheduler(flow)

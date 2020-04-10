@@ -14,3 +14,4 @@ out/
 webapp/node_modules
 webapp/test/screenshots
 webapp/test/videos
+package-lock.json

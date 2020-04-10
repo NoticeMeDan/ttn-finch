@@ -212,3 +212,15 @@ databaseChangeLog:
             tableName: result_config
             columnName: config
             newDataType: other
+  - changeSet:
+      id: 7
+      author: ejoe@itu.dk
+      changes:
+        addColumn:
+          tableName: result_config
+          columns:
+            - column:
+                name: last_run
+                type: timestamp
+                constraints:
+                  nullable: false
