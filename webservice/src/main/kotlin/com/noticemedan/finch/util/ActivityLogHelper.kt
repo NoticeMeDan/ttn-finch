@@ -12,6 +12,6 @@ import java.time.Instant
 class ActivityLogHelper (private val activityLogLineDao: ActivityLogLineDao) {
 	@Transactional(propagation = Propagation.MANDATORY)
 	fun addLogLineToFlow (message: String, flow: Flow) {
-		activityLogLineDao.save(ActivityLogLine(message, Instant.now(), flow))
+        if (flow.activityLogEnabled) activityLogLineDao.save(ActivityLogLine(message, Instant.now(), flow))
 	}
 }
