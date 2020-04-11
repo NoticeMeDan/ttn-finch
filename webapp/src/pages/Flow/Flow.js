@@ -18,7 +18,9 @@ function Flow ({ match }) {
 
     const [flow, isLoading] = useGetJson(`/api/flow/${match.params.flowId}`)
 
-    if (!isLoading) console.log(flow)
+    function updateFlow () {
+        console.log(flow)
+    }
 
     function InfoField ({label, value}) {
         return (
@@ -46,8 +48,8 @@ function Flow ({ match }) {
                     /> :
                         <>
                             { activityLogEnabled ?
-                                <Typography variant='subtitle' color='primary'>Active</Typography>
-                                : <Typography variant='subtitle' color='secondary'>Disabled</Typography>
+                                <Typography variant='subtitle1' color='primary' style={{ width: 210 }}>Active</Typography>
+                                : <Typography variant='subtitle1' color='secondary' style={{ width: 210 }}>Disabled</Typography>
                             }
                         </>
                     }
@@ -83,7 +85,7 @@ function Flow ({ match }) {
                     <Grid container alignItems='flex-end' justify='space-between' style={{ padding: 16 }}>
                         <Grid item>
                                 <Typography variant="h3">{flow.name}</Typography>
-                                <Typography variant="subtitle" gutterBottom>{`Flow ID: ${flow.id}`}</Typography>
+                                <Typography variant="subtitle1" gutterBottom>{`Flow ID: ${flow.id}`}</Typography>
                         </Grid>
                         <Grid item>
                             { !enableEdit ?
@@ -109,12 +111,12 @@ function Flow ({ match }) {
                                 <ResultConfigField/>
                                 { enableEdit &&
                                 <Grid item>
-                                    <Grid container justify='center' alignItems='center' spacing={2} style={{marginTop: 16}}>
+                                    <Grid container justify='center' alignItems='center' spacing={2} style={{marginTop: 36}}>
                                         <Grid item>
-                                            <button onClick={ () => setEnableEdit(false) }>cancel</button>
+                                            <Button variant='contained' onClick={ () => setEnableEdit(false) } style={{ width: 100 }}>cancel</Button>
                                         </Grid>
                                         <Grid item>
-                                            <button>save</button>
+                                            <Button variant='contained' color='primary' onClick={updateFlow} style={{ width: 100 }}>save</Button>
                                         </Grid>
                                     </Grid>
                                 </Grid>
