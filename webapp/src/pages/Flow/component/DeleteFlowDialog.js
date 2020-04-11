@@ -6,7 +6,6 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DeleteIcon from '@material-ui/icons/Delete'
-import IconButton from '@material-ui/core/IconButton'
 import { deleteJSON } from '@acto/ajax'
 import { useSnackbar } from 'notistack'
 import { useHistory } from 'react-router-dom'
@@ -34,9 +33,15 @@ const DeleteFlowDialog = ({ flow }) => {
 
     return (
         <div>
-            <IconButton aria-label='delete flow' onClick={handleClickOpen} id={`delete-${flow.id}`}>
-                <DeleteIcon />
-            </IconButton>
+            <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<DeleteIcon />}
+                onClick={handleClickOpen}
+                size='small'
+            >
+                Delete
+            </Button>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle id='alert-dialog-title'>{`${flow.name} (ID: ${flow.id})`}</DialogTitle>
                 <DialogContent>

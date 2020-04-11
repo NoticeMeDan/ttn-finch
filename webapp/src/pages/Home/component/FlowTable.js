@@ -9,7 +9,7 @@ import PaginatedTable from '../../../components/PaginatedTable'
 import Loading from '../../../components/Loading'
 import { makeStyles } from '@material-ui/core/styles'
 import useGetJson from '../../../hooks/useGetJson'
-import DeleteFlowDialog from './DeleteFlowDialog'
+import DeleteFlowDialog from '../../Flow/component/DeleteFlowDialog'
 
 const useStyles = makeStyles({
     cell: {
@@ -52,7 +52,6 @@ const FlowTable = () => {
                         <IconButton aria-label='activity-log' href={`/flow/${flow.id}`} id={`activity-log-${flow.id}`}>
                             <AssignmentIcon />
                         </IconButton>
-                        <DeleteFlowDialog flow={flow} />
                     </div>
                 </TableCell>
             </TableRow>

@@ -48,8 +48,8 @@ function ActivityLog ({ flowId }) {
 
     return (
         <Grid container direction='column' spacing={1}>
-            <Grid container justify='space-between' style={{padding: 8}}>
-                <Grid item>
+            <Grid container justify='space-between' style={{ padding: 8 }}>
+                <Grid item style={{ marginLeft: 8 }}>
                     <Typography variant='h6' gutterBottom>Activity Log:</Typography>
                 </Grid>
                 <Grid item>
