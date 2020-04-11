@@ -118,9 +118,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                                 touched={touched.resultConfig}
                                 errors={errors.resultConfig}
                                 isSubmitting={isSubmitting} />
-                        </Grid>
-                        <Grid item className={classes.column}>
-                            <Field name='activityLogEnabled' component={CheckboxWithLabel} Label={{ label: 'Log all activities' }} color="primary" />
+                            <Field name='activityLogEnabled' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color="primary" />
                         </Grid>
                     </Grid>
                     <Grid container justify='center' alignItems='center' className={classes.actionRow} spacing={1}>
