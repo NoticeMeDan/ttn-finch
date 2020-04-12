@@ -18,6 +18,7 @@ object DtoFactory {
                 source.applicationId,
                 source.schedule,
                 source.resultConfig?.let(::toInfo),
+                source.activityLogEnabled,
                 source.id)
 
 	fun toInfo (source: ActivityLogLine): ActivityLogLineInfo =

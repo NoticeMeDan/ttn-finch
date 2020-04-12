@@ -214,6 +214,18 @@ databaseChangeLog:
             newDataType: other
   - changeSet:
       id: 7
+      author: mips@itu.dk
+      changes:
+        - addColumn:
+            tableName: flow
+            columns:
+              - column:
+                  name: activity_log_enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 8
       author: ejoe@itu.dk
       changes:
         addColumn:

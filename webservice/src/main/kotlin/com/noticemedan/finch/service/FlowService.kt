@@ -37,7 +37,7 @@ class FlowService(
             if (!resultService.validateResultConfig(source.resultConfig.kind, source.resultConfig.config))
                 throw InvalidResultConfig()
 
-            val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule)) }
+            val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule, null, null, source.activityLogEnabled)) }
                     .getOrElseThrow { -> FlowNameAlreadyInUse() }
 
             flow.resultConfig = ResultConfig(source.resultConfig.kind, source.resultConfig.config, flow, Instant.EPOCH)
