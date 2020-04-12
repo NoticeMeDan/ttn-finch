@@ -55,7 +55,7 @@ class HttpResult(
             return
         }
 
-        events.map { dtoFactory.toInfo(it) }.chunked(config.size).forEach {
+        events.map(dtoFactory::toInfo).chunked(config.size).forEach {
             val body = objectMapper.writeValueAsString(it)
             val request = Request.Builder()
                     .url(config.url)
