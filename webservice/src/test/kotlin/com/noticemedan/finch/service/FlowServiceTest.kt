@@ -18,8 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.springframework.transaction.annotation.Transactional
-import java.time.Instant
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [TestConfig::class])
@@ -30,7 +28,8 @@ class FlowServiceTest {
 
 	@Test
 	fun createFlow () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
 		val flow = FlowInfo("My cool flow", "my-cool-app", "1 * * * * *", resultConfig)
 
 		val subject = flowService.createFlow(flow)
@@ -43,7 +42,8 @@ class FlowServiceTest {
 
 	@Test
 	fun createFlowWithInvalidCronSchedule () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flow = FlowInfo("My cool flow", "my-cool-app", "This is not a schedule", resultConfig)
 
 		assertThrows<InvalidCronExpression> { flowService.createFlow(flow) }
@@ -51,7 +51,7 @@ class FlowServiceTest {
 
     @Test
     fun createFlowWithInvalidResultConfig () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{}"))
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode("{}"))
         val flow = FlowInfo("My cool flow", "my-cool-app", "1 * * * * *", resultConfig)
 
         assertThrows<InvalidResultConfig> { flowService.createFlow(flow) }
@@ -66,7 +66,8 @@ class FlowServiceTest {
 
 	@Test
 	fun getFlows () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flow1 = FlowInfo("B comes last", "app-1", "1 * * * * *", resultConfig)
 		val flow2 = FlowInfo("A comes first", "app-2", "1 * * * * *", resultConfig)
 
@@ -82,7 +83,8 @@ class FlowServiceTest {
 
 	@Test
 	fun getFlow () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flow = FlowInfo("Yee boi", "app-42", "1 * * * * *", resultConfig)
 
 		val createdFlow = flowService.createFlow(flow)
@@ -97,7 +99,8 @@ class FlowServiceTest {
 
 	@Test
 	fun cannotCreateFlowsWithDuplicateNames () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flow1 = FlowInfo("We have the same name", "app-42", "1 * * * * *", resultConfig)
 		val flow2 = FlowInfo("We have the same name", "app-42", "1 * * * * *", resultConfig)
 
@@ -107,7 +110,8 @@ class FlowServiceTest {
 
     @Test
     fun deleteFlow () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flow = FlowInfo("flow-42", "app-42", "1 * * * * *", resultConfig)
 
         val createdFlow = flowService.createFlow(flow)
@@ -119,7 +123,8 @@ class FlowServiceTest {
 
     @Test
     fun deleteNonExitingFlow () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flow = FlowInfo("flow-42", "app-42", "1 * * * * *", resultConfig)
 
         val createdFlow = flowService.createFlow(flow)

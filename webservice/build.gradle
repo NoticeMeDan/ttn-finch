@@ -69,6 +69,7 @@ dependencies {
 	kapt "com.querydsl:querydsl-apt:4.2.1:jpa"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.2.5.RELEASE'
+    testImplementation "com.nhaarman:mockito-kotlin:1.6.0"
 	testImplementation 'com.h2database:h2:1.4.200'
 }
 
