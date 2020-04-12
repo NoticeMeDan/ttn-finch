@@ -50,7 +50,7 @@ class HttpResultTest {
     fun haltsWhenNoNewEventData () {
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
-        val flowInfo = FlowInfo("My awesome flow", "my-awesome-app", "1 * * * * *", resultConfig)
+        val flowInfo = FlowInfo("My awesome flow", "my-awesome-app", "1 * * * * *", resultConfig, true)
         val flow = flowService.createFlow(flowInfo)
 
         verify(okHttpClient, never()).newCall(any()) // Client should never be called when there are no new eventdata
@@ -71,7 +71,7 @@ class HttpResultTest {
     fun writesLogEntryWhenReceivingNon200StatusCode () {
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
-        val flowInfo = FlowInfo("My awesome flow 2", "my-cool-app", "1 * * * * *", resultConfig)
+        val flowInfo = FlowInfo("My awesome flow 2", "my-cool-app", "1 * * * * *", resultConfig, true)
         val flow = flowService.createFlow(flowInfo)
 
         val receivedAt = Instant.now()
@@ -136,7 +136,7 @@ class HttpResultTest {
     fun chunksRequestsCorrectly () {
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
-        val flowInfo = FlowInfo("My awesome flow 3", "my-dope-app", "1 * * * * *", resultConfig)
+        val flowInfo = FlowInfo("My awesome flow 3", "my-dope-app", "1 * * * * *", resultConfig, true)
         val flow = flowService.createFlow(flowInfo)
 
         val receivedAt = Instant.now()

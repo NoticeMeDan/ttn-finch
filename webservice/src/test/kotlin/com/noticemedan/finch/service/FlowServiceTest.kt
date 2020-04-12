@@ -28,7 +28,6 @@ class FlowServiceTest {
 
 	@Test
 	fun createFlow () {
-		val flow = FlowInfo("My cool flow", "my-cool-app", "1 * * * * *", resultConfig, true)
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
 		val flow = FlowInfo("My cool flow", "my-cool-app", "1 * * * * *", resultConfig, true)
@@ -43,10 +42,9 @@ class FlowServiceTest {
 
 	@Test
 	fun createFlowWithInvalidCronSchedule () {
-        val flow = FlowInfo("My cool flow", "my-cool-app", "This is not a schedule", resultConfig, true)
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
-        val flow = FlowInfo("My cool flow", "my-cool-app", "This is not a schedule", resultConfig), true
+        val flow = FlowInfo("My cool flow", "my-cool-app", "This is not a schedule", resultConfig, true)
 
 		assertThrows<InvalidCronExpression> { flowService.createFlow(flow) }
 	}
