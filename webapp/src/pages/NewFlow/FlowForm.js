@@ -9,6 +9,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Link from '@material-ui/core/Link'
 import ResultForm from './ResultForm'
+import Divider from '@material-ui/core/Divider'
 
 const SignUpSchema = Yup.object().shape({
     name: Yup.string()
@@ -28,7 +29,7 @@ const SignUpSchema = Yup.object().shape({
 
 const useStyles = makeStyles({
     container: {
-        padding: 8
+        padding: 16
     },
     actionRow: {
         padding: 8,
@@ -58,9 +59,9 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
             onSubmit={handleSubmit}>
             {({ errors, values, setFieldValue, setFieldTouched, handleSubmit, touched, isSubmitting }) => (
                 <>
-                    <Grid container justify='space-between'>
+                    <Grid container justify='space-between' className={classes.container}>
                         <Grid item className={classes.column}>
-                            <div style={{ margin: '8px' }}>
+                            <div>
                                 <Typography variant='h6' component='h2'>
                                     Flow name
                                 </Typography>
@@ -71,7 +72,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                     name='name' component={TextField} variant='outlined' size='small'
                                     margin='dense' placeholder='Flow name' />
                             </div>
-                            <div style={{ margin: '8px' }}>
+                            <div>
                                 <Typography variant='h6' component='h2'>
                                     Application ID
                                 </Typography>
@@ -82,7 +83,6 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                     name='applicationId' component={TextField} variant='outlined' size='small'
                                     margin='dense' placeholder='Application ID' />
                             </div>
-                            <div className={classes.container}>
                                 <Typography variant='h6' component='h2'>Schedule</Typography>
                                 <Typography variant='subtitle2' component='h2' color='textSecondary'>
                                     The schedule consists of a <Link href='https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html'>Spring Cron expression</Link>.
@@ -107,7 +107,6 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                         name='schedule' component={TextField} variant='outlined' size='small'
                                         margin='dense' placeholder='Cron Expression' fullWidth />
                                 </Typography>
-                            </div>
                         </Grid>
                         <Grid item className={classes.column}>
                             <ResultForm
@@ -121,14 +120,15 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                             <Field name='activityLogEnabled' type='checkbox' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color="primary" />
                         </Grid>
                     </Grid>
-                    <Grid container justify='center' alignItems='center' className={classes.actionRow} spacing={1}>
+                    <Divider />
+                    <Grid container justify='flex-end' alignItems='center' className={classes.actionRow}>
                         <Grid item>
-                            <Button variant='outlined' color='primary' onClick={handleCancel}>
+                            <Button onClick={handleCancel}>
                                 Cancel
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Button variant='contained' color='primary' id='submit' onClick={handleSubmit}>
+                            <Button color='primary' id='submit' onClick={handleSubmit}>
                                 Save
                             </Button>
                         </Grid>
