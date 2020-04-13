@@ -21,7 +21,7 @@ class ActivityLogService (
 		private val dtoFactory: DtoFactory
 ) {
 	companion object {
-		const val PAGE_SIZE = 30
+		const val PAGE_SIZE = 10
 	}
 
 	@Transactional
