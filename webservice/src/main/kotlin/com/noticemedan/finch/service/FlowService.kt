@@ -18,53 +18,54 @@ import org.springframework.data.domain.Sort
 import org.springframework.scheduling.support.CronSequenceGenerator
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 
 @Service
-class FlowService (
-	private val flowDao: FlowDao,
-	private val dtoFactory: DtoFactory,
-	private val activityLogHelper: ActivityLogHelper,
-	private val resultService: ResultService
+class FlowService(
+        private val flowDao: FlowDao,
+        private val dtoFactory: DtoFactory,
+        private val activityLogHelper: ActivityLogHelper,
+        private val resultService: ResultService
 ) {
 
-	@Transactional
-	fun createFlow (source: FlowInfo): FlowInfo {
-		if (!CronSequenceGenerator.isValidExpression(source.schedule))
-			throw InvalidCronExpression()
+    @Transactional
+    fun createFlow(source: FlowInfo): FlowInfo {
+        if (!CronSequenceGenerator.isValidExpression(source.schedule))
+            throw InvalidCronExpression()
 
         source.resultConfig?.let {
             if (!resultService.validateResultConfig(source.resultConfig.kind, source.resultConfig.config))
                 throw InvalidResultConfig()
 
-            val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule)) }
+            val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule, null, null, source.activityLogEnabled)) }
                     .getOrElseThrow { -> FlowNameAlreadyInUse() }
 
-            flow.resultConfig = ResultConfig(source.resultConfig.kind, source.resultConfig.config, flow)
+            flow.resultConfig = ResultConfig(source.resultConfig.kind, source.resultConfig.config, flow, Instant.EPOCH)
             flowDao.save(flow)
 
             resultService.addFlowToScheduler(flow)
             activityLogHelper.addLogLineToFlow("Flow created", flow)
             return dtoFactory.toInfo(flow)
         } ?: throw InvalidResultConfig()
-	}
-
-	@Transactional
-	fun getFlows (page: Int): Slice<FlowInfo> {
-		return SliceFactory.toSlice(
-				flowDao.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "id"))),
-				dtoFactory::toInfo
-		)
-	}
-
-	@Transactional
-	fun getFlow (flowId: Long): FlowInfo {
-		return flowDao.findById(flowId)
-				.map(dtoFactory::toInfo)
-				.orElseThrow { FlowNotFound() }
-	}
+    }
 
     @Transactional
-    fun deleteFlow (flowId: Long): Long {
+    fun getFlows(page: Int): Slice<FlowInfo> {
+        return SliceFactory.toSlice(
+                flowDao.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "id"))),
+                dtoFactory::toInfo
+        )
+    }
+
+    @Transactional
+    fun getFlow(flowId: Long): FlowInfo {
+        return flowDao.findById(flowId)
+                .map(dtoFactory::toInfo)
+                .orElseThrow { FlowNotFound() }
+    }
+
+    @Transactional
+    fun deleteFlow(flowId: Long): Long {
         if (flowDao.existsById(flowId)) {
             resultService.removeFlowFromScheduler(flowId)
             flowDao.deleteById(flowId)

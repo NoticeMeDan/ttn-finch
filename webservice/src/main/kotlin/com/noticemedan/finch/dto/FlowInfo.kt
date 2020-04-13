@@ -5,5 +5,6 @@ data class FlowInfo (
 	val applicationId: String,
 	val schedule: String,
     val resultConfig: ResultConfigInfo?,
+    var activityLogEnabled: Boolean,
 	val id: Long? = null
 )

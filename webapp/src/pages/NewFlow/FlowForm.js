@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Typography, Button, Grid } from '@material-ui/core'
-import { TextField } from 'formik-material-ui'
+import {Typography, Button, Grid } from '@material-ui/core'
+import { TextField, CheckboxWithLabel } from 'formik-material-ui'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -51,7 +51,8 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                 resultConfig: {
                     kind: '',
                     config: null
-                }
+                },
+                activityLogEnabled: false
             }}
             validationSchema={SignUpSchema}
             onSubmit={handleSubmit}>
@@ -117,6 +118,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                                 touched={touched.resultConfig}
                                 errors={errors.resultConfig}
                                 isSubmitting={isSubmitting} />
+                            <Field name='activityLogEnabled' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color="primary" />
                         </Grid>
                     </Grid>
                     <Grid container justify='center' alignItems='center' className={classes.actionRow} spacing={1}>
