@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import { deleteJSON } from '@acto/ajax'
 import { useSnackbar } from 'notistack'
 import { useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const DeleteFlowDialog = ({ flow }) => {
     const [open, setOpen] = React.useState(false)
@@ -34,12 +35,11 @@ const DeleteFlowDialog = ({ flow }) => {
     return (
         <div>
             <Button
-                variant="contained"
-                color="secondary"
+                variant='contained'
+                color='secondary'
                 startIcon={<DeleteIcon />}
                 onClick={handleClickOpen}
-                size='small'
-            >
+                size='small'>
                 Delete
             </Button>
             <Dialog open={open} onClose={handleClose}>
@@ -50,11 +50,11 @@ const DeleteFlowDialog = ({ flow }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} id={`delete-cancel`}>
+                    <Button onClick={handleClose} id='delete-cancel'>
                         Cancel
                     </Button>
                     <Button
-                        id={`delete-confirm`}
+                        id='delete-confirm'
                         onClick={handleDelete}
                         color='secondary'
                         autoFocus>
@@ -63,6 +63,10 @@ const DeleteFlowDialog = ({ flow }) => {
                 </DialogActions>
             </Dialog>
         </div>)
+}
+
+DeleteFlowDialog.propTypes = {
+    flow: PropTypes.object.isRequired
 }
 
 export default DeleteFlowDialog

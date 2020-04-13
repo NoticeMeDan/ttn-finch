@@ -92,7 +92,8 @@ ResultForm.propTypes = {
     onChange: PropTypes.func.isRequired,
     results: PropTypes.array.isRequired,
     touched: PropTypes.any,
-    value: PropTypes.object.isRequired
+    value: PropTypes.object.isRequired,
+    isSubmitting: PropTypes.any
 }
 
 export default ResultForm

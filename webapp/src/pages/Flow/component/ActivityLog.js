@@ -10,7 +10,7 @@ import PaginatedTable from '../../../components/PaginatedTable'
 import useGetJson from '../../../hooks/useGetJson'
 import Loading from '../../../components/Loading'
 import { formatDateTime } from '../../../util/time'
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography'
 
 function ActivityLog ({ flowId }) {
     const [state, setState] = useState({
@@ -58,7 +58,7 @@ function ActivityLog ({ flowId }) {
                             <DateTimePicker value={state.from} onChange={handleChange('from')} label='From' ampm={false} variant='inline' disableFuture />
                         </Grid>
                         <Grid item>
-                            <DateTimePicker value={state.to} onChange={handleChange('to')} label='To' ampm={false} variant='inline' disableFuture  />
+                            <DateTimePicker value={state.to} onChange={handleChange('to')} label='To' ampm={false} variant='inline' disableFuture />
                         </Grid>
                     </Grid>
                 </Grid>

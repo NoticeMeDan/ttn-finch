@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
-import { Formik, Form, Field } from 'formik'
+import React from 'react'
+import { Field, Formik } from 'formik'
 import * as Yup from 'yup'
-import {Typography, Button, Grid } from '@material-ui/core'
-import { TextField, CheckboxWithLabel } from 'formik-material-ui'
+import { Button, Grid, Typography } from '@material-ui/core'
+import { CheckboxWithLabel, TextField } from 'formik-material-ui'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -83,30 +83,30 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                     name='applicationId' component={TextField} variant='outlined' size='small'
                                     margin='dense' placeholder='Application ID' />
                             </div>
-                                <Typography variant='h6' component='h2'>Schedule</Typography>
-                                <Typography variant='subtitle2' component='h2' color='textSecondary'>
-                                    The schedule consists of a <Link href='https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html'>Spring Cron expression</Link>.
-                                    <br />
-                                    The expression is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday.
-                                    <br />
-                                    Month and weekday names can be given as the first three letters of the English names.
-                                    <br />
-                                    Example patterns:
-                                    <br />
-                                    <List>
-                                        <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
-                                        <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
-                                        <ListItem>"*/10 * * * * *" = every ten seconds.</ListItem>
-                                        <ListItem>"0 0 8-10 * * *" = 8, 9 and 10 o'clock of every day.</ListItem>
-                                        <ListItem>"0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</ListItem>
-                                        <ListItem>"0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</ListItem>
-                                        <ListItem>"0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays</ListItem>
-                                        <ListItem>"0 0 0 25 12 ?" = every Christmas Day at midnight</ListItem>
-                                    </List>
-                                    <Field
-                                        name='schedule' component={TextField} variant='outlined' size='small'
-                                        margin='dense' placeholder='Cron Expression' fullWidth />
-                                </Typography>
+                            <Typography variant='h6' component='h2'>Schedule</Typography>
+                            <Typography variant='subtitle2' component='h2' color='textSecondary'>
+                                The schedule consists of a <Link href='https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html'>Spring Cron expression</Link>.
+                                <br />
+                                The expression is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday.
+                                <br />
+                                Month and weekday names can be given as the first three letters of the English names.
+                                <br />
+                                Example patterns:
+                                <br />
+                                <List>
+                                    <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
+                                    <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
+                                    <ListItem>"*/10 * * * * *" = every ten seconds.</ListItem>
+                                    <ListItem>"0 0 8-10 * * *" = 8, 9 and 10 o'clock of every day.</ListItem>
+                                    <ListItem>"0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</ListItem>
+                                    <ListItem>"0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</ListItem>
+                                    <ListItem>"0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays</ListItem>
+                                    <ListItem>"0 0 0 25 12 ?" = every Christmas Day at midnight</ListItem>
+                                </List>
+                                <Field
+                                    name='schedule' component={TextField} variant='outlined' size='small'
+                                    margin='dense' placeholder='Cron Expression' fullWidth />
+                            </Typography>
                         </Grid>
                         <Grid item className={classes.column}>
                             <ResultForm
@@ -117,7 +117,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                 touched={touched.resultConfig}
                                 errors={errors.resultConfig}
                                 isSubmitting={isSubmitting} />
-                            <Field name='activityLogEnabled' type='checkbox' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color="primary" />
+                            <Field name='activityLogEnabled' type='checkbox' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color='primary' />
                         </Grid>
                     </Grid>
                     <Divider />
@@ -141,7 +141,9 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
 
 FlowForm.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    handleCancel: PropTypes.func.isRequired
+    handleCancel: PropTypes.func.isRequired,
+    results: PropTypes.object.isRequired,
+    flow: PropTypes.object
 }
 
 export default FlowForm

@@ -1,19 +1,17 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import DeleteIcon from '@material-ui/icons/Delete'
-import {deleteJSON, postJSON, putJSON} from '@acto/ajax'
+import { putJSON } from '@acto/ajax'
 import { useSnackbar } from 'notistack'
 import { useHistory } from 'react-router-dom'
-import useGetJson from "../../../hooks/useGetJson";
-import EditIcon from "@material-ui/icons/Edit";
-import FlowForm from "../../NewFlow/FlowForm";
-import Loading from "../../../components/Loading";
-import Divider from '@material-ui/core/Divider';
+import useGetJson from '../../../hooks/useGetJson'
+import EditIcon from '@material-ui/icons/Edit'
+import FlowForm from '../../NewFlow/FlowForm'
+import Loading from '../../../components/Loading'
+import Divider from '@material-ui/core/Divider'
+import PropTypes from 'prop-types'
 
 const UpdateFlowDialog = ({ flow }) => {
     const [open, setOpen] = React.useState(false)
@@ -21,7 +19,6 @@ const UpdateFlowDialog = ({ flow }) => {
     const history = useHistory()
 
     const [results, loading] = useGetJson('/api/result/description')
-
 
     const handleClickOpen = () => {
         setOpen(true)
@@ -38,7 +35,7 @@ const UpdateFlowDialog = ({ flow }) => {
             .json(() => {
                 enqueueSnackbar('Flow updated', { variant: 'success' })
                 handleClose()
-                history.push(`/`)
+                history.push('/')
             })
             .catch(err => {
                 if (err.status === 400) {
@@ -57,24 +54,26 @@ const UpdateFlowDialog = ({ flow }) => {
     return (
         <div>
             <Button
-                variant="contained"
+                variant='contained'
                 startIcon={<EditIcon />}
                 onClick={handleClickOpen}
-                size='small'
-            >
+                size='small'>
                 Edit
             </Button>
-            <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth='lg' >
-                <DialogTitle id='alert-dialog-title'>{`UPDATE FLOW`}</DialogTitle>
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth='lg'>
+                <DialogTitle id='alert-dialog-title'>UPDATE FLOW</DialogTitle>
                 <Divider />
                 <DialogContent>
-                    { loading
+                    {loading
                         ? <Loading />
-                        : <FlowForm handleSubmit={handleSubmit} handleCancel={handleClose} results={results} flow={flow} />
-                    }
+                        : <FlowForm handleSubmit={handleSubmit} handleCancel={handleClose} results={results} flow={flow} />}
                 </DialogContent>
             </Dialog>
         </div>)
+}
+
+UpdateFlowDialog.propTypes = {
+    flow: PropTypes.object.isRequired
 }
 
 export default UpdateFlowDialog
