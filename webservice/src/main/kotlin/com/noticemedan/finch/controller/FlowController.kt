@@ -24,6 +24,11 @@ class FlowController (private val flowService: FlowService) {
         return flowService.getFlow(flowId)
     }
 
+    @PutMapping(produces = [MediaType.APPLICATION_JSON_VALUE], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun updateFlow (@RequestBody flow: FlowInfo): FlowInfo {
+        return flowService.updateFlow(flow)
+    }
+
     @DeleteMapping("{flowId}")
     fun deleteFlow (@PathVariable flowId: Long): Long {
         return flowService.deleteFlow(flowId)
