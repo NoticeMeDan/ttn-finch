@@ -19,5 +19,5 @@ TTN-Finch has been designed around the notion of "Flows". A Flow consists of the
 For information on how to get started with TTN-Finch, [click here](./docs/getting-started.md).
 
 ## Result development
-The TTN-Finch webservice is built with Spring Boot and Kotlin.
+The TTN-Finch webservice is built with Spring Boot and Kotlin.  
 For information on how to get started with developing your own Result, [click here](./docs/development/result-development.md).
