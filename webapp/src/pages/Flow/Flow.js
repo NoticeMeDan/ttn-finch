@@ -113,10 +113,10 @@ function Flow ({ match }) {
                                 <Grid item>
                                     <Grid container justify='center' alignItems='center' spacing={2} style={{marginTop: 36}}>
                                         <Grid item>
-                                            <Button variant='contained' onClick={ () => setEnableEdit(false) } style={{ width: 100 }}>cancel</Button>
+                                            <Button variant='contained' onClick={ () => setEnableEdit(false) } style={{ width: 100 }}>Cancel</Button>
                                         </Grid>
                                         <Grid item>
-                                            <Button variant='contained' color='primary' onClick={updateFlow} style={{ width: 100 }}>save</Button>
+                                            <Button variant='contained' color='primary' onClick={updateFlow} style={{ width: 100 }}>Save</Button>
                                         </Grid>
                                     </Grid>
                                 </Grid>
