@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React from 'react'
 import ActivityLog from './component/ActivityLog'
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid'
@@ -7,24 +7,22 @@ import useGetJson from "../../hooks/useGetJson";
 import Loading from "../../components/Loading";
 import {TextareaAutosize, TextField} from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteFlowDialog from "./component/DeleteFlowDialog";
-import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 import UpdateFlowDialog from "./component/UpdateFlowDialog";
+import cronstrue from 'cronstrue';
 
 function Flow ({ match }) {
     const [flow, isLoading] = useGetJson(`/api/flow/${match.params.flowId}`)
 
     function InfoField ({label, value}) {
         return (
-            <Grid container alignItems='center' justify='flex-start' direction="row" spacing={5}>
-                <Grid item style={{ width: '300px'}}>
-                    <Typography variant="h6" gutterBottom>{label}</Typography>
+            <Grid container alignItems='center' justify='flex-start' direction="row">
+                <Grid item style={{ width: '250px'}}>
+                    <Typography variant="button" gutterBottom>{label}</Typography>
                 </Grid>
                 <Grid item>
-                    <TextField id={`outlined-${label}-field`} variant="outlined" disabled defaultValue={value}/>
+                    <Typography variant="overline" display="block" >{value}</Typography>
                 </Grid>
             </Grid>
         )
@@ -33,13 +31,13 @@ function Flow ({ match }) {
     function ActivityLogField ({ active }) {
         return (
             <Grid container alignItems='center' justify='flex-start' direction="row" spacing={5}>
-                <Grid item style={{ width: '300px'}}>
-                    <Typography variant="h6" gutterBottom>Activity log status:</Typography>
+                <Grid item style={{ width: '250px'}}>
+                    <Typography variant="button" gutterBottom>Activity log status:</Typography>
                 </Grid>
                 <Grid item>
                     { active ?
-                        <Typography variant='subtitle1' color='primary' style={{ width: 210 }}>Active</Typography>
-                        : <Typography variant='subtitle1' color='secondary' style={{ width: 210 }}>Disabled</Typography>
+                        <Typography variant='overline' color='primary'>Active</Typography>
+                        : <Typography variant='overline' color='secondary'>Disabled</Typography>
                     }
 
                 </Grid>
@@ -49,9 +47,9 @@ function Flow ({ match }) {
 
     function ResultConfigField () {
         return (
-            <Grid container alignItems='flex-start' justify='flex-start' direction="row" spacing={5}>
-                <Grid item style={{ width: '300px'}}>
-                    <Typography variant="h6" gutterBottom>Result config:</Typography>
+            <Grid container alignItems='flex-start' justify='flex-start' direction="row">
+                <Grid item style={{ width: '250px'}}>
+                    <Typography variant="button" gutterBottom>Result config:</Typography>
                 </Grid>
                 <Grid item>
                     <TextareaAutosize
@@ -72,8 +70,8 @@ function Flow ({ match }) {
                 <>
                     <Grid container alignItems='flex-end' justify='space-between' style={{ padding: 16 }}>
                         <Grid item>
-                                <Typography variant="h3">{flow.name}</Typography>
-                                <Typography variant="subtitle1" gutterBottom>{`Flow ID: ${flow.id}`}</Typography>
+                                <Typography variant="h2">{flow.name}</Typography>
+                                <Typography variant="button" gutterBottom >{`Flow ID: ${flow.id}`}</Typography>
                         </Grid>
                         <Grid item>
                             <Grid container spacing={2}>
@@ -89,15 +87,15 @@ function Flow ({ match }) {
                     <Divider />
                     <div style={{ padding: 16 }}>
                         <Typography variant="h4" gutterBottom>General information</Typography>
-                        <Grid container alignItems='flex-start' spacing={3}>
+                        <Grid container alignItems='flex-start' spacing={5} style={{paddingTop: 8}}>
                             <Grid item xs={5}>
                                 <InfoField label='Application ID:' value={flow.applicationId} />
-                                <InfoField label='Schedule:' value={flow.schedule} />
+                                <InfoField label='Schedule:' value={ cronstrue.toString(flow.schedule) } />
                                 <ActivityLogField active={flow.activityLogEnabled} />
                                 <ResultConfigField/>
                             </Grid>
                             <Grid item xs={7}>
-                                <Paper style={{ paddingTop: 16 }}>
+                                <Paper style={{ paddingTop: 8 }}>
                                     <Grid container justify='flex-start'>
                                         <Grid item style={{ width: '100%' }}>
                                             <ActivityLog flowId={match.params.flowId} />
