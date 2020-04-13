@@ -11,16 +11,11 @@ import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteFlowDialog from "./component/DeleteFlowDialog";
 import Checkbox from '@material-ui/core/Checkbox';
+import Divider from '@material-ui/core/Divider';
+import UpdateFlowDialog from "./component/UpdateFlowDialog";
 
 function Flow ({ match }) {
-    const [enableEdit, setEnableEdit] = useState(false)
-    const [activityLogEnabled, setActivityLogEnabled] = useState(false)
-
     const [flow, isLoading] = useGetJson(`/api/flow/${match.params.flowId}`)
-
-    function updateFlow () {
-        console.log(flow)
-    }
 
     function InfoField ({label, value}) {
         return (
@@ -29,29 +24,22 @@ function Flow ({ match }) {
                     <Typography variant="h6" gutterBottom>{label}</Typography>
                 </Grid>
                 <Grid item>
-                    <TextField id={`outlined-${label}-field`} variant="outlined" disabled={!enableEdit} defaultValue={value}/>
+                    <TextField id={`outlined-${label}-field`} variant="outlined" disabled defaultValue={value}/>
                 </Grid>
             </Grid>
         )
     }
 
-    function ActivityLogField () {
+    function ActivityLogField ({ active }) {
         return (
             <Grid container alignItems='center' justify='flex-start' direction="row" spacing={5}>
                 <Grid item style={{ width: '300px'}}>
                     <Typography variant="h6" gutterBottom>Activity log status:</Typography>
                 </Grid>
                 <Grid item>
-                    { enableEdit ? <Checkbox
-                        checked={activityLogEnabled}
-                        onChange={() => setActivityLogEnabled(!activityLogEnabled)}
-                    /> :
-                        <>
-                            { activityLogEnabled ?
-                                <Typography variant='subtitle1' color='primary' style={{ width: 210 }}>Active</Typography>
-                                : <Typography variant='subtitle1' color='secondary' style={{ width: 210 }}>Disabled</Typography>
-                            }
-                        </>
+                    { active ?
+                        <Typography variant='subtitle1' color='primary' style={{ width: 210 }}>Active</Typography>
+                        : <Typography variant='subtitle1' color='secondary' style={{ width: 210 }}>Disabled</Typography>
                     }
 
                 </Grid>
@@ -71,7 +59,7 @@ function Flow ({ match }) {
                         rowsMin={5}
                         style={{width: 300}}
                         defaultValue={JSON.stringify(flow.resultConfig, null, 2)}
-                        disabled={!enableEdit}
+                        disabled
                     />
                 </Grid>
             </Grid>
@@ -88,39 +76,25 @@ function Flow ({ match }) {
                                 <Typography variant="subtitle1" gutterBottom>{`Flow ID: ${flow.id}`}</Typography>
                         </Grid>
                         <Grid item>
-                            { !enableEdit ?
-                                <Button
-                                    variant="contained"
-                                    startIcon={<EditIcon />}
-                                    onClick={() => setEnableEdit(true)}
-                                    size='small'
-                                >
-                                    Edit
-                                </Button> :
-                                <DeleteFlowDialog flow={flow}/> }
+                            <Grid container spacing={2}>
+                                <Grid item>
+                            <UpdateFlowDialog flow={flow} />
+                                </Grid>
+                                <Grid item>
+                            <DeleteFlowDialog flow={flow} />
+                            </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
-                    <Paper style={{padding: 16}}>
+                    <Divider />
+                    <div style={{ padding: 16 }}>
+                        <Typography variant="h4" gutterBottom>General information</Typography>
                         <Grid container alignItems='flex-start' spacing={3}>
                             <Grid item xs={5}>
-                                <Typography variant="h4" gutterBottom>General information</Typography>
                                 <InfoField label='Application ID:' value={flow.applicationId} />
-                                <InfoField label='Schedule:' value={flow.schedule}/>
-                                <InfoField label='Created At:' value='42-42-2042 42:42:42 CET' />
-                                <ActivityLogField/>
+                                <InfoField label='Schedule:' value={flow.schedule} />
+                                <ActivityLogField active={flow.activityLogEnabled} />
                                 <ResultConfigField/>
-                                { enableEdit &&
-                                <Grid item>
-                                    <Grid container justify='center' alignItems='center' spacing={2} style={{marginTop: 36}}>
-                                        <Grid item>
-                                            <Button variant='contained' onClick={ () => setEnableEdit(false) } style={{ width: 100 }}>Cancel</Button>
-                                        </Grid>
-                                        <Grid item>
-                                            <Button variant='contained' color='primary' onClick={updateFlow} style={{ width: 100 }}>Save</Button>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                                }
                             </Grid>
                             <Grid item xs={7}>
                                 <Paper style={{ paddingTop: 16 }}>
@@ -132,7 +106,7 @@ function Flow ({ match }) {
                                 </Paper>
                             </Grid>
                         </Grid>
-                    </Paper>
+                    </div>
                 </>
             )}
         </>

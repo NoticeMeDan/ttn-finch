@@ -39,20 +39,20 @@ const useStyles = makeStyles({
     }
 })
 
-const FlowForm = ({ handleSubmit, handleCancel, results }) => {
+const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
     const classes = useStyles()
 
     return (
         <Formik
             initialValues={{
-                name: '',
-                applicationId: '',
-                schedule: '',
-                resultConfig: {
+                name: flow ? flow.name : '',
+                applicationId: flow ? flow.applicationId : '',
+                schedule: flow ? flow.schedule : '',
+                resultConfig: flow ? flow.resultConfig : {
                     kind: '',
                     config: null
                 },
-                activityLogEnabled: false
+                activityLogEnabled: flow ? flow.activityLogEnabled : false
             }}
             validationSchema={SignUpSchema}
             onSubmit={handleSubmit}>
@@ -118,7 +118,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                                 touched={touched.resultConfig}
                                 errors={errors.resultConfig}
                                 isSubmitting={isSubmitting} />
-                            <Field name='activityLogEnabled' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color="primary" />
+                            <Field name='activityLogEnabled' type='checkbox' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color="primary" />
                         </Grid>
                     </Grid>
                     <Grid container justify='center' alignItems='center' className={classes.actionRow} spacing={1}>
