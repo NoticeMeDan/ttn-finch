@@ -50,7 +50,7 @@ function ActivityLog ({ flowId }) {
         <Grid container direction='column' spacing={1}>
             <Grid container justify='space-between' style={{ padding: 8 }}>
                 <Grid item style={{ marginLeft: 8 }}>
-                    <Typography variant='h6' gutterBottom>Activity Log:</Typography>
+                    <Typography variant='h5' gutterBottom>Activity Log</Typography>
                 </Grid>
                 <Grid item>
                     <Grid container justify='flex-end' spacing={2}>
