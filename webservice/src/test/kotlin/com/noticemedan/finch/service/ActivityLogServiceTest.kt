@@ -33,10 +33,11 @@ class ActivityLogServiceTest {
 	@Test
 	@Transactional
 	fun getLogForPeriod () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flowInfo = flowService.createFlow(FlowInfo("Test flow", "my-app", "* * * * * *", resultConfig, true))
         val flow = Flow(flowInfo.name, flowInfo.applicationId, flowInfo.schedule, null, null, flowInfo.activityLogEnabled, flowInfo.id)
-        flow.resultConfig = ResultConfig(flowInfo.resultConfig!!.kind, flowInfo.resultConfig!!.config, flow)
+        flow.resultConfig = ResultConfig(flowInfo.resultConfig!!.kind, flowInfo.resultConfig!!.config, flow, Instant.EPOCH)
 
         val message1 = "Test message 1"
 		val message2 = "Test message 2"
@@ -54,10 +55,11 @@ class ActivityLogServiceTest {
     @Test
     @Transactional
     fun activityLogDisabled () {
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flowInfo = flowService.createFlow(FlowInfo("Test flow with disabled log", "my-app", "* * * * * *", resultConfig, false))
         val flow = Flow(flowInfo.name, flowInfo.applicationId, flowInfo.schedule, null, null, flowInfo.activityLogEnabled, flowInfo.id)
-        flow.resultConfig = ResultConfig(flowInfo.resultConfig!!.kind, flowInfo.resultConfig!!.config, flow)
+        flow.resultConfig = ResultConfig(flowInfo.resultConfig!!.kind, flowInfo.resultConfig!!.config, flow, Instant.EPOCH)
 
         val message1 = "Test message 1 should not appear"
         val message2 = "Test message 2 should not appear"

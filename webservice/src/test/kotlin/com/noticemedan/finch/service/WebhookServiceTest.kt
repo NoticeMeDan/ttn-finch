@@ -60,7 +60,8 @@ class WebhookServiceTest {
 
 		assertThrows<ApplicationNotPartOfFlow> { webhookService.addEventData(event) }
 
-        val resultConfig = ResultConfigInfo(ResultKind.CSV_TO_DISK, JacksonUtil.toJsonNode("{\"fileName\": \"Hej\"}"))
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         flowService.createFlow(FlowInfo("My flow", "appId", "1 * * * * *", resultConfig, true))
 
 		assertDoesNotThrow { webhookService.addEventData(event) }

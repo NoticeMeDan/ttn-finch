@@ -224,4 +224,15 @@ databaseChangeLog:
                   type: boolean
                   constraints:
                     nullable: false
-
+  - changeSet:
+      id: 8
+      author: ejoe@itu.dk
+      changes:
+        addColumn:
+          tableName: result_config
+          columns:
+            - column:
+                name: last_run
+                type: timestamp
+                constraints:
+                  nullable: false
