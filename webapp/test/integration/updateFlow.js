@@ -1,4 +1,24 @@
 describe('Test update flow', () => {
+    const testResult = {
+        kind: 'TEST_RESULT',
+        name: 'Test result, does not exist',
+        description: 'I do not exist, i am merely a mock',
+        schema: {
+            $schema: 'https://json-schema.org/draft/2019-09/schema',
+            properties: {
+                fileName: {
+                    description: 'A random test filename',
+                    title: 'Filename',
+                    type: 'string'
+                }
+            },
+            required: [
+                'fileName'
+            ],
+            type: 'object'
+        }
+    }
+
     beforeEach(() => {
         cy.server()
 
@@ -26,7 +46,7 @@ describe('Test update flow', () => {
         })
 
         cy.route('GET', '/api/log/1/*/*/0', {
-            totalPages: 2,
+            totalPages: 1,
             pageData: [
                 {
                     time: 1584375912,
@@ -51,6 +71,8 @@ describe('Test update flow', () => {
                 }
             ]
         })
+
+        cy.route('GET', '/api/result/description', [testResult])
 
         cy.visit('/flow/1')
     })
