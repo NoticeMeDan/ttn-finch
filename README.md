@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/3519438/75177718-019b6380-5737-11ea-9362-72da2d09e535.png" alt="Finch" height="200" />
+    <img src="https://user-images.githubusercontent.com/35915730/79220305-0a193c00-7e54-11ea-93f4-2e06a58ea09f.png" alt="Finch" height="200" />
 </p>
 <h2 align="center">TTN-Finch</h2>
 
