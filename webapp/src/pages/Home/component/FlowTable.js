@@ -36,7 +36,7 @@ const FlowTable = () => {
 
     function getRows () {
         return data.pageData.map(flow => (
-            <TableRow key={flow.id} hover onClick={() => history.push(`flow/${flow.id}`)}>
+            <TableRow id={`flow-${flow.id}`} key={flow.id} hover onClick={() => history.push(`flow/${flow.id}`)}>
                 <TableCell className={classes.cell}>{flow.id}</TableCell>
                 <TableCell className={classes.cell} component='th' scope='row'>
                     {flow.name}

@@ -35,6 +35,7 @@ const DeleteFlowDialog = ({ flow }) => {
     return (
         <div>
             <Button
+                id='delete-init'
                 variant='contained'
                 color='secondary'
                 startIcon={<DeleteIcon />}
@@ -43,9 +44,9 @@ const DeleteFlowDialog = ({ flow }) => {
                 Delete
             </Button>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle id='alert-dialog-title'>{`${flow.name} (ID: ${flow.id})`}</DialogTitle>
+                <DialogTitle id='delete-dialog-title'>{`${flow.name} (ID: ${flow.id})`}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id='alert-dialog-description'>
+                    <DialogContentText id='delete-dialog-description'>
                         You are about to delete a flow. By deleting a flow you also delete all activity logs related to the flow.
                     </DialogContentText>
                 </DialogContent>

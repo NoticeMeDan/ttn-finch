@@ -54,6 +54,7 @@ const UpdateFlowDialog = ({ flow }) => {
     return (
         <div>
             <Button
+                id='update-init'
                 variant='contained'
                 startIcon={<EditIcon />}
                 onClick={handleClickOpen}
@@ -61,7 +62,7 @@ const UpdateFlowDialog = ({ flow }) => {
                 Edit
             </Button>
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth='lg'>
-                <DialogTitle id='alert-dialog-title'>UPDATE FLOW</DialogTitle>
+                <DialogTitle id='update-dialog-title'>UPDATE FLOW</DialogTitle>
                 <Divider />
                 <DialogContent>
                     {loading

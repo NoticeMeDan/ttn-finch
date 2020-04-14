@@ -69,7 +69,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                     The name will be used for identifying it at a later time.
                                 </Typography>
                                 <Field
-                                    name='name' component={TextField} variant='outlined' size='small'
+                                    id='name-field' name='name' component={TextField} variant='outlined' size='small'
                                     margin='dense' placeholder='Flow name' />
                             </div>
                             <div>
@@ -80,7 +80,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                     Enter the ID of your application in TheThingsNetwork.
                                 </Typography>
                                 <Field
-                                    name='applicationId' component={TextField} variant='outlined' size='small'
+                                    id='application-field' name='applicationId' component={TextField} variant='outlined' size='small'
                                     margin='dense' placeholder='Application ID' />
                             </div>
                             <Typography variant='h6' component='h2'>Schedule</Typography>
@@ -104,7 +104,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                     <ListItem>"0 0 0 25 12 ?" = every Christmas Day at midnight</ListItem>
                                 </List>
                                 <Field
-                                    name='schedule' component={TextField} variant='outlined' size='small'
+                                    id='schedule-field' name='schedule' component={TextField} variant='outlined' size='small'
                                     margin='dense' placeholder='Cron Expression' fullWidth />
                             </Typography>
                         </Grid>
@@ -117,18 +117,18 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                 touched={touched.resultConfig}
                                 errors={errors.resultConfig}
                                 isSubmitting={isSubmitting} />
-                            <Field name='activityLogEnabled' type='checkbox' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color='primary' />
+                            <Field id='log-field' name='activityLogEnabled' type='checkbox' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color='primary' />
                         </Grid>
                     </Grid>
                     <Divider />
                     <Grid container justify='flex-end' alignItems='center' className={classes.actionRow}>
                         <Grid item>
-                            <Button onClick={handleCancel}>
+                            <Button id='form-cancel' onClick={handleCancel}>
                                 Cancel
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Button color='primary' id='submit' onClick={handleSubmit}>
+                            <Button id='form-submit' color='primary' id='submit' onClick={handleSubmit}>
                                 Save
                             </Button>
                         </Grid>
@@ -142,7 +142,7 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
 FlowForm.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     handleCancel: PropTypes.func.isRequired,
-    results: PropTypes.object.isRequired,
+    results: PropTypes.array.isRequired,
     flow: PropTypes.object
 }
 

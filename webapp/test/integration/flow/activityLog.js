@@ -32,6 +32,22 @@ describe('Test activity log', () => {
             ]
         }).as('pageTwo')
 
+        cy.route('GET', '/api/flow/1', {
+            name: "Old name",
+            applicationId: "Coolest app ever!",
+            schedule: "0 0  * * * *",
+            resultConfig: {
+                kind: "HTTP",
+                config: {
+                    "url": "https://website.net",
+                    "size": 120
+                },
+                id: 1
+            },
+            activityLogEnabled: true,
+            id: 1
+        })
+
         cy.visit('/flow/1')
     })
 

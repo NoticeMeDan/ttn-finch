@@ -2,20 +2,23 @@
 describe('Test flow creation form', () => {
     beforeEach(() => {
         cy.server()
-
         cy.route('GET', '/api/flow/all/0', {
             totalPages: 2,
             pageData: [
                 {
-                    name: 'Cool flow 1',
-                    applicationId: 'coolest application ever',
+                    name: 'What a lovely name',
+                    applicationId: 'And a lovely ID',
+                    schedule: '* * * * * *',
+                    resultConfig: { kind: "TEST_RESULT" },
                     id: 1
                 },
                 {
-                    name: 'Cool flow 2',
-                    applicationId: 'coolest application ever',
+                    name: 'I love the world',
+                    applicationId: 'Everything is love',
+                    schedule: '* * * * * *',
+                    resultConfig: { kind: "TEST_RESULT" },
                     id: 2
-                }
+                 }
             ]
         }).as('pageOne')
 
@@ -23,15 +26,19 @@ describe('Test flow creation form', () => {
             totalPages: 2,
             pageData: [
                 {
-                    name: 'Not so cool flow 1',
-                    applicationId: 'worst application ever',
-                    id: 3
+                    name: 'Mega ultra cool name 2000',
+                    applicationId: 'Burn everything skull on fire blood scream',
+                    schedule: '* * * * * *',
+                    resultConfig: { kind: "TEST_RESULT" },
+                    id: 2
                 },
                 {
-                    name: 'Not so cool flow 2',
-                    applicationId: 'worst application ever',
-                    id: 4
-                }
+                    name: 'Bad-ass flow, dont mess with me',
+                    applicationId: 'I drive a Kia',
+                    schedule: '* * * * * *',
+                    resultConfig: { kind: "TEST_RESULT" },
+                    id: 3
+                 }
             ]
         }).as('pageTwo')
 
@@ -39,18 +46,18 @@ describe('Test flow creation form', () => {
     })
 
     it('Paginates correctly', () => {
-        cy.contains('Cool flow 1')
-        cy.contains('Cool flow 2')
+        cy.contains('What a lovely name')
+        cy.contains('I love the world')
 
         cy.get('button[title="Next page"]').click()
 
-        cy.contains('Not so cool flow 1')
-        cy.contains('Not so cool flow 2')
+        cy.contains('Mega ultra cool name 2000')
+        cy.contains('Bad-ass flow, dont mess with me')
     })
 
     it('Goes to activityLog for given flow', () => {
         cy.location('pathname').should('eq', '/')
-        cy.get('#activity-log-1').click()
+        cy.get('#flow-1').click()
         cy.location('pathname').should('eq', '/flow/1')
     })
 })

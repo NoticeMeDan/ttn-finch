@@ -54,8 +54,8 @@ function ResultForm ({ results, value, onChange, onBlur, touched, errors, isSubm
                         schema={omit(result.schema, '$schema')} liveValidate noHtml5Validate
                         onSubmit={handleInternalSubmit} showErrorList={false}>
                         <div style={{ float: 'right' }}>
-                            <Button color='secondary' onClick={handleCloseDialog}>Cancel</Button>
-                            <Button color='primary' type='submit'>Create</Button>
+                            <Button id='result-cancel' color='secondary' onClick={handleCloseDialog}>Cancel</Button>
+                            <Button id='result-create' color='primary' type='submit'>Create</Button>
                         </div>
                     </Form>
                 </DialogContent>
