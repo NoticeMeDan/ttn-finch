@@ -8,7 +8,7 @@ import Home from './pages/Home'
 import NewFlow from './pages/NewFlow'
 import Flow from './pages/Flow'
 import { SnackbarProvider } from 'notistack'
-import FinchAppBar from "./components/FinchAppBar"
+import FinchAppBar from './components/FinchAppBar'
 
 document.body.style.overflowX = 'hidden'
 

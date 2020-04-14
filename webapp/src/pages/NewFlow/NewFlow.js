@@ -1,9 +1,9 @@
 import React from 'react'
 import FlowForm from './FlowForm'
-import {postJSON} from '@acto/ajax'
-import {Typography} from '@material-ui/core'
-import {useHistory} from 'react-router-dom'
-import {useSnackbar} from 'notistack'
+import { postJSON } from '@acto/ajax'
+import { Typography } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+import { useSnackbar } from 'notistack'
 import useGetJson from '../../hooks/useGetJson'
 import Loading from '../../components/Loading'
 import Divider from '@material-ui/core/Divider'
@@ -35,18 +35,18 @@ function NewFlow () {
     }
 
     return (
-            <div style={{ padding: 16}}>
-                <Typography variant='h3' component='h5' color='textPrimary'>
-                    CREATE NEW FLOW
-                </Typography>
-                <Divider />
-                {
-                    loading
-                        ? <Loading />
-                        : <FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack} results={results} />
-                }
-            </div>
-        )
+        <div style={{ padding: 16 }}>
+            <Typography variant='h3' component='h5' color='textPrimary'>
+                CREATE NEW FLOW
+            </Typography>
+            <Divider />
+            {
+                loading
+                    ? <Loading />
+                    : <FlowForm handleSubmit={handleSubmit} handleCancel={history.goBack} results={results} />
+            }
+        </div>
+    )
 }
 
 export default NewFlow

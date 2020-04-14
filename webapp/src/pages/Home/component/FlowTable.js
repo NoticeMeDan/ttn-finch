@@ -8,7 +8,7 @@ import Loading from '../../../components/Loading'
 import { makeStyles } from '@material-ui/core/styles'
 import useGetJson from '../../../hooks/useGetJson'
 import { useHistory } from 'react-router-dom'
-import EmptyState from "./EmptyState";
+import EmptyState from './EmptyState'
 
 const useStyles = makeStyles({
     cell: {
@@ -52,20 +52,7 @@ const FlowTable = () => {
     return (
         <>
             <Grid container direction='column' spacing={1}>
-                {isLoading ? <Loading /> : (
-                    <>
-                        { (data.totalPages === 0) ? <EmptyState /> :
-                            <Grid item>
-                                <PaginatedTable
-                                    onChangePage={setPage}
-                                    page={page}
-                                    totalPages={data.totalPages}
-                                    head={getHeader()}
-                                    body={getRows()} />
-                            </Grid>
-                        }
-                    </>
-                )}
+                {isLoading ? <Loading /> : (<> {(data.totalPages === 0) ? <EmptyState /> : <Grid item> <PaginatedTable onChangePage={setPage} page={page} totalPages={data.totalPages} head={getHeader()} body={getRows()} /> </Grid>} </>)}
             </Grid>
         </>
     )
