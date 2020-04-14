@@ -126,6 +126,16 @@ if (TARGET === 'development' || !TARGET) {
                             ]
                         }
                     }]
+                },
+                {
+                    test: /\.(png|jp(e*)g|svg|gif)$/,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: 'images/[hash]-[name].[ext]',
+                            },
+                        }]
                 }
             ]
         },
@@ -163,6 +173,16 @@ if (TARGET === 'production') {
                             ]
                         }
                     }]
+                },
+                {
+                    test: /\.(png|jp(e*)g|svg|gif)$/,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: 'images/[hash]-[name].[ext]',
+                            },
+                        }]
                 }
             ]
         },
