@@ -31,7 +31,7 @@ function EmptyState () {
                         <Typography variant='h2'>No Flows Found...</Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant='subtitle1'>Try to add a flow by clicking the <Link href={"/newflow"}><Button variant='contained' color='primary' size='small'>CREATE NEW FLOW</Button></Link> button in the top right corner.</Typography>
+                        <Typography variant='subtitle1'>Try to add a flow by clicking the <Link href={"/newflow"}><Button id='empty-state-button' variant='contained' color='primary' size='small'>CREATE NEW FLOW</Button></Link> button in the top right corner.</Typography>
                     </Grid>
                 </Grid>
             </Grid>
