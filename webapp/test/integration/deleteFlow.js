@@ -2,14 +2,14 @@ describe('Test delete flow', () => {
     beforeEach(() => {
         cy.server()
         cy.route('GET', '/api/flow/1', {
-            name: "What a lovely name",
-            applicationId: "Coolest app ever!",
-            schedule: "0 0  * * * *",
+            name: 'What a lovely name',
+            applicationId: 'Coolest app ever!',
+            schedule: '0 0  * * * *',
             resultConfig: {
-                kind: "HTTP",
+                kind: 'HTTP',
                 config: {
-                    "url": "www.website.net",
-                    "size": 120
+                    url: 'www.website.net',
+                    size: 120
                 },
                 id: 1
             },
@@ -24,14 +24,14 @@ describe('Test delete flow', () => {
                     name: 'What a lovely name',
                     applicationId: 'And a lovely ID',
                     schedule: '* * * * * *',
-                    resultConfig: { kind: "TEST_RESULT" },
+                    resultConfig: { kind: 'TEST_RESULT' },
                     id: 1
                 },
                 {
                     name: 'I love the world',
                     applicationId: 'Everything is love',
                     schedule: '* * * * * *',
-                    resultConfig: { kind: "TEST_RESULT" },
+                    resultConfig: { kind: 'TEST_RESULT' },
                     id: 2
                 }
             ]

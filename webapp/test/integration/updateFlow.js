@@ -10,14 +10,14 @@ describe('Test update flow', () => {
         })
 
         cy.route('GET', '/api/flow/1', {
-            name: "Old name",
-            applicationId: "Coolest app ever!",
-            schedule: "0 0  * * * *",
+            name: 'Old name',
+            applicationId: 'Coolest app ever!',
+            schedule: '0 0  * * * *',
             resultConfig: {
-                kind: "HTTP",
+                kind: 'HTTP',
                 config: {
-                    "url": "https://website.net",
-                    "size": 120
+                    url: 'https://website.net',
+                    size: 120
                 },
                 id: 1
             },
@@ -46,7 +46,7 @@ describe('Test update flow', () => {
                     name: 'New and cool name',
                     applicationId: 'And a lovely ID',
                     schedule: '* * * * * *',
-                    resultConfig: { kind: "TEST_RESULT"},
+                    resultConfig: { kind: 'TEST_RESULT' },
                     id: 1
                 }
             ]
@@ -72,7 +72,7 @@ describe('Test update flow', () => {
     it('Update snack appear upon when form is saved', () => {
         cy.get('#update-init').click()
         cy.get('#update-dialog-title').should('be.visible')
-        cy.get('#name-field').clear().type("New and cool name").blur()
+        cy.get('#name-field').clear().type('New and cool name').blur()
         cy.get('#submit').click()
 
         cy.contains('Flow updated')

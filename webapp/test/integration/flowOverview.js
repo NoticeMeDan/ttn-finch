@@ -9,16 +9,16 @@ describe('Test flow creation form', () => {
                     name: 'What a lovely name',
                     applicationId: 'And a lovely ID',
                     schedule: '* * * * * *',
-                    resultConfig: { kind: "TEST_RESULT" },
+                    resultConfig: { kind: 'TEST_RESULT' },
                     id: 1
                 },
                 {
                     name: 'I love the world',
                     applicationId: 'Everything is love',
                     schedule: '* * * * * *',
-                    resultConfig: { kind: "TEST_RESULT" },
+                    resultConfig: { kind: 'TEST_RESULT' },
                     id: 2
-                 }
+                }
             ]
         }).as('pageOne')
 
@@ -29,16 +29,16 @@ describe('Test flow creation form', () => {
                     name: 'Mega ultra cool name 2000',
                     applicationId: 'Burn everything skull on fire blood scream',
                     schedule: '* * * * * *',
-                    resultConfig: { kind: "TEST_RESULT" },
+                    resultConfig: { kind: 'TEST_RESULT' },
                     id: 2
                 },
                 {
                     name: 'Bad-ass flow, dont mess with me',
                     applicationId: 'I drive a Kia',
                     schedule: '* * * * * *',
-                    resultConfig: { kind: "TEST_RESULT" },
+                    resultConfig: { kind: 'TEST_RESULT' },
                     id: 3
-                 }
+                }
             ]
         }).as('pageTwo')
 
