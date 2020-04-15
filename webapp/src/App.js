@@ -10,8 +10,6 @@ import Flow from './pages/Flow'
 import { SnackbarProvider } from 'notistack'
 import FinchAppBar from './components/FinchAppBar'
 
-document.body.style.overflowX = 'hidden'
-
 const App = () => (
     <SnackbarProvider maxSnack={3}>
         <MuiPickersUtilsProvider utils={DayjsUtils}>
