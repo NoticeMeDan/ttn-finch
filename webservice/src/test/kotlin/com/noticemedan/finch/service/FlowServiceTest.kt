@@ -109,6 +109,35 @@ class FlowServiceTest {
 	}
 
     @Test
+    fun updateFlow () {
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
+        val flow = FlowInfo("Old and boring flow", "my-cool-app", "1 * * * * *", resultConfig, true)
+        val createdFlow = flowService.createFlow(flow)
+
+        var initial = flowService.getFlow(createdFlow.id!!)
+        assertThat(initial.name).isEqualTo(createdFlow.name)
+
+        val updatedFlow = FlowInfo("Cool and updated flow", initial.applicationId, initial.schedule, resultConfig, initial.activityLogEnabled, initial.id!!)
+
+        val subject = flowService.updateFlow(updatedFlow)
+
+        assertThat(subject.name).isEqualTo(updatedFlow.name)
+
+        assertThat(subject.id).isEqualTo(createdFlow.id!!)
+        assertThat(subject.schedule).isEqualTo(createdFlow.schedule)
+        assertThat(subject.applicationId).isEqualTo(createdFlow.applicationId)
+    }
+
+    @Test
+    fun cannotUpdateNonExistingFlow () {
+        val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
+        val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
+        val updatedFlow = FlowInfo("I don't exist", "Who am I", " 1 * * * * * ", resultConfig, true, -42)
+        assertThrows<FlowNotFound> { flowService.updateFlow(updatedFlow) }
+    }
+
+    @Test
     fun deleteFlow () {
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))

@@ -50,6 +50,30 @@ class FlowService(
     }
 
     @Transactional
+    fun updateFlow(source: FlowInfo): FlowInfo {
+        if (!CronSequenceGenerator.isValidExpression(source.schedule))
+            throw InvalidCronExpression()
+
+        source.resultConfig?.let {
+            if (!resultService.validateResultConfig(source.resultConfig.kind, source.resultConfig.config))
+                throw InvalidResultConfig()
+
+            val current = flowDao.findById(source.id!!).orElseThrow { FlowNotFound() }
+            val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule, null, current.activityLogLines , source.activityLogEnabled, source.id)) }
+                    .getOrElseThrow { -> FlowNameAlreadyInUse() }
+
+            flow.resultConfig = ResultConfig(source.resultConfig.kind, source.resultConfig.config, flow, Instant.EPOCH)
+
+            resultService.removeFlowFromScheduler(source.id)
+            flowDao.save(flow)
+
+            resultService.addFlowToScheduler(flow)
+            activityLogHelper.addLogLineToFlow("Flow updated", flow)
+            return dtoFactory.toInfo(flow)
+        } ?: throw InvalidResultConfig()
+    }
+
+    @Transactional
     fun getFlows(page: Int): Slice<FlowInfo> {
         return SliceFactory.toSlice(
                 flowDao.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "id"))),

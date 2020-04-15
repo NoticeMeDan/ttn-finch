@@ -77,7 +77,7 @@ class HttpResult(
                 ResultKind.HTTP,
                 "HTTP Forward",
                 "POSTs data to a remote HTTP resource",
-                JsonSchemaUtil.getJsonSchema(HttpSchema::class)
+                JsonSchemaUtil.generateJsonSchema(HttpSchema::class)
         )
     }
 }

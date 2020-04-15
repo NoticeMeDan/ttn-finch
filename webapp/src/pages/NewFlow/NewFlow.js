@@ -34,7 +34,7 @@ function NewFlow () {
         postJSON('/api/flow', values)
             .json(() => {
                 enqueueSnackbar('Flow added', { variant: 'success' })
-                new Promise(resolve => setTimeout(resolve, 1000)).then(() => history.push('/'))
+                new Promise(resolve => setTimeout(resolve, 500)).then(() => history.push('/'))
             })
             .catch(err => {
                 if (err.status === 400) {

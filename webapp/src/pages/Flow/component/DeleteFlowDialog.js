@@ -6,10 +6,10 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DeleteIcon from '@material-ui/icons/Delete'
-import IconButton from '@material-ui/core/IconButton'
 import { deleteJSON } from '@acto/ajax'
 import { useSnackbar } from 'notistack'
 import { useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const DeleteFlowDialog = ({ flow }) => {
     const [open, setOpen] = React.useState(false)
@@ -34,22 +34,28 @@ const DeleteFlowDialog = ({ flow }) => {
 
     return (
         <div>
-            <IconButton aria-label='delete flow' onClick={handleClickOpen} id={`delete-${flow.id}`}>
-                <DeleteIcon />
-            </IconButton>
+            <Button
+                id='delete-init'
+                variant='contained'
+                color='secondary'
+                startIcon={<DeleteIcon />}
+                onClick={handleClickOpen}
+                size='small'>
+                Delete
+            </Button>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle id='alert-dialog-title'>{`${flow.name} (ID: ${flow.id})`}</DialogTitle>
+                <DialogTitle id='delete-dialog-title'>{`${flow.name} (ID: ${flow.id})`}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id='alert-dialog-description'>
+                    <DialogContentText id='delete-dialog-description'>
                         You are about to delete a flow. By deleting a flow you also delete all activity logs related to the flow.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} id={`delete-cancel`}>
+                    <Button onClick={handleClose} id='delete-cancel'>
                         Cancel
                     </Button>
                     <Button
-                        id={`delete-confirm`}
+                        id='delete-confirm'
                         onClick={handleDelete}
                         color='secondary'
                         autoFocus>
@@ -58,6 +64,10 @@ const DeleteFlowDialog = ({ flow }) => {
                 </DialogActions>
             </Dialog>
         </div>)
+}
+
+DeleteFlowDialog.propTypes = {
+    flow: PropTypes.object.isRequired
 }
 
 export default DeleteFlowDialog

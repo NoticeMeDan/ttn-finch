@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
-import { Formik, Form, Field } from 'formik'
+import React from 'react'
+import { Field, Formik } from 'formik'
 import * as Yup from 'yup'
-import {Typography, Button, Grid } from '@material-ui/core'
-import { TextField, CheckboxWithLabel } from 'formik-material-ui'
+import { Button, Grid, Typography } from '@material-ui/core'
+import { CheckboxWithLabel, TextField } from 'formik-material-ui'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Link from '@material-ui/core/Link'
 import ResultForm from './ResultForm'
+import Divider from '@material-ui/core/Divider'
 
 const SignUpSchema = Yup.object().shape({
     name: Yup.string()
@@ -28,7 +29,7 @@ const SignUpSchema = Yup.object().shape({
 
 const useStyles = makeStyles({
     container: {
-        padding: 8
+        padding: 16
     },
     actionRow: {
         padding: 8,
@@ -39,28 +40,28 @@ const useStyles = makeStyles({
     }
 })
 
-const FlowForm = ({ handleSubmit, handleCancel, results }) => {
+const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
     const classes = useStyles()
 
     return (
         <Formik
             initialValues={{
-                name: '',
-                applicationId: '',
-                schedule: '',
-                resultConfig: {
+                name: flow ? flow.name : '',
+                applicationId: flow ? flow.applicationId : '',
+                schedule: flow ? flow.schedule : '',
+                resultConfig: flow ? flow.resultConfig : {
                     kind: '',
                     config: null
                 },
-                activityLogEnabled: false
+                activityLogEnabled: flow ? flow.activityLogEnabled : false
             }}
             validationSchema={SignUpSchema}
             onSubmit={handleSubmit}>
             {({ errors, values, setFieldValue, setFieldTouched, handleSubmit, touched, isSubmitting }) => (
                 <>
-                    <Grid container justify='space-between'>
+                    <Grid container justify='space-between' className={classes.container}>
                         <Grid item className={classes.column}>
-                            <div style={{ margin: '8px' }}>
+                            <div>
                                 <Typography variant='h6' component='h2'>
                                     Flow name
                                 </Typography>
@@ -68,10 +69,10 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                                     The name will be used for identifying it at a later time.
                                 </Typography>
                                 <Field
-                                    name='name' component={TextField} variant='outlined' size='small'
+                                    id='name-field' name='name' component={TextField} variant='outlined' size='small'
                                     margin='dense' placeholder='Flow name' />
                             </div>
-                            <div style={{ margin: '8px' }}>
+                            <div>
                                 <Typography variant='h6' component='h2'>
                                     Application ID
                                 </Typography>
@@ -79,35 +80,33 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                                     Enter the ID of your application in TheThingsNetwork.
                                 </Typography>
                                 <Field
-                                    name='applicationId' component={TextField} variant='outlined' size='small'
+                                    id='application-field' name='applicationId' component={TextField} variant='outlined' size='small'
                                     margin='dense' placeholder='Application ID' />
                             </div>
-                            <div className={classes.container}>
-                                <Typography variant='h6' component='h2'>Schedule</Typography>
-                                <Typography variant='subtitle2' component='h2' color='textSecondary'>
-                                    The schedule consists of a <Link href='https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html'>Spring Cron expression</Link>.
-                                    <br />
-                                    The expression is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday.
-                                    <br />
-                                    Month and weekday names can be given as the first three letters of the English names.
-                                    <br />
-                                    Example patterns:
-                                    <br />
-                                    <List>
-                                        <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
-                                        <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
-                                        <ListItem>"*/10 * * * * *" = every ten seconds.</ListItem>
-                                        <ListItem>"0 0 8-10 * * *" = 8, 9 and 10 o'clock of every day.</ListItem>
-                                        <ListItem>"0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</ListItem>
-                                        <ListItem>"0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</ListItem>
-                                        <ListItem>"0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays</ListItem>
-                                        <ListItem>"0 0 0 25 12 ?" = every Christmas Day at midnight</ListItem>
-                                    </List>
-                                    <Field
-                                        name='schedule' component={TextField} variant='outlined' size='small'
-                                        margin='dense' placeholder='Cron Expression' fullWidth />
-                                </Typography>
-                            </div>
+                            <Typography variant='h6' component='h2'>Schedule</Typography>
+                            <Typography variant='subtitle2' component='h2' color='textSecondary'>
+                                The schedule consists of a <Link href='https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html'>Spring Cron expression</Link>.
+                                <br />
+                                The expression is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday.
+                                <br />
+                                Month and weekday names can be given as the first three letters of the English names.
+                                <br />
+                                Example patterns:
+                                <br />
+                                <List>
+                                    <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
+                                    <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
+                                    <ListItem>"*/10 * * * * *" = every ten seconds.</ListItem>
+                                    <ListItem>"0 0 8-10 * * *" = 8, 9 and 10 o'clock of every day.</ListItem>
+                                    <ListItem>"0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</ListItem>
+                                    <ListItem>"0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</ListItem>
+                                    <ListItem>"0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays</ListItem>
+                                    <ListItem>"0 0 0 25 12 ?" = every Christmas Day at midnight</ListItem>
+                                </List>
+                                <Field
+                                    id='schedule-field' name='schedule' component={TextField} variant='outlined' size='small'
+                                    margin='dense' placeholder='Cron Expression' fullWidth />
+                            </Typography>
                         </Grid>
                         <Grid item className={classes.column}>
                             <ResultForm
@@ -118,17 +117,18 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
                                 touched={touched.resultConfig}
                                 errors={errors.resultConfig}
                                 isSubmitting={isSubmitting} />
-                            <Field name='activityLogEnabled' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color="primary" />
+                            <Field id='log-field' name='activityLogEnabled' type='checkbox' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color='primary' />
                         </Grid>
                     </Grid>
-                    <Grid container justify='center' alignItems='center' className={classes.actionRow} spacing={1}>
+                    <Divider />
+                    <Grid container justify='flex-end' alignItems='center' className={classes.actionRow}>
                         <Grid item>
-                            <Button variant='outlined' color='primary' onClick={handleCancel}>
+                            <Button id='form-cancel' onClick={handleCancel}>
                                 Cancel
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Button variant='contained' color='primary' id='submit' onClick={handleSubmit}>
+                            <Button color='primary' id='submit' onClick={handleSubmit}>
                                 Save
                             </Button>
                         </Grid>
@@ -141,7 +141,9 @@ const FlowForm = ({ handleSubmit, handleCancel, results }) => {
 
 FlowForm.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    handleCancel: PropTypes.func.isRequired
+    handleCancel: PropTypes.func.isRequired,
+    results: PropTypes.array.isRequired,
+    flow: PropTypes.object
 }
 
 export default FlowForm
