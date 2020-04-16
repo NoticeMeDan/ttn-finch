@@ -8,11 +8,13 @@ import Home from './pages/Home'
 import NewFlow from './pages/NewFlow'
 import Flow from './pages/Flow'
 import { SnackbarProvider } from 'notistack'
+import FinchAppBar from './components/FinchAppBar'
 
 const App = () => (
     <SnackbarProvider maxSnack={3}>
         <MuiPickersUtilsProvider utils={DayjsUtils}>
             <Router>
+                <FinchAppBar />
                 <Switch>
                     <Route exact path='/' component={Home} />
                     <Route exact path='/newflow' component={NewFlow} />

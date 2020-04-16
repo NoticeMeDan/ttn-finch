@@ -82,4 +82,29 @@ describe('Test flow creation form', () => {
         cy.get('#flow-1').click()
         cy.location('pathname').should('eq', '/flow/1')
     })
+
+    it('Shows empty state if there aren\'t any flows', () => {
+        cy.route('GET', '/api/flow/all/0', {
+            totalPages: 0,
+            pageData: []
+        }).as('pageOne')
+        cy.visit('/')
+
+        cy.location('pathname').should('eq', '/')
+        cy.contains('No Flows Found...')
+    })
+
+    it('Empty state button navigates to flow creation', () => {
+        cy.route('GET', '/api/flow/all/0', {
+            totalPages: 0,
+            pageData: []
+        }).as('pageOne')
+        cy.visit('/')
+
+        cy.location('pathname').should('eq', '/')
+        cy.contains('No Flows Found...')
+        cy.get('#empty-state-button').click()
+
+        cy.location('pathname').should('eq', '/newflow')
+    })
 })
