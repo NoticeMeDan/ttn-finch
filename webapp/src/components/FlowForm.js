@@ -116,7 +116,8 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                 onBlur={setFieldTouched}
                                 touched={touched.resultConfig}
                                 errors={errors.resultConfig}
-                                isSubmitting={isSubmitting} />
+                                isSubmitting={isSubmitting}
+                                initialData={flow ? flow.resultConfig : undefined} />
                             <Field id='log-field' name='activityLogEnabled' type='checkbox' component={CheckboxWithLabel} Label={{ label: 'Enable Activity Log' }} color='primary' />
                         </Grid>
                     </Grid>

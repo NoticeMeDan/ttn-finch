@@ -1,5 +1,5 @@
 import React from 'react'
-import FlowForm from './FlowForm'
+import FlowForm from '../../components/FlowForm'
 import { postJSON } from '@acto/ajax'
 import { Typography } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'

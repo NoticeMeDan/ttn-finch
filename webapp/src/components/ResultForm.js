@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     }
 })
 
-function ResultForm ({ results, value, onChange, onBlur, touched, errors, isSubmitting }) {
+function ResultForm ({ results, value, onChange, onBlur, touched, errors, isSubmitting, initialData }) {
     const Form = withTheme(MuiTheme)
     const classes = useStyles()
 
@@ -43,6 +43,7 @@ function ResultForm ({ results, value, onChange, onBlur, touched, errors, isSubm
 
     function renderDialog () {
         const result = results.find(x => x.kind === dialog.kind)
+        const formData = initialData && initialData.kind === dialog.kind ? initialData.config : undefined
         return (
             <Dialog open={dialog.open} onClose={handleCloseDialog}>
                 <DialogTitle>Configure {result.name}</DialogTitle>
@@ -52,7 +53,7 @@ function ResultForm ({ results, value, onChange, onBlur, touched, errors, isSubm
                     </DialogContentText>
                     <Form
                         schema={omit(result.schema, '$schema')} liveValidate noHtml5Validate
-                        onSubmit={handleInternalSubmit} showErrorList={false}>
+                        onSubmit={handleInternalSubmit} showErrorList={false} formData={formData || undefined}>
                         <div style={{ float: 'right' }}>
                             <Button id='result-cancel' color='secondary' onClick={handleCloseDialog}>Cancel</Button>
                             <Button id='result-create' color='primary' type='submit'>Create</Button>
@@ -93,7 +94,8 @@ ResultForm.propTypes = {
     results: PropTypes.array.isRequired,
     touched: PropTypes.any,
     value: PropTypes.object.isRequired,
-    isSubmitting: PropTypes.any
+    isSubmitting: PropTypes.any,
+    initialData: PropTypes.object
 }
 
 export default ResultForm
