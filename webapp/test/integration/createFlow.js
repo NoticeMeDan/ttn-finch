@@ -38,27 +38,11 @@ describe('Test flow creation form', () => {
         cy.get('.MuiSelect-root').click()
         cy.get('.MuiList-root > .MuiButtonBase-root').click()
         cy.get('#root_fileName').type('I am a filename')
-        cy.get('.MuiButton-textPrimary').click()
+        cy.get('#result-create').click()
     }
 
     beforeEach(() => {
         cy.server()
-
-        cy.route('GET', '/api/flow/all/0', {
-            totalPages: 1,
-            pageData: [
-                {
-                    name: 'Cool flow 1',
-                    applicationId: 'coolest application ever',
-                    id: 1
-                },
-                {
-                    name: 'Cool flow 2',
-                    applicationId: 'coolest application ever',
-                    id: 2
-                }
-            ]
-        })
 
         cy.route('GET', '/api/result/description', [testResult])
 
@@ -106,7 +90,7 @@ describe('Test flow creation form', () => {
     })
 
     it('Schedule must be no more than 255 long', () => {
-        cy.get('input[name="schedule"]')
+        cy.get('#schedule-field')
             .type('#'.repeat(101))
             .blur()
 
@@ -132,7 +116,7 @@ describe('Test flow creation form', () => {
     it('ResultConfig displays error when not properly filled out', () => {
         cy.get('.MuiSelect-root').click()
         cy.get('.MuiList-root > .MuiButtonBase-root').click()
-        cy.get('.MuiButton-textPrimary').click()
+        cy.get('#result-create').click()
         cy.contains('- is a required property')
     })
 
@@ -243,7 +227,19 @@ describe('Test flow creation form', () => {
 
         cy.get('button#submit').click()
 
-        cy.wait(2000)
+        cy.server()
+        cy.route('GET', '/api/flow/all/0', {
+            totalPages: 1,
+            pageData: [
+                {
+                    name: 'What a lovely name',
+                    applicationId: 'And a lovely ID',
+                    schedule: '* * * * * *',
+                    resultConfig: testResult,
+                    id: 1
+                }
+            ]
+        })
 
         cy.location('pathname').should('eq', '/')
     })

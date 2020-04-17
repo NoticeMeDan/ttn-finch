@@ -11,7 +11,7 @@ import com.github.victools.jsonschema.generator.SchemaVersion
 import kotlin.reflect.KClass
 
 object JsonSchemaUtil {
-    fun <T: Any> getJsonSchema(clazz: KClass<T>): JsonNode {
+    fun <T: Any> generateJsonSchema(clazz: KClass<T>): JsonNode {
         val config = SchemaGeneratorConfigBuilder(ObjectMapper(), SchemaVersion.DRAFT_2019_09, OptionPreset.PLAIN_JSON)
                 .with(AddonModule())
                 .build()

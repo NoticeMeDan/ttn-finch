@@ -10,6 +10,7 @@ import PaginatedTable from '../../../components/PaginatedTable'
 import useGetJson from '../../../hooks/useGetJson'
 import Loading from '../../../components/Loading'
 import { formatDateTime } from '../../../util/time'
+import Typography from '@material-ui/core/Typography'
 
 function ActivityLog ({ flowId }) {
     const [state, setState] = useState({
@@ -47,12 +48,19 @@ function ActivityLog ({ flowId }) {
 
     return (
         <Grid container direction='column' spacing={1}>
-            <Grid container justify='flex-end' spacing={2}>
-                <Grid item>
-                    <DateTimePicker value={state.from} onChange={handleChange('from')} label='From' ampm={false} variant='inline' disableFuture />
+            <Grid container justify='space-between' style={{ padding: 8 }}>
+                <Grid item style={{ marginLeft: 8 }}>
+                    <Typography variant='h5' gutterBottom>Activity Log</Typography>
                 </Grid>
                 <Grid item>
-                    <DateTimePicker value={state.to} onChange={handleChange('to')} label='To' ampm={false} variant='inline' disableFuture />
+                    <Grid container justify='flex-end' spacing={2}>
+                        <Grid item>
+                            <DateTimePicker value={state.from} onChange={handleChange('from')} label='From' ampm={false} variant='inline' disableFuture />
+                        </Grid>
+                        <Grid item>
+                            <DateTimePicker value={state.to} onChange={handleChange('to')} label='To' ampm={false} variant='inline' disableFuture />
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
             {isLoading ? <Loading /> : (
