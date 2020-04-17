@@ -95,7 +95,6 @@ const FlowForm = ({ handleSubmit, handleCancel, results, flow }) => {
                                 <br />
                                 <List>
                                     <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
-                                    <ListItem>"0 0 * * * *" = the top of every hour of every day.</ListItem>
                                     <ListItem>"*/10 * * * * *" = every ten seconds.</ListItem>
                                     <ListItem>"0 0 8-10 * * *" = 8, 9 and 10 o'clock of every day.</ListItem>
                                     <ListItem>"0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</ListItem>
