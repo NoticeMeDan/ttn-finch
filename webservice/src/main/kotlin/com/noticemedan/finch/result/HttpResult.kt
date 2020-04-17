@@ -7,7 +7,6 @@ import com.noticemedan.finch.dto.ResultDescription
 import com.noticemedan.finch.dto.ResultKind
 import com.noticemedan.finch.entity.Flow
 import com.noticemedan.finch.entity.ttn.QEventData
-import com.noticemedan.finch.exception.FlowNotFound
 import com.noticemedan.finch.result.schema.HttpSchema
 import com.noticemedan.finch.util.ActivityLogHelper
 import com.noticemedan.finch.util.DtoFactory
@@ -29,21 +28,9 @@ class HttpResult(
         private val activityLogHelper: ActivityLogHelper,
         private val objectMapper: ObjectMapper,
         private val httpClient: OkHttpClient
-) : Result {
-
-    @Transactional
-    override fun run(flowId: Long) {
-        val flow = flowDao.findById(flowId).orElseThrow { FlowNotFound() }
-
-        val config = objectMapper.treeToValue(flow.resultConfig!!.config, HttpSchema::class.java)
-
-        activityLogHelper.addLogLineToFlow("Running HTTP result with size ${config.size}", flow)
-        sendEvents(flow, config)
-        activityLogHelper.addLogLineToFlow("HTTP result finished", flow)
-    }
-
+) : Result<HttpSchema>(flowDao, activityLogHelper, objectMapper, HttpSchema::class) {
     @Transactional(propagation = Propagation.MANDATORY)
-    fun sendEvents (flow: Flow, config: HttpSchema) {
+    override fun process (flow: Flow, config: HttpSchema) {
         val startedRunAt = Instant.now()
 
         val query = QEventData.eventData.applicationId.eq(flow.applicationId).and(

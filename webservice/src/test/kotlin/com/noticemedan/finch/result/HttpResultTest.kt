@@ -62,7 +62,7 @@ class HttpResultTest {
         assertThat(logs.pageData.size).isEqualTo(4)
         assertThat(logs.pageData.size).isEqualTo(4)
         assertThat(logs.pageData).anyMatch { it.message == "Flow created" }
-        assertThat(logs.pageData).anyMatch { it.message == "Running HTTP result with size 2" }
+        assertThat(logs.pageData).anyMatch { it.message == "Running HTTP result" }
         assertThat(logs.pageData).anyMatch { it.message == "There are no new EventData, halting result" }
         assertThat(logs.pageData).anyMatch { it.message == "HTTP result finished" }
     }
@@ -126,7 +126,7 @@ class HttpResultTest {
 
         assertThat(logs.pageData.size).isEqualTo(4)
         assertThat(logs.pageData).anyMatch { it.message == "Flow created" }
-        assertThat(logs.pageData).anyMatch { it.message == "Running HTTP result with size 2" }
+        assertThat(logs.pageData).anyMatch { it.message == "Running HTTP result" }
         assertThat(logs.pageData).anyMatch { it.message == "POST request failed with status code 401" }
         assertThat(logs.pageData).anyMatch { it.message == "HTTP result finished" }
         verify(okHttpClient, times(1)).newCall(any())
