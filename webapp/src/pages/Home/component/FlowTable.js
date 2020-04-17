@@ -30,7 +30,7 @@ const FlowTable = () => {
                 <TableCell>Name</TableCell>
                 <TableCell>Application Id</TableCell>
                 <TableCell>Schedule</TableCell>
-                <TableCell>Result Config</TableCell>
+                <TableCell>Result Type</TableCell>
             </>
         )
     }

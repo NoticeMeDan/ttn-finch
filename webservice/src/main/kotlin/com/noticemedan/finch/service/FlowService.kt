@@ -51,6 +51,8 @@ class FlowService(
 
     @Transactional
     fun updateFlow(source: FlowInfo): FlowInfo {
+        val current = flowDao.findById(source.id!!).orElseThrow { FlowNotFound() }
+
         if (!CronSequenceGenerator.isValidExpression(source.schedule))
             throw InvalidCronExpression()
 
@@ -58,11 +60,10 @@ class FlowService(
             if (!resultService.validateResultConfig(source.resultConfig.kind, source.resultConfig.config))
                 throw InvalidResultConfig()
 
-            val current = flowDao.findById(source.id!!).orElseThrow { FlowNotFound() }
             val flow = Try { flowDao.save(Flow(source.name, source.applicationId, source.schedule, null, current.activityLogLines , source.activityLogEnabled, source.id)) }
                     .getOrElseThrow { -> FlowNameAlreadyInUse() }
 
-            flow.resultConfig = ResultConfig(source.resultConfig.kind, source.resultConfig.config, flow, Instant.EPOCH)
+            flow.resultConfig = ResultConfig(source.resultConfig.kind, source.resultConfig.config, flow, current.resultConfig?.lastRun ?: Instant.EPOCH)
 
             resultService.removeFlowFromScheduler(source.id)
             flowDao.save(flow)
