@@ -3,12 +3,15 @@
 </p>
 <h2 align="center">TTN-Finch</h2>
 
-## How to run
-Start by running the bootstrap script: `./bootstrap.sh`  
-This initialises the database and the TTN stack, and creates an admin user for you.
-Enter your admin user's password when prompted.  
+TTN-Finch is an extendable "store-and-action" integration, built for [The Things Stack](https://thethingsstack.io/) setups in constrained network environments. It allows you to store all the incoming uplink traffic in a database, and do what you see fit with it, on a set schedule.
 
-When this is done, simply run `docker-compose up`, and access the stack at [https://localhost](https://localhost).
+An example of use could be, that your The Things Stack setup resides in a remote location, where it is only possible to get an internet connection every other Friday. In order to facilitate automatic retrieval of the uplink data, you install the TTN-Finch integration and configure it to forward the data to your server via the [HTTP Result](./docs/results/http.md) with a schedule of every other Friday at 4 PM. When this has been configured, your incoming uplink data will be stored in a database, and forwarded to you on your wanted schedule. Nice and simple.
 
-Oh and also see these guides for neat helpful stuff:  
-* [How to simulate end device messages for an application](./docs/simulate-device-messages.md)
+The integration has been built in such a way, that it is very easy to extend the system with another Result, such that the integration can better support the needs of the individual, through the support of the community.  
+
+## Getting started
+For information on how to get started with TTN-Finch, [click here](./docs/getting-started.md).
+
+## Result development
+The TTN-Finch webservice is built with Spring Boot and Kotlin.  
+For information on how to get started with developing your own Result, [click here](./docs/development/result-development.md).

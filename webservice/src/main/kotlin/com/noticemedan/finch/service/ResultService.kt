@@ -29,7 +29,7 @@ class ResultService (
 ) {
 	private val jobs: MutableMap<Long, ScheduledFuture<*>> = HashMap()
 
-    private val resultMap: Map<ResultKind, Result> = mapOf(
+    private val resultMap: Map<ResultKind, Result<*>> = mapOf(
             ResultKind.HTTP to httpResult
     )
 
