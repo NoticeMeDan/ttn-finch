@@ -15,3 +15,6 @@ For information on how to get started with TTN-Finch, [click here](./docs/gettin
 ## Result development
 The TTN-Finch webservice is built with Spring Boot and Kotlin.  
 For information on how to get started with developing your own Result, [click here](./docs/development/result-development.md).
+  
+  
+> Delivered to you by Team NoticeMeDan
