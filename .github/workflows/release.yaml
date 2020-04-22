@@ -34,7 +34,7 @@ jobs:
 
       - name: Release to Docker hub
         run: |
-          docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+          docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_ACCESSTOKEN
           docker build -t noticemedan/finch-webservice:$BUILD_ID ./webservice
           docker build -t noticemedan/finch-webapp:$BUILD_ID ./webapp
 
@@ -48,5 +48,5 @@ jobs:
           docker push noticemedan/finch-webapp:latest
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          DOCKER_HUB_ACCESSTOKEN: ${{ secrets.DOCKER_HUB_ACCESSTOKEN }}
           BUILD_ID: ${{ steps.spell.outputs.version }}
