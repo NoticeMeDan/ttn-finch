@@ -3,7 +3,7 @@ package com.noticemedan.finch.entity
 import javax.persistence.*
 
 @Entity
-data class Flow (
+data class Flow(
         var name: String,
         var applicationId: String,
         var schedule: String,
@@ -13,5 +13,5 @@ data class Flow (
         var activityLogLines: List<ActivityLogLine>? = null,
         var activityLogEnabled: Boolean,
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-		var id: Long? = null
+        var id: Long? = null
 )

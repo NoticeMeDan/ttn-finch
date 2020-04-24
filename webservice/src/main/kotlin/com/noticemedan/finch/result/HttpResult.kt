@@ -29,7 +29,7 @@ class HttpResult(
         private val httpClient: OkHttpClient
 ) : Result<HttpSchema>(flowDao, eventDataDao, activityLogHelper, objectMapper, HttpSchema::class) {
     @Transactional(propagation = Propagation.MANDATORY)
-    override fun process (flow: Flow, config: HttpSchema, eventData: Set<EventData>) {
+    override fun process(flow: Flow, config: HttpSchema, eventData: Set<EventData>) {
         eventData.map(dtoFactory::toInfo).chunked(config.size).forEach {
             val body = objectMapper.writeValueAsString(it)
             val request = Request.Builder()

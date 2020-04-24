@@ -8,31 +8,30 @@ import com.noticemedan.finch.entity.Flow
 import com.noticemedan.finch.entity.ResultConfig
 import com.noticemedan.finch.util.ActivityLogHelper
 import com.vladmihalcea.hibernate.type.json.internal.JacksonUtil
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
-import java.time.Instant
-
-import org.assertj.core.api.Assertions.*
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [TestConfig::class])
 class ActivityLogServiceTest {
-	@Autowired
-	private lateinit var flowService: FlowService
+    @Autowired
+    private lateinit var flowService: FlowService
 
-	@Autowired
-	private lateinit var activityLogService: ActivityLogService
+    @Autowired
+    private lateinit var activityLogService: ActivityLogService
 
-	@Autowired
-	private lateinit var activityLogHelper: ActivityLogHelper
+    @Autowired
+    private lateinit var activityLogHelper: ActivityLogHelper
 
-	@Test
-	@Transactional
-	fun getLogForPeriod () {
+    @Test
+    @Transactional
+    fun getLogForPeriod() {
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flowInfo = flowService.createFlow(FlowInfo("Test flow", "my-app", "* * * * * *", resultConfig, true))
@@ -40,21 +39,21 @@ class ActivityLogServiceTest {
         flow.resultConfig = ResultConfig(flowInfo.resultConfig!!.kind, flowInfo.resultConfig!!.config, flow, Instant.EPOCH)
 
         val message1 = "Test message 1"
-		val message2 = "Test message 2"
+        val message2 = "Test message 2"
 
-		activityLogHelper.addLogLineToFlow(message1, flow)
-		activityLogHelper.addLogLineToFlow(message2, flow)
+        activityLogHelper.addLogLineToFlow(message1, flow)
+        activityLogHelper.addLogLineToFlow(message2, flow)
 
-		val subject = activityLogService.getLogForPeriod(Instant.EPOCH, Instant.now(), flow.id!!, 0)
+        val subject = activityLogService.getLogForPeriod(Instant.EPOCH, Instant.now(), flow.id!!, 0)
 
-		assertThat(subject).isNotNull
-		assertThat(subject.totalPages).isEqualTo(1)
-		assertThat(subject.pageData.size).isEqualTo(3) // createFlow also adds a log entry
-	}
+        assertThat(subject).isNotNull
+        assertThat(subject.totalPages).isEqualTo(1)
+        assertThat(subject.pageData.size).isEqualTo(3) // createFlow also adds a log entry
+    }
 
     @Test
     @Transactional
-    fun activityLogDisabled () {
+    fun activityLogDisabled() {
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flowInfo = flowService.createFlow(FlowInfo("Test flow with disabled log", "my-app", "* * * * * *", resultConfig, false))

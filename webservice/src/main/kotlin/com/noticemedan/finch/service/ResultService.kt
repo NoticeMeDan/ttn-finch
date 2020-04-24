@@ -21,47 +21,47 @@ import java.util.concurrent.ScheduledFuture
 import kotlin.collections.HashMap
 
 @Service
-class ResultService (
+class ResultService(
         private val scheduler: ThreadPoolTaskScheduler,
         private val flowDao: FlowDao,
         httpResult: HttpResult,
         @Value("\${SCHEDULER_POOL_SIZE:1}") private val poolSize: Int
 ) {
-	private val jobs: MutableMap<Long, ScheduledFuture<*>> = HashMap()
+    private val jobs: MutableMap<Long, ScheduledFuture<*>> = HashMap()
 
     private val resultMap: Map<ResultKind, Result<*>> = mapOf(
             ResultKind.HTTP to httpResult
     )
 
-	@EventListener
-	@Transactional
-	fun initializeSchedules (event: ContextRefreshedEvent) {
-		println("Starting scheduler with pool size of ${poolSize}...")
+    @EventListener
+    @Transactional
+    fun initializeSchedules(event: ContextRefreshedEvent) {
+        println("Starting scheduler with pool size of ${poolSize}...")
 
-		scheduler.poolSize = poolSize
-		flowDao.findAll().forEach { addFlowToScheduler(it) }
+        scheduler.poolSize = poolSize
+        flowDao.findAll().forEach { addFlowToScheduler(it) }
 
-		println("Added all flow schedules to scheduler...")
-	}
+        println("Added all flow schedules to scheduler...")
+    }
 
-	fun addFlowToScheduler (flow: Flow) {
+    fun addFlowToScheduler(flow: Flow) {
         val result = Optional.ofNullable(resultMap[flow.resultConfig?.kind]).orElseThrow { ResultNotFound() }
-		val scheduledTask = scheduler.schedule(Runnable { result.run(flow.id!!) }, CronTrigger(flow.schedule))
-		jobs[flow.id!!] = scheduledTask!!
-	}
+        val scheduledTask = scheduler.schedule(Runnable { result.run(flow.id!!) }, CronTrigger(flow.schedule))
+        jobs[flow.id!!] = scheduledTask!!
+    }
 
-	fun removeFlowFromScheduler (flowId: Long) {
-		jobs[flowId]?.let {
-			it.cancel(true)
-			jobs.remove(flowId)
-		}
-	}
+    fun removeFlowFromScheduler(flowId: Long) {
+        jobs[flowId]?.let {
+            it.cancel(true)
+            jobs.remove(flowId)
+        }
+    }
 
-    fun getResultDescriptions (): List<ResultDescription> {
+    fun getResultDescriptions(): List<ResultDescription> {
         return resultMap.values.map { it.getDescription() }
     }
 
-    fun validateResultConfig (kind: ResultKind, config: JsonNode): Boolean {
+    fun validateResultConfig(kind: ResultKind, config: JsonNode): Boolean {
         return resultMap[kind]?.getDescription()?.schema
                 ?.let { JsonSchemaUtil.validateJsonSchema(it, config) }
                 ?: false

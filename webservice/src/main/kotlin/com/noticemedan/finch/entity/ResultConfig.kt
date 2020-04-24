@@ -12,7 +12,7 @@ import javax.persistence.*
         typeClass = JsonBinaryType::class,
         defaultForType = JsonNode::class
 )
-data class ResultConfig (
+data class ResultConfig(
         @Enumerated(EnumType.STRING)
         var kind: ResultKind,
         @Column(columnDefinition = "jsonb")

@@ -13,7 +13,7 @@ import java.time.Instant
 import javax.transaction.Transactional
 import kotlin.reflect.KClass
 
-abstract class Result <T: Any> (
+abstract class Result<T : Any>(
         private val flowDao: FlowDao,
         private val eventDataDao: EventDataDao,
         private val activityLogHelper: ActivityLogHelper,
@@ -21,7 +21,7 @@ abstract class Result <T: Any> (
         private val schemaClass: KClass<T>
 ) {
     @Transactional
-    open fun run (flowId: Long) {
+    open fun run(flowId: Long) {
         val flow = flowDao.findById(flowId).orElseThrow { FlowNotFound() }
 
         val config = objectMapper.treeToValue(flow.resultConfig!!.config, schemaClass.java)
@@ -45,5 +45,5 @@ abstract class Result <T: Any> (
     }
 
     abstract fun getDescription(): ResultDescription
-    abstract fun process (flow: Flow, config: T, eventData: Set<EventData>)
+    abstract fun process(flow: Flow, config: T, eventData: Set<EventData>)
 }
