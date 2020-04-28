@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class OkHttpClientBean {
     @Bean
-    fun okHttpClient (): OkHttpClient = OkHttpClient()
+    fun okHttpClient(): OkHttpClient = OkHttpClient()
 }

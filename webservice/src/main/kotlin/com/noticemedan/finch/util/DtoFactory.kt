@@ -12,22 +12,22 @@ import org.springframework.stereotype.Component
 
 @Component
 object DtoFactory {
-	fun toInfo (source: Flow): FlowInfo =
+    fun toInfo(source: Flow): FlowInfo =
             FlowInfo(
-                source.name,
-                source.applicationId,
-                source.schedule,
-                source.resultConfig?.let(::toInfo),
-                source.activityLogEnabled,
-                source.id)
+                    source.name,
+                    source.applicationId,
+                    source.schedule,
+                    source.resultConfig?.let(::toInfo),
+                    source.activityLogEnabled,
+                    source.id)
 
-	fun toInfo (source: ActivityLogLine): ActivityLogLineInfo =
+    fun toInfo(source: ActivityLogLine): ActivityLogLineInfo =
             ActivityLogLineInfo(source.message, source.time.epochSecond)
 
-    fun toInfo (source: ResultConfig): ResultConfigInfo =
+    fun toInfo(source: ResultConfig): ResultConfigInfo =
             ResultConfigInfo(source.kind, source.config, source.id)
 
-    fun toInfo (source: EventData): EventDataInfo =
+    fun toInfo(source: EventData): EventDataInfo =
             EventDataInfo(
                     EndDeviceIdInfo(source.deviceId, ApplicationIdInfo(source.applicationId), source.deviceAddress),
                     source.correlationIds.map { it.correlation },
@@ -36,12 +36,14 @@ object DtoFactory {
                             source.fPort,
                             source.frameCount,
                             source.framePayload,
-                            source.metadata.map { RxMetadataInfo(GatewayIdInfo(
-                                    it.gatewayId),
-                                    it.time,
-                                    it.timestamp,
-                                    it.uplinkToken
-                            ) },
+                            source.metadata.map {
+                                RxMetadataInfo(GatewayIdInfo(
+                                        it.gatewayId),
+                                        it.time,
+                                        it.timestamp,
+                                        it.uplinkToken
+                                )
+                            },
                             SettingsInfo(
                                     DataRateInfo(LoraInfo(source.settingsBandwidth, source.settingsSpreadingFactor)),
                                     source.settingsCodingRate,

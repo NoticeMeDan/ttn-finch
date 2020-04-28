@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 
 @Component
-class ActivityLogHelper (private val activityLogLineDao: ActivityLogLineDao) {
-	@Transactional(propagation = Propagation.MANDATORY)
-	fun addLogLineToFlow (message: String, flow: Flow) {
+class ActivityLogHelper(private val activityLogLineDao: ActivityLogLineDao) {
+    @Transactional(propagation = Propagation.MANDATORY)
+    fun addLogLineToFlow(message: String, flow: Flow) {
         if (flow.activityLogEnabled) activityLogLineDao.save(ActivityLogLine(message, Instant.now(), flow))
-	}
+    }
 }

@@ -16,6 +16,7 @@ import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.Buffer
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,7 +24,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit4.SpringRunner
 import java.time.Instant
-import org.assertj.core.api.Assertions.*
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [TestConfig::class])
@@ -47,7 +47,7 @@ class HttpResultTest {
     private lateinit var objectMapper: ObjectMapper
 
     @Test
-    fun haltsWhenNoNewEventData () {
+    fun haltsWhenNoNewEventData() {
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flowInfo = FlowInfo("My awesome flow", "my-awesome-app", "1 * * * * *", resultConfig, true)
@@ -68,7 +68,7 @@ class HttpResultTest {
     }
 
     @Test
-    fun writesLogEntryWhenReceivingNon200StatusCode () {
+    fun writesLogEntryWhenReceivingNon200StatusCode() {
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flowInfo = FlowInfo("My awesome flow 2", "my-cool-app", "1 * * * * *", resultConfig, true)
@@ -133,7 +133,7 @@ class HttpResultTest {
     }
 
     @Test
-    fun chunksRequestsCorrectly () {
+    fun chunksRequestsCorrectly() {
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         val flowInfo = FlowInfo("My awesome flow 3", "my-dope-app", "1 * * * * *", resultConfig, true)

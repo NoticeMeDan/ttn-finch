@@ -19,51 +19,51 @@ import java.time.Instant
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [TestConfig::class])
 class WebhookServiceTest {
-	@Autowired
-	private lateinit var webhookService: WebhookService
+    @Autowired
+    private lateinit var webhookService: WebhookService
 
-	@Autowired
-	private lateinit var flowService: FlowService
+    @Autowired
+    private lateinit var flowService: FlowService
 
-	@Test
-	fun addEventData () {
-		val receivedAt = Instant.now()
+    @Test
+    fun addEventData() {
+        val receivedAt = Instant.now()
 
-		val event = EventDataInfo(
-			EndDeviceIdInfo(
-				"devId",
-				ApplicationIdInfo("appId"),
-				"devAddr"
-			),
-			listOf("correlation"),
-			receivedAt,
-			UplinkMessageInfo(
-				1L,
-				1L,
-				"payload",
-				listOf(RxMetadataInfo(
-					GatewayIdInfo("gatewayId"),
-					receivedAt,
-					1L,
-					"token"
-				)),
-				SettingsInfo(
-					DataRateInfo(LoraInfo(1L, 1L)),
-					"codingrate",
-					"freq",
-					1L,
-					receivedAt
-				),
-				receivedAt
-			)
-		)
+        val event = EventDataInfo(
+                EndDeviceIdInfo(
+                        "devId",
+                        ApplicationIdInfo("appId"),
+                        "devAddr"
+                ),
+                listOf("correlation"),
+                receivedAt,
+                UplinkMessageInfo(
+                        1L,
+                        1L,
+                        "payload",
+                        listOf(RxMetadataInfo(
+                                GatewayIdInfo("gatewayId"),
+                                receivedAt,
+                                1L,
+                                "token"
+                        )),
+                        SettingsInfo(
+                                DataRateInfo(LoraInfo(1L, 1L)),
+                                "codingrate",
+                                "freq",
+                                1L,
+                                receivedAt
+                        ),
+                        receivedAt
+                )
+        )
 
-		assertThrows<ApplicationNotPartOfFlow> { webhookService.addEventData(event) }
+        assertThrows<ApplicationNotPartOfFlow> { webhookService.addEventData(event) }
 
         val config = "{\"url\": \"http://google.com/\", \"size\": 2}"
         val resultConfig = ResultConfigInfo(ResultKind.HTTP, JacksonUtil.toJsonNode(config))
         flowService.createFlow(FlowInfo("My flow", "appId", "1 * * * * *", resultConfig, true))
 
-		assertDoesNotThrow { webhookService.addEventData(event) }
-	}
+        assertDoesNotThrow { webhookService.addEventData(event) }
+    }
 }

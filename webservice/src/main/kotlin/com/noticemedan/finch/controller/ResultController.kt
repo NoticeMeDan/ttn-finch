@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("result")
-class ResultController (private val resultService: ResultService) {
-	@GetMapping(value= ["/description"], produces = [MediaType.APPLICATION_JSON_VALUE])
-	fun getResultDescriptions (): List<ResultDescription> {
-		return resultService.getResultDescriptions()
-	}
+class ResultController(private val resultService: ResultService) {
+    @GetMapping(value = ["/description"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getResultDescriptions(): List<ResultDescription> {
+        return resultService.getResultDescriptions()
+    }
 }

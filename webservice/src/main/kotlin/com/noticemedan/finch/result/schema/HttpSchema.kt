@@ -2,7 +2,7 @@ package com.noticemedan.finch.result.schema
 
 import com.github.imifou.jsonschema.module.addon.annotation.JsonSchema
 
-data class HttpSchema (
+data class HttpSchema(
         @JsonSchema(
                 title = "URL",
                 description = "The URL for the HTTP resource to POST the data to",
