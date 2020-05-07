@@ -63,6 +63,7 @@ function ResultForm ({ results, value, onChange, onBlur, touched, errors, isSubm
             </Dialog>
         )
     }
+
     return (
         <>
             <Typography variant='h6' component='h2'>Result</Typography>
