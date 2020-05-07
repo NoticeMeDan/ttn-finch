@@ -25,11 +25,11 @@ const DeleteFlowDialog = ({ flow }) => {
     }
 
     const handleDelete = () => {
-        deleteJSON(`/api/flow/${flow.id}`).json(() => {
+        deleteJSON(`/api/flow/${flow.id}`, {}).json(() => {
             enqueueSnackbar('Flow deleted', { variant: 'info' })
+            setOpen(false)
+            history.push('/')
         })
-        setOpen(false)
-        history.push('/')
     }
 
     return (
